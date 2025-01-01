@@ -1,0 +1,16 @@
+{
+    "name": "StateMachine.RuntimeTest",
+    "rootNamespace": "StateMachine.RuntimeTest",
+    "references": [
+        "GUID:83d327cc82bdf6846b02aa9b72373929"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

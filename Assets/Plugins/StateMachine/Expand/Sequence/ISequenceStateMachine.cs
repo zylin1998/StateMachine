@@ -1,0 +1,28 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace StateMachine
+{
+    public interface ISequenceStateMachine : IStateMachine
+    {
+        /// <summary>
+        /// 是否循環。
+        /// </summary>
+        public bool Cycle  { get; set; }
+        /// <summary>
+        /// 狀態機是否執行中
+        /// </summary>
+        public bool Active { get; }
+
+        /// <summary>
+        /// 將序列狀態機排序。
+        /// </summary>
+        /// <param name="order">Id 序列介面</param>
+        public void OrderBy(ISequenceOrder order);
+        /// <summary>
+        /// 重設狀態機
+        /// </summary>
+        public void Reset();
+    }
+}
