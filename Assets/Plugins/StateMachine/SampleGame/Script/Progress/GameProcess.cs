@@ -27,7 +27,7 @@ namespace StateMachine.SampleGame
 
         private void StopLoop() 
         {
-            _Loop.Disable();
+            //_Loop.Disable();
 
             _UI.SetCurrent(_Loop.Score);
             _UI.SetHighest(_Loop.Score);

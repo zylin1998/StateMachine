@@ -8,14 +8,14 @@ namespace StateMachine
     {
         public PhaseStateMachine() : base()
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, () => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
 
         public PhaseStateMachine(IStateMachine core) : base(core)
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, () => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -95,7 +95,7 @@ namespace StateMachine
         {
             Param1 = param1;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -104,7 +104,7 @@ namespace StateMachine
         {
             Param1 = param1;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -161,7 +161,7 @@ namespace StateMachine
         public object Identity { get; private set; }
 
         public bool Enter => _Enter.Invoke(Param1);
-        public bool Exit => _Exit.Invoke(Param1);
+        public bool Exit  => _Exit.Invoke(Param1);
 
         public void OnEnter()
         {
@@ -187,7 +187,7 @@ namespace StateMachine
             Param1 = param1;
             Param2 = param2;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -197,7 +197,7 @@ namespace StateMachine
             Param1 = param1;
             Param2 = param2;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -282,7 +282,7 @@ namespace StateMachine
             Param2 = param2;
             Param3 = param3;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -293,7 +293,7 @@ namespace StateMachine
             Param2 = param2;
             Param3 = param3;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -380,7 +380,7 @@ namespace StateMachine
             Param3 = param3;
             Param4 = param4;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3, p4) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }
@@ -392,7 +392,7 @@ namespace StateMachine
             Param3 = param3;
             Param4 = param4;
 
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
+            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3, p4) => Current.Exit);
 
             (_OnEnter, _OnExit) = (Callback, Callback);
         }

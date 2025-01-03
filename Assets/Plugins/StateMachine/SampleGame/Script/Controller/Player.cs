@@ -68,6 +68,8 @@ namespace StateMachine.SampleGame
         {
             _Update     .Dispose();
             _FixedUpdate.Dispose();
+
+            gameObject.SetActive(false);
         }
 
         private bool IsIdle()    => Input.Move   == Vector2.zero && !_Character.IsDead;

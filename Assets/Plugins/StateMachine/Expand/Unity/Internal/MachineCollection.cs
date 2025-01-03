@@ -59,6 +59,8 @@ namespace StateMachine.Internal
             MachineCollection _Source;
             IMachineTicker    _Ticker;
 
+            private bool _IsDisposed = false;
+
             public Disposable(MachineCollection source, IMachineTicker ticker)
             {
                 _Source = source;
@@ -69,12 +71,16 @@ namespace StateMachine.Internal
             {
                 lock (_Source._CollectionLock) 
                 {
+                    if (_IsDisposed) { return; }
+
+                    _IsDisposed = true;
+
+                    _Ticker.Dispose();
+
                     if (_Ticker.Machine is IDisposable disposable) 
                     {
                         disposable.Dispose();
                     }
-
-                    _Ticker.Dispose();
                 }
             }
         }

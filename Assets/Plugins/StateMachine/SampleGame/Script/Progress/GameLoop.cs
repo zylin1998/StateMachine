@@ -25,8 +25,6 @@ namespace StateMachine.SampleGame
         [SerializeField]
         private GameSetting _Setting;
         
-        private bool _GameOver;
-
         private float _MinBoarderY = -6.5f, _MaxBoarderY = 6.5f;
         private float _MinBoarderX =  -11f, _MaxBoarderX =  11f;
 
@@ -35,32 +33,19 @@ namespace StateMachine.SampleGame
 
         private Action _OnGameOver = () => {};
 
-        public Player Player { get; private set; }
-
-        public Queue<Enemy>   EnemyPool { get; } = new();
-        public HashSet<Enemy> OnScene   { get; private set; } = new();
-
-        public bool GameOver 
-        { 
-            get => _GameOver;
-
-            private set 
-            {
-                _GameOver = value;
-
-                if (GameOver) 
-                {
-                    _OnGameOver.Invoke();
-                }
-            } 
-        }
-
         public event Action OnGameOver 
         {
             add    => _OnGameOver += value;
 
             remove => _OnGameOver -= value;
         }
+
+        public Player Player { get; private set; }
+
+        public Queue<Enemy>   EnemyPool { get; } = new();
+        public HashSet<Enemy> OnScene   { get; private set; } = new();
+
+        public bool GameOver { get; set; }
 
         public int  Score    { get; private set; }
         public int  Capacity 
@@ -118,10 +103,14 @@ namespace StateMachine.SampleGame
                 .DoFixedTick(SpawnEnemy)
                 .WithId(3);
 
+            var endLoop = StateMachine.FunctionalState()
+                .DoOnEnter(Disable)
+                .WithId(4);
+
             Machine = StateMachine.SingleEntrance()
-                .WithStates(init, ready, loop)
+                .WithStates(init, ready, loop, endLoop)
                 .Sequence()
-                .OrderBy(1, 2, 3);
+                .OrderBy(1, 2, 3, 4);
         }
 
         public void Enable()
@@ -132,12 +121,23 @@ namespace StateMachine.SampleGame
         public void Disable()
         {
             _Register.Dispose();
+
+            Player.Disable();
+
+            foreach (var enemy in OnScene)
+            {
+                enemy.Disable();
+            }
+
+            _OnGameOver.Invoke();
         }
 
         private bool IsReady() => _Ready <= -1;
 
         private void Initialize()
         {
+            GameOver = false;
+
             RecycleAll();
 
             _PropertyManager.Initialize();
@@ -148,6 +148,7 @@ namespace StateMachine.SampleGame
             property.Health = setting.Health;
 
             Player.Initialize();
+
             Player.Character.Set(setting);
             Player.Character.Set(property);
             Player.Character.Set(_Attacking);
@@ -281,8 +282,6 @@ namespace StateMachine.SampleGame
         {
             foreach (var enemy in OnScene)
             {
-                enemy.Disable();
-
                 EnemyPool.Enqueue(enemy);
             }
 

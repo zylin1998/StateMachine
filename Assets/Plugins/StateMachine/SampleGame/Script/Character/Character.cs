@@ -37,7 +37,9 @@ namespace StateMachine.SampleGame
 
         public void Set(CharacterSetting setting) 
         {
-            _Setting  = setting;;
+            IsHurt = false;
+            
+            _Setting = setting;
 
             _Body.color = _Setting.BodyColor.Normal;
         }

@@ -604,7 +604,7 @@ MonoBehaviour:
   _PlayerSetting:
     _MoveSpeed: 5
     _TurnSpeed: 0.5
-    _CoolDown: 0.15
+    _CoolDown: 0.25
     _AttackSpeed: 7
     _Damage: 1
     _Health: 7
