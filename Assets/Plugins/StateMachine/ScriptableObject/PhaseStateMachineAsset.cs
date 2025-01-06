@@ -1,17 +1,16 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace StateMachine
 {
     [CreateAssetMenu(fileName = "StateMachine Asset", menuName = "StateMachine/StateMachine Asset", order = 1)]
-    public class StateMachineAsset : ScriptableObject, IStateMachineAsset
+    public class PhaseStateMachineAsset : StateAssetBase, IStateMachineAsset
     {
         [SerializeField]
-        protected string      _Id;
-        [SerializeField]
-        internal  MachineType _MachineType;
+        internal MachineType _MachineType;
         [SerializeField]
         protected List<StateAssetBase> _States;
         [SerializeField]
@@ -19,25 +18,33 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public object Id => _Id;
-
         public IStateMachine GetMachine()
         {
-            var machine = 
+            return CreateMachine();
+        }
+
+        public override IState GetState()
+        {
+            return CreateMachine();
+        }
+
+        private IPhaseStateMachine CreateMachine()
+        {
+            var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState()));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+
+            return machine.Phase();
         }
     }
 
-    public class StateMachineAsset<T> : ScriptableObject, IStateMachineAsset<T>
+    public class PhaseStateMachineAsset<T> : StateAssetBase<T>, IStateMachineAsset<T>
     {
         [SerializeField]
-        protected string      _Id;
-        [SerializeField]
-        internal  MachineType _MachineType;
+        internal MachineType _MachineType;
         [SerializeField]
         protected List<StateAssetBase<T>> _States;
         [SerializeField]
@@ -45,23 +52,31 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public object Id => _Id;
-
         public IStateMachine GetMachine(T param)
+        {
+            return CreateMachine(param);
+        }
+
+        public override IState GetState(T param)
+        {
+            return CreateMachine(param);
+        }
+
+        public IPhaseStateMachine CreateMachine(T param)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState(param)));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+
+            return machine.Phase();
         }
     }
 
-    public class StateMachineAsset<T1, T2> : ScriptableObject, IStateMachineAsset<T1, T2>
+    public class PhaseStateMachineAsset<T1, T2> : StateAssetBase<T1, T2>, IStateMachineAsset<T1, T2>
     {
-        [SerializeField]
-        protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
         [SerializeField]
@@ -71,23 +86,31 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public object Id => _Id;
-
         public IStateMachine GetMachine(T1 param1, T2 param2)
+        {
+            return CreateMachine(param1, param2);
+        }
+
+        public override IState GetState(T1 param1, T2 param2)
+        {
+            return CreateMachine(param1, param2);
+        }
+
+        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2)));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+
+            return machine.Phase();
         }
     }
 
-    public class StateMachineAsset<T1, T2, T3> : ScriptableObject, IStateMachineAsset<T1, T2, T3>
+    public class PhaseStateMachineAsset<T1, T2, T3> : StateAssetBase<T1, T2, T3>, IStateMachineAsset<T1, T2, T3>
     {
-        [SerializeField]
-        protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
         [SerializeField]
@@ -97,23 +120,31 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public object Id => _Id;
-
         public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3)
+        {
+            return CreateMachine(param1, param2, param3);
+        }
+
+        public override IState GetState(T1 param1, T2 param2, T3 param3)
+        {
+            return CreateMachine(param1, param2, param3);
+        }
+
+        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2, param3)));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+
+            return machine.Phase();
         }
     }
 
-    public class StateMachineAsset<T1, T2, T3, T4> : ScriptableObject, IStateMachineAsset<T1, T2, T3, T4>
+    public class PhaseStateMachineAsset<T1, T2, T3, T4> : StateAssetBase<T1, T2, T3, T4>, IStateMachineAsset<T1, T2, T3, T4>
     {
-        [SerializeField]
-        protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
         [SerializeField]
@@ -123,16 +154,26 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public object Id => _Id;
-
         public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3, T4 param4)
+        {
+            return CreateMachine(param1, param2, param3, param4);
+        }
+
+        public override IState GetState(T1 param1, T2 param2, T3 param3, T4 param4)
+        {
+            return CreateMachine(param1, param2, param3, param4);
+        }
+
+        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2, param3, param4)));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+
+            return machine.Phase();
         }
     }
 }
