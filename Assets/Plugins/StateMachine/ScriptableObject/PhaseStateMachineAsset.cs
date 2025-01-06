@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    [CreateAssetMenu(fileName = "StateMachine Asset", menuName = "StateMachine/StateMachine Asset", order = 1)]
+    [CreateAssetMenu(fileName = "PhaseStateMachine Asset", menuName = "StateMachine/PhaseStateMachine Asset", order = 1)]
     public class PhaseStateMachineAsset : StateAssetBase, IStateMachineAsset
     {
         [SerializeField]
@@ -15,6 +15,8 @@ namespace StateMachine
         protected List<StateAssetBase> _States;
         [SerializeField]
         private bool _Sequence;
+        [SerializeField]
+        private bool _Cycle;
         [SerializeField]
         private List<string> _Orders;
 
@@ -35,7 +37,14 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState()));
 
-            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+            if (_Sequence) 
+            { 
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+
+                return sequence.Phase();
+            }
 
             return machine.Phase();
         }
@@ -49,6 +58,8 @@ namespace StateMachine
         protected List<StateAssetBase<T>> _States;
         [SerializeField]
         private bool _Sequence;
+        [SerializeField]
+        private bool _Cycle;
         [SerializeField]
         private List<string> _Orders;
 
@@ -69,7 +80,14 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState(param)));
 
-            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+            if (_Sequence)
+            {
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+
+                return sequence.Phase();
+            }
 
             return machine.Phase();
         }
@@ -83,6 +101,8 @@ namespace StateMachine
         protected List<StateAssetBase<T1, T2>> _States;
         [SerializeField]
         private bool _Sequence;
+        [SerializeField]
+        private bool _Cycle;
         [SerializeField]
         private List<string> _Orders;
 
@@ -103,7 +123,14 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2)));
 
-            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+            if (_Sequence)
+            {
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+
+                return sequence.Phase();
+            }
 
             return machine.Phase();
         }
@@ -117,6 +144,8 @@ namespace StateMachine
         protected List<StateAssetBase<T1, T2, T3>> _States;
         [SerializeField]
         private bool _Sequence;
+        [SerializeField]
+        private bool _Cycle;
         [SerializeField]
         private List<string> _Orders;
 
@@ -137,7 +166,14 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2, param3)));
 
-            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+            if (_Sequence)
+            {
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+
+                return sequence.Phase();
+            }
 
             return machine.Phase();
         }
@@ -151,6 +187,8 @@ namespace StateMachine
         protected List<StateAssetBase<T1, T2, T3, T4>> _States;
         [SerializeField]
         private bool _Sequence;
+        [SerializeField]
+        private bool _Cycle;
         [SerializeField]
         private List<string> _Orders;
 
@@ -171,7 +209,14 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2, param3, param4)));
 
-            if (_Sequence) { return machine.Sequence().OrderBy(_Orders).Phase(); }
+            if (_Sequence)
+            {
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+
+                return sequence.Phase();
+            }
 
             return machine.Phase();
         }
