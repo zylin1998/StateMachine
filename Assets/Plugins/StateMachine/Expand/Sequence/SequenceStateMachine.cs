@@ -33,7 +33,7 @@ namespace StateMachine
             } 
         }
 
-        public bool IgnoreEnter { get; set; } = false;
+        public bool IgnoreEnter { get; set; } = true;
 
         public void OrderBy(ISequenceOrder order)
         {
