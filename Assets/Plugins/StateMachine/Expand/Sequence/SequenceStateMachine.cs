@@ -33,6 +33,8 @@ namespace StateMachine
             } 
         }
 
+        public bool IgnoreEnter { get; set; } = false;
+
         public void OrderBy(ISequenceOrder order)
         {
             _Order = order;
@@ -56,23 +58,17 @@ namespace StateMachine
         {
             if (!Current.Exit && !ForceExit) { return false; }
 
-            _Flag++;
+            var next = IState.Default;
 
-            if (_Flag >= _OrderedStates.Length) 
-            {
-                if (Cycle) { _Flag = 0; }
+            if (IgnoreEnter) { next = GetNext(); }
 
-                else 
-                { 
-                    Set(IState.Default);
+            else { next = FindCanEnter(); }
 
-                    return false;
-                }
-            }
+            var transfered = next != IState.Default && next != Current;
+            
+            Set(next);
 
-            Set(_OrderedStates[_Flag]);
-
-            return true;
+            return transfered;
         }
 
         public override void Dispose()
@@ -107,6 +103,40 @@ namespace StateMachine
             }
 
             return machine;
+        }
+
+        protected IState GetNext() 
+        {
+            _Flag++;
+
+            if (_Flag >= _OrderedStates.Length)
+            {
+                if (Cycle) { _Flag = 0; }
+
+                else
+                {
+                    return IState.Default;
+                }
+            }
+
+            return _OrderedStates[_Flag];
+        }
+
+        protected IState FindCanEnter() 
+        {
+            for (var index = 0; index < _OrderedStates.Length; index++) 
+            {
+                var temp = index + _Flag + 1;
+                var flag = temp < _OrderedStates.Length ? temp : _Flag - _OrderedStates.Length;
+
+                var state = _OrderedStates[index];
+
+                if(flag == _Flag)                { return state; }
+                if(flag <  _Flag && !Cycle)      { break; }
+                if(flag != _Flag && state.Enter) { return state; }
+            }
+
+            return IState.Default;
         }
     }
 }

@@ -19,6 +19,8 @@ namespace StateMachine
         [SerializeField]
         private bool _Cycle;
         [SerializeField]
+        private bool _IgnoreEnter;
+        [SerializeField]
         private List<string> _Orders;
 
         public object Id => _Id;
@@ -35,6 +37,7 @@ namespace StateMachine
                 var sequence = machine.Sequence().OrderBy(_Orders);
 
                 sequence.Cycle = _Cycle;
+                sequence.IgnoreEnter = _IgnoreEnter;
 
                 return sequence;
             }
@@ -56,6 +59,8 @@ namespace StateMachine
         [SerializeField]
         private bool _Cycle;
         [SerializeField]
+        private bool _IgnoreEnter;
+        [SerializeField]
         private List<string> _Orders;
 
         public object Id => _Id;
@@ -72,6 +77,7 @@ namespace StateMachine
                 var sequence = machine.Sequence().OrderBy(_Orders);
 
                 sequence.Cycle = _Cycle;
+                sequence.IgnoreEnter = _IgnoreEnter;
 
                 return sequence;
             }
@@ -93,6 +99,8 @@ namespace StateMachine
         [SerializeField]
         private bool _Cycle;
         [SerializeField]
+        private bool _IgnoreEnter;
+        [SerializeField]
         private List<string> _Orders;
 
         public object Id => _Id;
@@ -109,6 +117,7 @@ namespace StateMachine
                 var sequence = machine.Sequence().OrderBy(_Orders);
 
                 sequence.Cycle = _Cycle;
+                sequence.IgnoreEnter = _IgnoreEnter;
 
                 return sequence;
             }
@@ -130,6 +139,8 @@ namespace StateMachine
         [SerializeField]
         private bool _Cycle;
         [SerializeField]
+        private bool _IgnoreEnter;
+        [SerializeField]
         private List<string> _Orders;
 
         public object Id => _Id;
@@ -146,6 +157,7 @@ namespace StateMachine
                 var sequence = machine.Sequence().OrderBy(_Orders);
 
                 sequence.Cycle = _Cycle;
+                sequence.IgnoreEnter = _IgnoreEnter;
 
                 return sequence;
             }
@@ -167,6 +179,8 @@ namespace StateMachine
         [SerializeField]
         private bool _Cycle;
         [SerializeField]
+        private bool _IgnoreEnter;
+        [SerializeField]
         private List<string> _Orders;
 
         public object Id => _Id;
@@ -178,7 +192,17 @@ namespace StateMachine
 
             machine.WithStates(_States.Select(s => s.GetState(param1, param2, param3, param4)));
 
-            return !_Sequence ? machine : machine.Sequence().OrderBy(_Orders);
+            if (_Sequence)
+            {
+                var sequence = machine.Sequence().OrderBy(_Orders);
+
+                sequence.Cycle = _Cycle;
+                sequence.IgnoreEnter = _IgnoreEnter;
+
+                return sequence;
+            }
+
+            return machine;
         }
     }
 }
