@@ -127,7 +127,7 @@ namespace StateMachine
             for (var index = 0; index < _OrderedStates.Length; index++) 
             {
                 var temp = index + _Flag + 1;
-                var flag = temp < _OrderedStates.Length ? temp : _Flag - _OrderedStates.Length;
+                var flag = temp < _OrderedStates.Length ? temp : temp - _OrderedStates.Length;
 
                 var state = _OrderedStates[flag];
 
