@@ -126,10 +126,11 @@ namespace StateMachine
         {
             for (var index = 0; index < _OrderedStates.Length; index++) 
             {
-                var temp = index + _Flag + 1;
-                var flag = temp < _OrderedStates.Length ? temp : temp - _OrderedStates.Length;
+                var flag = index + _Flag + 1;
+                
+                _Flag = flag < _OrderedStates.Length ? flag : flag - _OrderedStates.Length;
 
-                var state = _OrderedStates[flag];
+                var state = _OrderedStates[_Flag];
 
                 if(flag == _Flag)                { return state; }
                 if(flag <  _Flag && !Cycle)      { break; }
