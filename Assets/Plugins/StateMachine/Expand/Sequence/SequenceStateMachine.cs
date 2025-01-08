@@ -124,6 +124,8 @@ namespace StateMachine
 
         protected IState FindCanEnter() 
         {
+            var lastFlag = _Flag;
+
             for (var index = 0; index < _OrderedStates.Length; index++) 
             {
                 var flag = index + _Flag + 1;
@@ -132,9 +134,9 @@ namespace StateMachine
 
                 var state = _OrderedStates[_Flag];
 
-                if(flag == _Flag)                { return state; }
-                if(flag <  _Flag && !Cycle)      { break; }
-                if(flag != _Flag && state.Enter) { return state; }
+                if(_Flag == lastFlag)                { return state; }
+                if(_Flag <  lastFlag && !Cycle)      { break; }
+                if(_Flag != lastFlag && state.Enter) { return state; }
             }
 
             return IState.Default;
