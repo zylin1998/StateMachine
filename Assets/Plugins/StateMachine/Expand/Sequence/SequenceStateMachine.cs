@@ -129,7 +129,7 @@ namespace StateMachine
                 var temp = index + _Flag + 1;
                 var flag = temp < _OrderedStates.Length ? temp : _Flag - _OrderedStates.Length;
 
-                var state = _OrderedStates[index];
+                var state = _OrderedStates[flag];
 
                 if(flag == _Flag)                { return state; }
                 if(flag <  _Flag && !Cycle)      { break; }
