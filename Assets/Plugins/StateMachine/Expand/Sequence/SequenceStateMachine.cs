@@ -134,9 +134,11 @@ namespace StateMachine
 
                 var state = _OrderedStates[_Flag];
 
-                if(_Flag == lastFlag)                { return state; }
-                if(_Flag <  lastFlag && !Cycle)      { break; }
-                if(_Flag != lastFlag && state.Enter) { return state; }
+                if (state == Current) { return state; }
+                if (!state.Enter)     { continue; }
+                
+                if (_Flag <  lastFlag && !Cycle) { break; }
+                if (_Flag != lastFlag )          { return state; }
             }
 
             return IState.Default;
