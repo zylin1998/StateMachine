@@ -130,15 +130,20 @@ namespace StateMachine
             {
                 var flag = index + _Flag + 1;
                 
-                _Flag = flag < _OrderedStates.Length ? flag : flag - _OrderedStates.Length;
+                flag = flag < _OrderedStates.Length ? flag : flag - _OrderedStates.Length;
 
-                var state = _OrderedStates[_Flag];
+                var state = _OrderedStates[flag];
 
                 if (state == Current) { return state; }
                 if (!state.Enter)     { continue; }
                 
-                if (_Flag <  lastFlag && !Cycle) { break; }
-                if (_Flag != lastFlag )          { return state; }
+                if (flag <  _Flag && !Cycle) { break; }
+                if (flag != _Flag )          
+                {
+                    _Flag = flag;
+
+                    return state; 
+                }
             }
 
             return IState.Default;
