@@ -134,8 +134,8 @@ namespace StateMachine
 
                 var state = _OrderedStates[flag];
 
-                if (state == Current) { return state; }
-                if (!state.Enter)     { continue; }
+                if (flag == _Flag) { return state; }
+                if (!state.Enter)  { continue; }
                 
                 if (flag <  _Flag && !Cycle) { break; }
                 if (flag != _Flag )          
