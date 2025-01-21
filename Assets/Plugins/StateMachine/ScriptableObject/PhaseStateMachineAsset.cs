@@ -22,7 +22,7 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public IStateMachine GetMachine()
+        public virtual IStateMachine GetMachine()
         {
             return CreateMachine();
         }
@@ -32,7 +32,7 @@ namespace StateMachine
             return CreateMachine();
         }
 
-        private IPhaseStateMachine CreateMachine()
+        protected virtual IPhaseStateMachine CreateMachine()
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -68,7 +68,7 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public IStateMachine GetMachine(T param)
+        public virtual IStateMachine GetMachine(T param)
         {
             return CreateMachine(param);
         }
@@ -78,7 +78,7 @@ namespace StateMachine
             return CreateMachine(param);
         }
 
-        public IPhaseStateMachine CreateMachine(T param)
+        protected virtual IPhaseStateMachine CreateMachine(T param)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -114,7 +114,7 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2)
         {
             return CreateMachine(param1, param2);
         }
@@ -124,7 +124,7 @@ namespace StateMachine
             return CreateMachine(param1, param2);
         }
 
-        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2)
+        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -160,7 +160,7 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2, T3 param3)
         {
             return CreateMachine(param1, param2, param3);
         }
@@ -170,7 +170,7 @@ namespace StateMachine
             return CreateMachine(param1, param2, param3);
         }
 
-        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3)
+        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -206,7 +206,7 @@ namespace StateMachine
         [SerializeField]
         private List<string> _Orders;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3, T4 param4)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             return CreateMachine(param1, param2, param3, param4);
         }
@@ -216,7 +216,7 @@ namespace StateMachine
             return CreateMachine(param1, param2, param3, param4);
         }
 
-        public IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3, T4 param4)
+        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();

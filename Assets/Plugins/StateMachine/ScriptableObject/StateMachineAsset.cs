@@ -25,7 +25,7 @@ namespace StateMachine
 
         public object Id => _Id;
 
-        public IStateMachine GetMachine()
+        public virtual IStateMachine GetMachine()
         {
             var machine = 
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -65,7 +65,7 @@ namespace StateMachine
 
         public object Id => _Id;
 
-        public IStateMachine GetMachine(T param)
+        public virtual IStateMachine GetMachine(T param)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -105,7 +105,7 @@ namespace StateMachine
 
         public object Id => _Id;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -145,7 +145,7 @@ namespace StateMachine
 
         public object Id => _Id;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2, T3 param3)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -185,7 +185,7 @@ namespace StateMachine
 
         public object Id => _Id;
 
-        public IStateMachine GetMachine(T1 param1, T2 param2, T3 param3, T4 param4)
+        public virtual IStateMachine GetMachine(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
