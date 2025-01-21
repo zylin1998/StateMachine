@@ -78,7 +78,7 @@ namespace StateMachine
             return CreateMachine(param);
         }
 
-        protected virtual IPhaseStateMachine CreateMachine(T param)
+        protected virtual IPhaseStateMachine<T> CreateMachine(T param)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -92,10 +92,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase();
+                return sequence.Phase(param);
             }
 
-            return machine.Phase();
+            return machine.Phase(param);
         }
     }
 
@@ -124,7 +124,7 @@ namespace StateMachine
             return CreateMachine(param1, param2);
         }
 
-        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2)
+        protected virtual IPhaseStateMachine<T1, T2> CreateMachine(T1 param1, T2 param2)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -138,10 +138,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase();
+                return sequence.Phase(param1, param2);
             }
 
-            return machine.Phase();
+            return machine.Phase(param1, param2);
         }
     }
 
@@ -170,7 +170,7 @@ namespace StateMachine
             return CreateMachine(param1, param2, param3);
         }
 
-        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3)
+        protected virtual IPhaseStateMachine<T1, T2, T3> CreateMachine(T1 param1, T2 param2, T3 param3)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -184,10 +184,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase();
+                return sequence.Phase(param1, param2, param3);
             }
 
-            return machine.Phase();
+            return machine.Phase(param1, param2, param3);
         }
     }
 
@@ -216,7 +216,7 @@ namespace StateMachine
             return CreateMachine(param1, param2, param3, param4);
         }
 
-        protected virtual IPhaseStateMachine CreateMachine(T1 param1, T2 param2, T3 param3, T4 param4)
+        protected virtual IPhaseStateMachine<T1, T2, T3, T4> CreateMachine(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             var machine =
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
@@ -230,10 +230,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase();
+                return sequence.Phase(param1, param2, param3, param4);
             }
 
-            return machine.Phase();
+            return machine.Phase(param1, param2, param3, param4);
         }
     }
 }
