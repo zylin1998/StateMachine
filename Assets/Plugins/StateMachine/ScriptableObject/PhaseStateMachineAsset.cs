@@ -46,10 +46,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase();
+                return sequence.Phase().WithId(_Id);
             }
 
-            return machine.Phase();
+            return machine.Phase().WithId(_Id);
         }
     }
 
@@ -92,10 +92,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase(param);
+                return sequence.Phase(param).WithId(_Id);
             }
 
-            return machine.Phase(param);
+            return machine.Phase(param).WithId(_Id);
         }
     }
 
@@ -138,10 +138,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase(param1, param2);
+                return sequence.Phase(param1, param2).WithId(_Id);
             }
 
-            return machine.Phase(param1, param2);
+            return machine.Phase(param1, param2).WithId(_Id);
         }
     }
 
@@ -184,10 +184,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase(param1, param2, param3);
+                return sequence.Phase(param1, param2, param3).WithId(_Id);
             }
 
-            return machine.Phase(param1, param2, param3);
+            return machine.Phase(param1, param2, param3).WithId(_Id);
         }
     }
 
@@ -230,10 +230,10 @@ namespace StateMachine
                 sequence.Cycle = _Cycle;
                 sequence.IgnoreEnter = _IgnoreEnter;
 
-                return sequence.Phase(param1, param2, param3, param4);
+                return sequence.Phase(param1, param2, param3, param4).WithId(_Id);
             }
 
-            return machine.Phase(param1, param2, param3, param4);
+            return machine.Phase(param1, param2, param3, param4).WithId(_Id);
         }
     }
 }
