@@ -56,7 +56,7 @@ namespace StateMachine
 
         public override bool Transfer()
         {
-            if (!Current.Exit && !ForceExit) { return false; }
+            if (!Current.Exit && !ForceExit) { return CheckPhase(); }
 
             var next = IState.Default;
 
@@ -90,6 +90,11 @@ namespace StateMachine
                     yield return state;
                 }
             }
+        }
+
+        private bool CheckPhase()
+        {
+            return Current is IStateMachine machine ? machine.Transfer() : false;
         }
 
         protected static IStateMachine MachineCheck(IStateMachine machine) 
