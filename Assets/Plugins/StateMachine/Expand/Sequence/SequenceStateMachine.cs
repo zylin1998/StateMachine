@@ -27,6 +27,8 @@ namespace StateMachine
         { 
             get
             {
+                if (Cycle) { return true; }
+
                 if (_Flag < _OrderedStates.Length - 1) { return true; }
 
                 return !Current.Exit;
