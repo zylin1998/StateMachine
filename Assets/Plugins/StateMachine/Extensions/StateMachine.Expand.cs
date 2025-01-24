@@ -120,7 +120,8 @@ namespace StateMachine
         public static IPhaseStateMachine Phase(this ISequenceStateMachine self)
         {
             return new PhaseStateMachine(self)
-                .ExitWhen(() => !self.Active);
+                .ExitWhen(() => !self.Active)
+                .DoOnExit(() => self.Dispose());
         }
 
         /// <summary>
@@ -133,7 +134,8 @@ namespace StateMachine
         public static IPhaseStateMachine<T> Phase<T>(this ISequenceStateMachine self, T param1)
         {
             return new PhaseStateMachine<T>(self, param1)
-                .ExitWhen((param1) => !self.Active);
+                .ExitWhen((param1) => !self.Active)
+                .DoOnExit((param1) => self.Dispose());
         }
 
         /// <summary>
@@ -148,7 +150,8 @@ namespace StateMachine
         public static IPhaseStateMachine<T1, T2> Phase<T1, T2>(this ISequenceStateMachine self, T1 param1, T2 parma2)
         {
             return new PhaseStateMachine<T1, T2>(self, param1, parma2)
-                .ExitWhen((param1, param2) => !self.Active);
+                .ExitWhen((param1, param2) => !self.Active)
+                .DoOnExit((param1, param2) => self.Dispose());
         }
 
         /// <summary>
@@ -165,7 +168,8 @@ namespace StateMachine
         public static IPhaseStateMachine<T1, T2, T3> Phase<T1, T2, T3>(this ISequenceStateMachine self, T1 param1, T2 parma2, T3 param3)
         {
             return new PhaseStateMachine<T1, T2, T3>(self, param1, parma2, param3)
-                .ExitWhen((param1, param2, param3) => !self.Active);
+                .ExitWhen((param1, param2, param3) => !self.Active)
+                .DoOnExit((param1, param2, param3) => self.Dispose());
         }
 
         /// <summary>
@@ -184,7 +188,8 @@ namespace StateMachine
         public static IPhaseStateMachine<T1, T2, T3, T4> Phase<T1, T2, T3, T4>(this ISequenceStateMachine self, T1 param1, T2 parma2, T3 param3, T4 param4)
         {
             return new PhaseStateMachine<T1, T2, T3, T4>(self, param1, parma2, param3, param4)
-                .ExitWhen((param1, param2, param3, param4) => !self.Active);
+                .ExitWhen((param1, param2, param3, param4) => !self.Active)
+                .DoOnExit((param1, param2, param3, param4) => self.Dispose());
         }
 
         /// <summary>
