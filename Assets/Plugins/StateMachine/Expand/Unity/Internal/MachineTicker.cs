@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using UnityEngine;
-using UnityEditor.SearchService;
 
 namespace StateMachine
 {
@@ -53,18 +51,15 @@ namespace StateMachine
         {
             Machine  = machine;
             Transfer = transfer;
-
-            _Scene = SceneManager.GetActiveScene().buildIndex;
         }
 
         private bool _IsDisposed;
-        private int  _Scene;
         public IStateMachine Machine { get; }
         public bool Transfer { get; }
 
 
         public bool IsValid
-            => !_IsDisposed && Machine != null && _Scene == SceneManager.GetActiveScene().buildIndex;
+            => !_IsDisposed && Machine != null;
 
         public void Tick()
         {
