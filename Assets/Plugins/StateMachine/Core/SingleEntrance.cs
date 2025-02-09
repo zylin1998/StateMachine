@@ -43,7 +43,7 @@ namespace StateMachine
         {
             if (!Current.Exit && !ForceExit) { return CheckPhase(); }
 
-            var next = States.FirstOrDefault(s => s.Enter) ?? IState.Default;
+            var next = States.FirstOrDefault(s => s != Current && s.Enter) ?? IState.Default;
 
             Set(next);
 
