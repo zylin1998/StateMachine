@@ -1,11 +1,9 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace StateMachine.UnitTest
+namespace StateMachineX.UnitTest
 {
     public class ExpandMachineTest
     {
@@ -14,7 +12,7 @@ namespace StateMachine.UnitTest
         {
             var count = 0;
             var index = 0;
-
+            
             var state1 = StateMachine.FunctionalState()
                 .ExitWhen(() => index >= 10)
                 .DoTick(() => count = index)

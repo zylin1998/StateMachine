@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace StateMachine.SampleGame
+namespace StateMachineX.SampleGame
 {
     public class Timer : MonoBehaviour
     {

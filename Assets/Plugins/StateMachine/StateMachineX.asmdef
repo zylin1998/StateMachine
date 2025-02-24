@@ -1,6 +1,6 @@
 {
-    "name": "StateMachine",
-    "rootNamespace": "StateMachine",
+    "name": "StateMachineX",
+    "rootNamespace": "StateMachineX",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

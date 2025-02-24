@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
-namespace StateMachine
+namespace StateMachineX
 {
     public static partial class StateMachine
     {

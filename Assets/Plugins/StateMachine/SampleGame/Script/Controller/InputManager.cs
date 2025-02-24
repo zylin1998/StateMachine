@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StateMachine.SampleGame
+namespace StateMachineX.SampleGame
 {
     [Serializable]
     public class InputManager

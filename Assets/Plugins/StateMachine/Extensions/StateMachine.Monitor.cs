@@ -1,17 +1,13 @@
-using StateMachine.Internal;
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using StateMachineX.Internal;
 
-namespace StateMachine
+namespace StateMachineX
 {
     public static partial class StateMachine
     {
-        /*static StateMachine() 
-        {
-            MainThreadDispatcher.Initialize();
-        }*/
-
         public static class Monitor 
         {
             public static int UpdateThreadCount      => MainThreadDispatcher.UpdateThreadCount;

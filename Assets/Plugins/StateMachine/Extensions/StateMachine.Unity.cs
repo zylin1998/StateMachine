@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
-using StateMachine.Internal;
 using UnityEngine;
+using StateMachineX.Internal;
 
-namespace StateMachine
+namespace StateMachineX
 {
     public static partial class StateMachine
     {

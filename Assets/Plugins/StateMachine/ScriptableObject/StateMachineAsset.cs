@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StateMachine
+namespace StateMachineX
 {
     [CreateAssetMenu(fileName = "StateMachine Asset", menuName = "StateMachine/StateMachine Asset", order = 1)]
     public class StateMachineAsset : ScriptableObject, IStateMachineAsset

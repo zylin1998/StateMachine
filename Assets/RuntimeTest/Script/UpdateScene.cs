@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace StateMachine.RuntimeTest
+namespace StateMachineX.RuntimeTest
 {
     public class UpdateScene : MonoBehaviour
     {

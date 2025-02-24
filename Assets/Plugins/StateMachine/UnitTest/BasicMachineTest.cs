@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace StateMachine.UnitTest
+namespace StateMachineX.UnitTest
 {
     public class BasicMachineTest
     {

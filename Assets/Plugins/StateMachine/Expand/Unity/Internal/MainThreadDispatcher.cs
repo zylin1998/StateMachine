@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StateMachine.Internal
+namespace StateMachineX.Internal
 {
     internal class MainThreadDispatcher : MonoBehaviour
     {

@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-namespace StateMachine.RuntimeTest
+namespace StateMachineX.RuntimeTest
 {
     public class Scene1 : MonoBehaviour
     {

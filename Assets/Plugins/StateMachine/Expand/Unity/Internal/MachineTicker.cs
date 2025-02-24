@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-
-namespace StateMachine
+namespace StateMachineX
 {
     internal interface IMachineTicker : IDisposable
     {
@@ -19,18 +18,14 @@ namespace StateMachine
         {
             Machine  = machine;
             Transfer = transfer;
-
-            _Scene = SceneManager.GetActiveScene().buildIndex;
         }
 
         private bool _IsDisposed;
-        private int  _Scene;
-
+        
         public IStateMachine Machine  { get; }
         public bool          Transfer { get; }
         
-        public bool IsValid 
-            => !_IsDisposed && Machine != null && _Scene == SceneManager.GetActiveScene().buildIndex;
+        public bool IsValid => !_IsDisposed && Machine != null;
 
         public void Tick() 
         {
@@ -58,8 +53,7 @@ namespace StateMachine
         public bool Transfer { get; }
 
 
-        public bool IsValid
-            => !_IsDisposed && Machine != null;
+        public bool IsValid => !_IsDisposed && Machine != null;
 
         public void Tick()
         {
@@ -80,8 +74,6 @@ namespace StateMachine
         {
             Machine  = machine;
             Transfer = transfer;
-
-            _Scene = SceneManager.GetActiveScene().buildIndex;
         }
 
         private bool _IsDisposed;
@@ -90,8 +82,7 @@ namespace StateMachine
         public IStateMachine Machine  { get; }
         public bool          Transfer { get; }
 
-        public bool IsValid
-            => !_IsDisposed && Machine != null && _Scene == SceneManager.GetActiveScene().buildIndex;
+        public bool IsValid => !_IsDisposed && Machine != null;
 
         public void Tick()
         {

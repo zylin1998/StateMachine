@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace StateMachine.PlayTest
+namespace StateMachineX.PlayTest
 {
     public class UpdateMachineTest
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StateMachine.RuntimeTest
+namespace StateMachineX.RuntimeTest
 {
     public class UnScaledScene : MonoBehaviour
     {

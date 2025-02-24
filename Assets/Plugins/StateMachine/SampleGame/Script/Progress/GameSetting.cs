@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-namespace StateMachine.SampleGame
+namespace StateMachineX.SampleGame
 {
     [Serializable]
     public class GameSetting
