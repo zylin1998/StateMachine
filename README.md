@@ -114,6 +114,7 @@ var machine = StateMachine.SingleEntrance()
 ```ExitWhen``` : 設定作為狀態時的出入點。  
 ```DoOnEnter``` : 設定作為狀態時的進入執行項目。  
 ```DoOnExit``` : 設定作為狀態時的出入執行項目。  
+```WithId``` : 設定作為狀態時的 id 。
 ```
 var machine = StateMachine.SingleEntrance()
   .Phase()
