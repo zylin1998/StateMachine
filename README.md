@@ -129,3 +129,10 @@ var machine = StateMachine.SingleEntrance()
 ```LateUpdate``` : 可讓狀態機以 LateUpdate 的方式執行。  
 ```AddTo``` : 可將進入更新模式後的```IDisposable```類別掛載至```GameObject```上。  
 >任一更新模式執行後會回傳```IDisposable```類別，執行```Dispose```後會解除更新模式。
+### Asset
+#### StateAssetBase 
+繼承 ```ScriptableObject``` 的類別，可繼承並實作```GetState```方法已取得狀態，包含從 0~4 種觀察對象的多載類別。
+#### StateMachineAsset
+繼承 ```ScriptableObject``` 的類別，可透過```GetMachine```方法取得狀態機，包含從 0~4 種觀察對象的多載類別。
+#### PhaseStateMachineAsset
+繼承 ```ScriptableObject``` 的類別，同時包含```GetState```即```GetMachine```方法，皆會取得 PhaseStateMachine ，包含從 0~4 種觀察對象的多載類別。
