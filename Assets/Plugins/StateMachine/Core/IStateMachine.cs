@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StateMachineX
 {
-    public interface IStateMachine : IDisposable
+    public interface IStateMachine : IMachineNode
     {
         /// <summary>
         /// 當前狀態。
@@ -42,18 +42,5 @@ namespace StateMachineX
         /// </summary>
         /// <returns></returns>
         public bool Transfer();
-
-        /// <summary>
-        /// 狀態機更新(Unity Update)。
-        /// </summary>
-        public void Tick();
-        /// <summary>
-        /// 狀態機更新(Unity FixedUpdate)。
-        /// </summary>
-        public void FixedTick();
-        /// <summary>
-        /// 狀態機更新(Unity LateUpdate)。
-        /// </summary>
-        public void LateTick();
     }
 }

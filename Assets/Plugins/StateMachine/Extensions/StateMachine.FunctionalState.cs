@@ -71,267 +71,247 @@ namespace StateMachineX
             return new FunctionalState<T1, T2, T3, T4>(param1, param2, param3, param4);
         }
 
-        /// <summary>
-        /// 自訂義狀態的進出點設定
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="enter">自訂義狀態進入判斷</param>
-        /// <param name="exit">自訂義狀態離開判斷</param>
-        /// <returns></returns>
-        public static IFunctionalState Entrance(this IFunctionalState self, Func<bool> enter, Func<bool> exit)
+        public static IFunctionalState EnterWhen(this IFunctionalState self, Func<bool> condition) 
         {
-            if (enter != null) { self.EnterWhen(enter); }
-            if (exit  != null) { self.ExitWhen(enter); }
+            self.EnterEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態的進出點設定
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="enter">自訂義狀態進入判斷</param>
-        /// <param name="exit">自訂義狀態離開判斷</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1> Entrance<T1>(this IFunctionalState<T1> self, Func<T1, bool> enter, Func<T1, bool> exit) 
+        public static IFunctionalState<T1> EnterWhen<T1>(this IFunctionalState<T1> self, Func<T1,bool> condition)
         {
-            if (enter != null) { self.EnterWhen(enter); }
-            if (exit  != null) { self.ExitWhen (enter); }
+            self.EnterEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態的進出點設定
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="enter">自訂義狀態進入判斷</param>
-        /// <param name="exit">自訂義狀態離開判斷</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2> Entrance<T1, T2>(this IFunctionalState<T1, T2> self, Func<T1, T2, bool> enter, Func<T1, T2, bool> exit)
+        public static IFunctionalState<T1, T2> EnterWhen<T1, T2>(this IFunctionalState<T1, T2> self, Func<T1, T2, bool> condition)
         {
-            if (enter != null) { self.EnterWhen(enter); }
-            if (exit  != null) { self.ExitWhen(enter);  }
+            self.EnterEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態的進出點設定
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="enter">自訂義狀態進入判斷</param>
-        /// <param name="exit">自訂義狀態離開判斷</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3> Entrance<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Func<T1, T2, T3, bool> enter, Func<T1, T2, T3, bool> exit)
+        public static IFunctionalState<T1, T2, T3> EnterWhen<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Func<T1, T2, T3, bool> condition)
         {
-            if (enter != null) { self.EnterWhen(enter); }
-            if (exit  != null) { self.ExitWhen (enter); }
+            self.EnterEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態的進出點設定
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="enter">自訂義狀態進入判斷</param>
-        /// <param name="exit">自訂義狀態離開判斷</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3, T4> Entrance<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Func<T1, T2, T3, T4, bool> enter, Func<T1, T2, T3, T4, bool> exit)
+        public static IFunctionalState<T1, T2, T3, T4> EnterWhen<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Func<T1, T2, T3, T4, bool> condition)
         {
-            if (enter != null) { self.EnterWhen(enter); }
-            if (exit  != null) { self.ExitWhen(enter);  }
+            self.EnterEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態進出時執行項目
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="onEnter">自訂義狀態進入時執行項目</param>
-        /// <param name="onExit">自訂義狀態離開時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState OnEntrance(this IFunctionalState self, Action onEnter, Action onExit)
+        public static IFunctionalState ExitWhen(this IFunctionalState self, Func<bool> condition)
         {
-            if (onEnter != null) { self.DoOnEnter(onEnter); }
-            if (onExit  != null) { self.DoOnExit(onExit); }
+            self.ExitEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態進出時執行項目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="onEnter">自訂義狀態進入時執行項目</param>
-        /// <param name="onExit">自訂義狀態離開時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T> OnEntrance<T>(this IFunctionalState<T> self, Action<T> onEnter, Action<T> onExit)
+        public static IFunctionalState<T1> ExitWhen<T1>(this IFunctionalState<T1> self, Func<T1, bool> condition)
         {
-            if (onEnter != null) { self.DoOnEnter(onEnter); }
-            if (onExit  != null) { self.DoOnExit(onExit);   }
+            self.ExitEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態進出時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="onEnter">自訂義狀態進入時執行項目</param>
-        /// <param name="onExit">自訂義狀態離開時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2> OnEntrance<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> onEnter, Action<T1, T2> onExit)
+        public static IFunctionalState<T1, T2> ExitWhen<T1, T2>(this IFunctionalState<T1, T2> self, Func<T1, T2, bool> condition)
         {
-            if (onEnter != null) { self.DoOnEnter(onEnter); }
-            if (onExit  != null) { self.DoOnExit(onExit);   }
+            self.ExitEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態進出時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="onEnter">自訂義狀態進入時執行項目</param>
-        /// <param name="onExit">自訂義狀態離開時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3> OnEntrance<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> onEnter, Action<T1, T2, T3> onExit)
+        public static IFunctionalState<T1, T2, T3> ExitWhen<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Func<T1, T2, T3, bool> condition)
         {
-            if (onEnter != null) { self.DoOnEnter(onEnter); }
-            if (onExit  != null) { self.DoOnExit(onExit);   }
+            self.ExitEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態進出時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="onEnter">自訂義狀態進入時執行項目</param>
-        /// <param name="onExit">自訂義狀態離開時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3, T4> OnEntrance<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> onEnter, Action<T1, T2, T3, T4> onExit)
+        public static IFunctionalState<T1, T2, T3, T4> ExitWhen<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Func<T1, T2, T3, T4, bool> condition)
         {
-            if (onEnter != null) { self.DoOnEnter(onEnter); }
-            if (onExit  != null) { self.DoOnExit(onExit);   }
+            self.ExitEvent = condition;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態更新時執行項目
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="tick">Unity Update 更新時執行項目</param>
-        /// <param name="fixedTick">Unity FixedUpdate 更新時執行項目</param>
-        /// <param name="lateTick">Unity LateUpdate 更新時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState Tick(this IFunctionalState self, Action tick, Action fixedTick, Action lateTick)
+        public static IFunctionalState DoOnEnter(this IFunctionalState self, Action callback) 
         {
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
+            self.OnEnterEvent = callback;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態更新時執行項目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="tick">Unity Update 更新時執行項目</param>
-        /// <param name="fixedTick">Unity FixedUpdate 更新時執行項目</param>
-        /// <param name="lateTick">Unity LateUpdate 更新時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T> Tick<T>(this IFunctionalState<T> self, Action<T> tick, Action<T> fixedTick, Action<T> lateTick)
+        public static IFunctionalState<T1> DoOnEnter<T1>(this IFunctionalState<T1> self, Action<T1> callback)
         {
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
+            self.OnEnterEvent = callback;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態更新時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="tick">Unity Update 更新時執行項目</param>
-        /// <param name="fixedTick">Unity FixedUpdate 更新時執行項目</param>
-        /// <param name="lateTick">Unity LateUpdate 更新時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2> Tick<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> tick, Action<T1, T2> fixedTick, Action<T1, T2> lateTick)
+        public static IFunctionalState<T1, T2> DoOnEnter<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> callback)
         {
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
+            self.OnEnterEvent = callback;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態更新時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="tick">Unity Update 更新時執行項目</param>
-        /// <param name="fixedTick">Unity FixedUpdate 更新時執行項目</param>
-        /// <param name="lateTick">Unity LateUpdate 更新時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3> Tick<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> tick, Action<T1, T2, T3> fixedTick, Action<T1, T2, T3> lateTick)
+        public static IFunctionalState<T1, T2, T3> DoOnEnter<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> callback)
         {
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
+            self.OnEnterEvent = callback;
 
             return self;
         }
 
-        /// <summary>
-        /// 自訂義狀態更新時執行項目
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="tick">Unity Update 更新時執行項目</param>
-        /// <param name="fixedTick">Unity FixedUpdate 更新時執行項目</param>
-        /// <param name="lateTick">Unity LateUpdate 更新時執行項目</param>
-        /// <returns></returns>
-        public static IFunctionalState<T1, T2, T3, T4> Tick<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> tick, Action<T1, T2, T3, T4> fixedTick, Action<T1, T2, T3, T4> lateTick)
+        public static IFunctionalState<T1, T2, T3, T4> DoOnEnter<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> callback)
         {
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
-            if (tick != null) { self.DoTick(tick); }
+            self.OnEnterEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState DoOnExit(this IFunctionalState self, Action callback)
+        {
+            self.OnExitEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1> DoOnExit<T1>(this IFunctionalState<T1> self, Action<T1> callback)
+        {
+            self.OnExitEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2> DoOnExit<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> callback)
+        {
+            self.OnExitEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3> DoOnExit<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> callback)
+        {
+            self.OnExitEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3, T4> DoOnExit<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> callback)
+        {
+            self.OnExitEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState DoTick(this IFunctionalState self, Action callback)
+        {
+            self.TickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1> DoTick<T1>(this IFunctionalState<T1> self, Action<T1> callback)
+        {
+            self.TickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2> DoTick<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> callback)
+        {
+            self.TickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3> DoTick<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> callback)
+        {
+            self.TickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3, T4> DoTick<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> callback)
+        {
+            self.TickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState DoFixedTick(this IFunctionalState self, Action callback)
+        {
+            self.FixedTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1> DoFixedTick<T1>(this IFunctionalState<T1> self, Action<T1> callback)
+        {
+            self.FixedTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2> DoFixedTick<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> callback)
+        {
+            self.FixedTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3> DoFixedTick<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> callback)
+        {
+            self.FixedTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3, T4> DoFixedTick<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> callback)
+        {
+            self.FixedTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState DoLateTick(this IFunctionalState self, Action callback)
+        {
+            self.LateTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1> DoLateTick<T1>(this IFunctionalState<T1> self, Action<T1> callback)
+        {
+            self.LateTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2> DoLateTick<T1, T2>(this IFunctionalState<T1, T2> self, Action<T1, T2> callback)
+        {
+            self.LateTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3> DoLateTick<T1, T2, T3>(this IFunctionalState<T1, T2, T3> self, Action<T1, T2, T3> callback)
+        {
+            self.LateTickEvent = callback;
+
+            return self;
+        }
+
+        public static IFunctionalState<T1, T2, T3, T4> DoLateTick<T1, T2, T3, T4>(this IFunctionalState<T1, T2, T3, T4> self, Action<T1, T2, T3, T4> callback)
+        {
+            self.LateTickEvent = callback;
 
             return self;
         }

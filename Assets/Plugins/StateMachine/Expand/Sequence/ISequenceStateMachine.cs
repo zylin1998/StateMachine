@@ -11,6 +11,7 @@ namespace StateMachineX
         /// 是否循環。
         /// </summary>
         public bool Cycle  { get; set; }
+
         /// <summary>
         /// 狀態機是否執行中
         /// </summary>
@@ -26,6 +27,7 @@ namespace StateMachineX
         /// </summary>
         /// <param name="order">Id 序列介面</param>
         public void OrderBy(ISequenceOrder order);
+
         /// <summary>
         /// 重設狀態機
         /// </summary>

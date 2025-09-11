@@ -9,78 +9,44 @@ namespace StateMachineX
     {
         public PhaseStateMachine() : base()
         {
-            (_Enter, _Exit) = (FalseCondition, () => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            
         }
 
-        public PhaseStateMachine(IStateMachine core) : base(core)
+        public PhaseStateMachine(IStateMachine core) : this(core, StateMachine.Identity.PhaseStatemachine)
         {
-            (_Enter, _Exit) = (FalseCondition, () => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            
         }
 
-        private Func<bool> _Enter, _Exit;
-
-        private Action _OnEnter, _OnExit;
+        public PhaseStateMachine(IStateMachine core, object id) : base(core, id)
+        {
+            
+        }
 
         #region IPhaseStateMachine
 
-        public IPhaseStateMachine EnterWhen(Func<bool> condition)
-        {
-            _Enter = condition;
+        public Func<bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<bool> ExitEvent  { get; set; }
 
-            return this;
-        }
-
-        public IPhaseStateMachine ExitWhen(Func<bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IPhaseStateMachine DoOnEnter(Action callback)
-        {
-            _OnEnter = callback;
-
-            Dispose();
-
-            return this;
-        }
-
-        public IPhaseStateMachine DoOnExit(Action callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IPhaseStateMachine WithId(object identity) 
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action OnEnterEvent { get; set; } = Callback;
+        public Action OnExitEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter.Invoke();
-        public bool Exit  => _Exit.Invoke();
+        public bool Enter => EnterEvent?.Invoke() ?? false;
+        public bool Exit  => ExitEvent?.Invoke() ?? Current.Exit;
 
         public void OnEnter()
         {
-            _OnEnter.Invoke();
+            Dispose();
+
+            OnEnterEvent?.Invoke();
         }
 
         public void OnExit()
         {
-            _OnExit.Invoke();
+            OnExitEvent?.Invoke();
         }
 
         #endregion
@@ -94,84 +60,48 @@ namespace StateMachineX
     {
         public PhaseStateMachine(T param1) : base()
         {
-            Param1 = param1;
-
-            (_Enter, _Exit) = (FalseCondition, (p1) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            _Param1 = param1;
         }
 
-        public PhaseStateMachine(IStateMachine core, T param1) : base(core)
+        public PhaseStateMachine(IStateMachine core, T param1) : this(core, param1, StateMachine.Identity.PhaseStatemachine)
         {
-            Param1 = param1;
-
-            (_Enter, _Exit) = (FalseCondition, (p1) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            
         }
 
-        private Func<T, bool> _Enter, _Exit;
-
-        private Action<T> _OnEnter, _OnExit;
-
-        public T Param1 { get; }
+        public PhaseStateMachine(IStateMachine core, T param1, object id) : base(core, id)
+        {
+            _Param1 = param1;
+        }
 
         #region IPhaseStateMachine
 
-        public IPhaseStateMachine<T> EnterWhen(Func<T, bool> condition)
-        {
-            _Enter = condition;
+        private T _Param1;
 
-            return this;
-        }
+        public T Param1 => _Param1;
 
-        public IPhaseStateMachine<T> ExitWhen(Func<T, bool> condition)
-        {
-            _Exit = condition;
+        public Func<T, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<T, bool> ExitEvent  { get; set; }
 
-            return this;
-        }
-
-        public IPhaseStateMachine<T> DoOnEnter(Action<T> callback)
-        {
-            _OnEnter = callback;
-
-            Dispose();
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T> DoOnExit(Action<T> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<T> OnEnterEvent { get; set; } = Callback;
+        public Action<T> OnExitEvent { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter.Invoke(Param1);
-        public bool Exit  => _Exit.Invoke(Param1);
+        public bool Enter => EnterEvent?.Invoke(Param1) ?? false;
+        public bool Exit  => ExitEvent?.Invoke(Param1) ?? Current.Exit;
 
         public void OnEnter()
         {
-            _OnEnter.Invoke(Param1);
+            Dispose();
+
+            OnEnterEvent?.Invoke(Param1);
         }
 
         public void OnExit()
         {
-            _OnExit.Invoke(Param1);
+            OnExitEvent?.Invoke(Param1);
         }
 
         #endregion
@@ -185,87 +115,52 @@ namespace StateMachineX
     {
         public PhaseStateMachine(T1 param1, T2 param2) : base()
         {
-            Param1 = param1;
-            Param2 = param2;
-
-            (_Enter, _Exit) = (FalseCondition, (p1, p2) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            _Param1 = param1;
+            _Param2 = param2;
         }
 
-        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2) : base(core)
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2) : this(core, param1, param2, StateMachine.Identity.PhaseStatemachine)
         {
-            Param1 = param1;
-            Param2 = param2;
 
-            (_Enter, _Exit) = (FalseCondition, (p1, p2) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
         }
 
-        private Func<T1, T2, bool> _Enter, _Exit;
-
-        private Action<T1, T2> _OnEnter, _OnExit;
-
-        public T1 Param1 { get; }
-        public T2 Param2 { get; }
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, object id) : base(core, id)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+        }
 
         #region IPhaseStateMachine
 
-        public IPhaseStateMachine<T1, T2> EnterWhen(Func<T1, T2, bool> condition)
-        {
-            _Enter = condition;
+        private T1 _Param1;
+        private T2 _Param2;
 
-            return this;
-        }
+        public T1 Param1 => _Param1;
+        public T2 Param2 => _Param2;
 
-        public IPhaseStateMachine<T1, T2> ExitWhen(Func<T1, T2, bool> condition)
-        {
-            _Exit = condition;
+        public Func<T1, T2, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<T1, T2, bool> ExitEvent  { get; set; }
 
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2> DoOnEnter(Action<T1, T2> callback)
-        {
-            _OnEnter = callback;
-
-            Dispose();
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2> DoOnExit(Action<T1, T2> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<T1, T2> OnEnterEvent { get; set; } = Callback;
+        public Action<T1, T2> OnExitEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter.Invoke(Param1, Param2);
-        public bool Exit  => _Exit .Invoke(Param1, Param2);
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2) ?? false;
+        public bool Exit  => ExitEvent?.Invoke(Param1, Param2) ?? Current.Exit;
 
         public void OnEnter()
         {
-            _OnEnter.Invoke(Param1, Param2);
+            Dispose();
+
+            OnEnterEvent?.Invoke(Param1, Param2);
         }
 
         public void OnExit()
         {
-            _OnExit.Invoke(Param1, Param2);
+            OnExitEvent?.Invoke(Param1, Param2);
         }
 
         #endregion
@@ -279,90 +174,56 @@ namespace StateMachineX
     {
         public PhaseStateMachine(T1 param1, T2 param2, T3 param3) : base()
         {
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
-
-            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
         }
 
-        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3) : base(core)
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3) : this(core, param1, param2, param3, StateMachine.Identity.PhaseStatemachine)
         {
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
 
-            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
         }
 
-        private Func<T1, T2, T3, bool> _Enter, _Exit;
-
-        private Action<T1, T2, T3> _OnEnter, _OnExit;
-
-        public T1 Param1 { get; }
-        public T2 Param2 { get; }
-        public T3 Param3 { get; }
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3, object id) : base(core, id)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+        }
 
         #region IPhaseStateMachine
 
-        public IPhaseStateMachine<T1, T2, T3> EnterWhen(Func<T1, T2, T3, bool> condition)
-        {
-            _Enter = condition;
+        private T1 _Param1;
+        private T2 _Param2;
+        private T3 _Param3;
 
-            return this;
-        }
+        public T1 Param1 => _Param1;
+        public T2 Param2 => _Param2;
+        public T3 Param3 => _Param3;
 
-        public IPhaseStateMachine<T1, T2, T3> ExitWhen(Func<T1, T2, T3, bool> condition)
-        {
-            _Exit = condition;
+        public Func<T1, T2, T3, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<T1, T2, T3, bool> ExitEvent  { get; set; }
 
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3> DoOnEnter(Action<T1, T2, T3> callback)
-        {
-            _OnEnter = callback;
-
-            Dispose();
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3> DoOnExit(Action<T1, T2, T3> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<T1, T2, T3> OnEnterEvent { get; set; } = Callback;
+        public Action<T1, T2, T3> OnExitEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter.Invoke(Param1, Param2, Param3);
-        public bool Exit  => _Exit .Invoke(Param1, Param2, Param3);
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3) ?? false;
+        public bool Exit => ExitEvent?.Invoke(Param1, Param2, Param3) ?? Current.Exit;
 
         public void OnEnter()
         {
-            _OnEnter.Invoke(Param1, Param2, Param3);
+            Dispose();
+
+            OnEnterEvent?.Invoke(Param1, Param2, Param3);
         }
 
         public void OnExit()
         {
-            _OnExit.Invoke(Param1, Param2, Param3);
+            OnExitEvent?.Invoke(Param1, Param2, Param3);
         }
 
         #endregion
@@ -376,93 +237,60 @@ namespace StateMachineX
     {
         public PhaseStateMachine(T1 param1, T2 param2, T3 param3, T4 param4) : base()
         {
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
-            Param4 = param4;
-
-            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3, p4) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+            _Param4 = param4;
         }
 
-        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3, T4 param4) : base(core)
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3, T4 param4) : this(core, param1, param2, param3, param4, StateMachine.Identity.PhaseStatemachine)
         {
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
-            Param4 = param4;
 
-            (_Enter, _Exit) = (FalseCondition, (p1, p2, p3, p4) => Current.Exit);
-
-            (_OnEnter, _OnExit) = (Callback, Callback);
         }
 
-        private Func<T1, T2, T3, T4, bool> _Enter, _Exit;
-
-        private Action<T1, T2, T3, T4> _OnEnter, _OnExit;
-
-        public T1 Param1 { get; }
-        public T2 Param2 { get; }
-        public T3 Param3 { get; }
-        public T4 Param4 { get; }
+        public PhaseStateMachine(IStateMachine core, T1 param1, T2 param2, T3 param3, T4 param4, object id) : base(core, id)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+            _Param4 = param4;
+        }
 
         #region IPhaseStateMachine
 
-        public IPhaseStateMachine<T1, T2, T3, T4> EnterWhen(Func<T1, T2, T3, T4, bool> condition)
-        {
-            _Enter = condition;
+        private T1 _Param1;
+        private T2 _Param2;
+        private T3 _Param3;
+        private T4 _Param4;
 
-            return this;
-        }
+        public T1 Param1 => _Param1;
+        public T2 Param2 => _Param2;
+        public T3 Param3 => _Param3;
+        public T4 Param4 => _Param4;
 
-        public IPhaseStateMachine<T1, T2, T3, T4> ExitWhen(Func<T1, T2, T3, T4, bool> condition)
-        {
-            _Exit = condition;
+        public Func<T1, T2, T3, T4, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<T1, T2, T3, T4, bool> ExitEvent { get; set; }
 
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3, T4> DoOnEnter(Action<T1, T2, T3, T4> callback)
-        {
-            _OnEnter = callback;
-
-            Dispose();
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3, T4> DoOnExit(Action<T1, T2, T3, T4> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IPhaseStateMachine<T1, T2, T3, T4> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<T1, T2, T3, T4> OnEnterEvent { get; set; } = Callback;
+        public Action<T1, T2, T3, T4> OnExitEvent { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter.Invoke(Param1, Param2, Param3, Param4);
-        public bool Exit  => _Exit .Invoke(Param1, Param2, Param3, Param4);
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3, Param4) ?? false;
+        public bool Exit => ExitEvent?.Invoke(Param1, Param2, Param3, Param4) ?? Current.Exit;
 
         public void OnEnter()
         {
-            _OnEnter.Invoke(Param1, Param2, Param3, Param4);
+            Dispose();
+
+            OnEnterEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         public void OnExit()
         {
-            _OnExit.Invoke(Param1, Param2, Param3, Param4);
+            OnExitEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         #endregion

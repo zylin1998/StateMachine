@@ -5,13 +5,8 @@ using System.Collections.Generic;
 
 namespace StateMachineX
 {
-    public interface IState
+    public interface IState : IMachineNode
     {
-        /// <summary>
-        /// 狀態Id。
-        /// </summary>
-        public object Identity { get; }
-
         /// <summary>
         /// 狀態進入點判定。
         /// </summary>
@@ -31,29 +26,11 @@ namespace StateMachineX
         public void OnExit();
 
         /// <summary>
-        /// 狀態更新(Unity Update)。
+        /// 預設狀態，可避免無效參照被使用
         /// </summary>
-        public void Tick();
-        /// <summary>
-        /// 狀態更新(Unity FixedUpdate)。
-        /// </summary>
-        public void FixedTick();
-        /// <summary>
-        /// 狀態更新(Unity LateUpdate)。
-        /// </summary>
-        public void LateTick();
-
         public static IState Default   { get; } = new DefaultState();
 
-        protected static object DefaultId { get; } = new DefaultIdentity();
-
-        protected class DefaultIdentity 
-        {
-            public override string ToString()
-            {
-                return "DefaultState";
-            }
-        }
+        #region Nest Type
 
         protected class DefaultState : IState
         {
@@ -62,6 +39,8 @@ namespace StateMachineX
             public bool Enter => false;
 
             public bool Exit  => true;
+
+            public bool HasChild => false;
 
             public void OnEnter()
             {
@@ -87,6 +66,18 @@ namespace StateMachineX
             {
                 
             }
+
+            public void SetIdentity(object identity) 
+            {
+
+            }
+
+            public void Dispose() 
+            {
+
+            }
         }
+
+        #endregion
     }
 }

@@ -1,119 +1,82 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.UIElements;
 
 namespace StateMachineX
 {
     internal class FunctionalState : IFunctionalState
     {
-        public FunctionalState()
-            => (_Enter, _Exit, _OnEnter, _OnExit, _Tick, _FixedTick, _LateTick)
-                    = (FalseCondition, TrueCondition, Callback, Callback, Callback, Callback, Callback);
-        
+        public Func<bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<bool> ExitEvent  { get; set; } = TrueCondition;
 
-        private Func<bool> _Enter, _Exit;
-
-        private Action _OnEnter, _OnExit;
-
-        private Action _Tick, _FixedTick, _LateTick;
-
-        #region IFunctionalState
-
-        public IFunctionalState EnterWhen(Func<bool> condition) 
-        {
-            _Enter = condition;
-
-            return this;
-        }
-
-        public IFunctionalState ExitWhen(Func<bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IFunctionalState DoOnEnter(Action callback) 
-        {
-            _OnEnter = callback;
-
-            return this;
-        }
-
-        public IFunctionalState DoOnExit(Action callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IFunctionalState DoTick(Action callback)
-        {
-            _Tick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState DoFixedTick(Action callback)
-        {
-            _FixedTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState DoLateTick(Action callback)
-        {
-            _LateTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
-
-        #endregion
+        public Action OnEnterEvent   { get; set; } = Callback;
+        public Action OnExitEvent    { get; set; } = Callback;
+        public Action TickEvent      { get; set; } = Callback;
+        public Action FixedTickEvent { get; set; } = Callback;
+        public Action LateTickEvent  { get; set; } = Callback;
 
         #region IState
 
-        public object Identity { get; private set; }
+        public bool Enter => EnterEvent?.Invoke() ?? false;
+        public bool Exit  => ExitEvent?.Invoke() ?? true;
 
-        public bool Enter => _Enter != null ? _Enter.Invoke() : false;
-        public bool Exit  => _Exit  != null ? _Exit .Invoke() : true;
 
-        public void OnEnter() 
+        public void OnEnter()
         {
-            _OnEnter?.Invoke();
+            OnEnterEvent?.Invoke();
         }
 
         public void OnExit()
         {
-            _OnExit?.Invoke();
+            OnExitEvent?.Invoke();
         }
 
-        public void Tick() 
+        public void Tick()
         {
-            _Tick?.Invoke();
+            TickEvent?.Invoke();
         }
 
         public void FixedTick()
         {
-            _FixedTick?.Invoke();
+            FixedTickEvent?.Invoke();
         }
 
         public void LateTick()
         {
-            _LateTick?.Invoke();
+            LateTickEvent?.Invoke();
         }
 
         #endregion
 
-        private static void Callback      () { }
-        private static bool TrueCondition () => true;
+        #region StateMachineNode
+
+        private object _Identity;
+
+        public object Identity 
+        {
+            get => _Identity; 
+            
+            private set => _Identity = value; 
+        }
+
+        public bool HasChild => false;
+
+        public void SetIdentity(object identity)
+        {
+            Identity = identity;
+        }
+
+        public void Dispose()
+        {
+
+        }
+
+        #endregion
+
+        private static void Callback() { }
+        private static bool TrueCondition()  => true;
         private static bool FalseCondition() => false;
     }
 
@@ -121,112 +84,73 @@ namespace StateMachineX
     {
         public FunctionalState(TParam1 param1)
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
-            (_OnEnter, _OnExit) = (Callback, Callback);
-            (_Tick, _FixedTick, _LateTick) = (Callback, Callback, Callback);
-
-            Param1 = param1;
+            _Param1 = param1;
         }
 
+        private TParam1 _Param1;
 
-        private Func<TParam1, bool> _Enter, _Exit;
-
-        private Action<TParam1> _OnEnter, _OnExit;
-
-        private Action<TParam1> _Tick, _FixedTick, _LateTick;
-
-        public TParam1 Param1 { get; }
+        public TParam1 Param1 => _Param1;
 
         #region IFunctionalState
 
-        public IFunctionalState<TParam1> EnterWhen(Func<TParam1, bool> condition)
-        {
-            _Enter = condition;
+        public Func<TParam1, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<TParam1, bool> ExitEvent  { get; set; } = TrueCondition;
 
-            return this;
-        }
-
-        public IFunctionalState<TParam1> ExitWhen(Func<TParam1, bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> DoOnEnter(Action<TParam1> callback)
-        {
-            _OnEnter = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> DoOnExit(Action<TParam1> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> DoTick(Action<TParam1> callback)
-        {
-            _Tick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> DoFixedTick(Action<TParam1> callback)
-        {
-            _FixedTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> DoLateTick(Action<TParam1> callback)
-        {
-            _LateTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<TParam1> OnEnterEvent   { get; set; } = Callback;
+        public Action<TParam1> OnExitEvent    { get; set; } = Callback;
+        public Action<TParam1> TickEvent      { get; set; } = Callback;
+        public Action<TParam1> FixedTickEvent { get; set; } = Callback;
+        public Action<TParam1> LateTickEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
 
-        public bool Enter => _Enter != null ? _Enter.Invoke(Param1) : false;
-        public bool Exit  => _Exit  != null ? _Exit .Invoke(Param1) : true;
+        public bool Enter => EnterEvent?.Invoke(Param1) ?? false;
+        public bool Exit  => ExitEvent?.Invoke(Param1)  ?? true;
 
         public void OnEnter()
         {
-            _OnEnter?.Invoke(Param1);
+            OnEnterEvent?.Invoke(Param1);
         }
 
         public void OnExit()
         {
-            _OnExit?.Invoke(Param1);
+            OnExitEvent?.Invoke(Param1);
         }
 
         public void Tick()
         {
-            _Tick?.Invoke(Param1);
+            TickEvent?.Invoke(Param1);
         }
 
         public void FixedTick()
         {
-            _FixedTick?.Invoke(Param1);
+            FixedTickEvent?.Invoke(Param1);
         }
 
         public void LateTick()
         {
-            _LateTick?.Invoke(Param1);
+            LateTickEvent?.Invoke(Param1);
+        }
+
+        #endregion
+
+        #region IStateMachineNode
+
+        public object Identity { get; private set; }
+
+        public bool HasChild => false;
+
+        public void SetIdentity(object identity)
+        {
+            Identity = identity;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         #endregion
@@ -240,114 +164,82 @@ namespace StateMachineX
     {
         public FunctionalState(TParam1 param1, TParam2 param2)
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
-            (_OnEnter, _OnExit) = (Callback, Callback);
-            (_Tick, _FixedTick, _LateTick) = (Callback, Callback, Callback);
-
-            Param1 = param1;
-            Param2 = param2;
+            _Param1 = param1;
+            _Param2 = param2;
         }
 
+        private TParam1 _Param1;
+        private TParam2 _Param2;
 
-        private Func<TParam1, TParam2, bool> _Enter, _Exit;
-
-        private Action<TParam1, TParam2> _OnEnter, _OnExit;
-
-        private Action<TParam1, TParam2> _Tick, _FixedTick, _LateTick;
-
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
+        public TParam1 Param1 => _Param1;
+        public TParam2 Param2 => _Param2;
 
         #region IFunctionalState
 
-        public IFunctionalState<TParam1, TParam2> EnterWhen(Func<TParam1, TParam2, bool> condition)
-        {
-            _Enter = condition;
+        public Func<TParam1, TParam2, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<TParam1, TParam2, bool> ExitEvent  { get; set; } = TrueCondition;
 
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> ExitWhen(Func<TParam1, TParam2, bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> DoOnEnter(Action<TParam1, TParam2> callback)
-        {
-            _OnEnter = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> DoOnExit(Action<TParam1, TParam2> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> DoTick(Action<TParam1, TParam2> callback)
-        {
-            _Tick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> DoFixedTick(Action<TParam1, TParam2> callback)
-        {
-            _FixedTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> DoLateTick(Action<TParam1, TParam2> callback)
-        {
-            _LateTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<TParam1, TParam2> OnEnterEvent   { get; set; } = Callback;
+        public Action<TParam1, TParam2> OnExitEvent    { get; set; } = Callback;
+        public Action<TParam1, TParam2> TickEvent      { get; set; } = Callback;
+        public Action<TParam1, TParam2> FixedTickEvent { get; set; } = Callback;
+        public Action<TParam1, TParam2> LateTickEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter != null ? _Enter.Invoke(Param1, Param2) : false;
-        public bool Exit  => _Exit  != null ? _Exit .Invoke(Param1, Param2) : true;
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2) ?? false;
+        public bool Exit => ExitEvent?.Invoke(Param1, Param2) ?? true;
 
         public void OnEnter()
         {
-            _OnEnter?.Invoke(Param1, Param2);
+            OnEnterEvent?.Invoke(Param1, Param2);
         }
 
         public void OnExit()
         {
-            _OnExit?.Invoke(Param1, Param2);
+            OnExitEvent?.Invoke(Param1, Param2);
         }
 
         public void Tick()
         {
-            _Tick?.Invoke(Param1, Param2);
+            TickEvent?.Invoke(Param1, Param2);
         }
 
         public void FixedTick()
         {
-            _FixedTick?.Invoke(Param1, Param2);
+            FixedTickEvent?.Invoke(Param1, Param2);
         }
 
         public void LateTick()
         {
-            _LateTick?.Invoke(Param1, Param2);
+            LateTickEvent?.Invoke(Param1, Param2);
+        }
+
+        #endregion
+
+        #region IStateMachineNode
+
+        private object _Identity;
+
+        public object Identity 
+        { 
+            get => _Identity; 
+            
+            private set => _Identity = value; 
+        }
+
+        public bool HasChild => false;
+
+        public void SetIdentity(object identity)
+        {
+            Identity = identity;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         #endregion
@@ -361,116 +253,85 @@ namespace StateMachineX
     {
         public FunctionalState(TParam1 param1, TParam2 param2, TParam3 param3)
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
-            (_OnEnter, _OnExit) = (Callback, Callback);
-            (_Tick, _FixedTick, _LateTick) = (Callback, Callback, Callback);
-
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
         }
 
+        private TParam1 _Param1;
+        private TParam2 _Param2;
+        private TParam3 _Param3;
 
-        private Func<TParam1, TParam2, TParam3, bool> _Enter, _Exit;
-
-        private Action<TParam1, TParam2, TParam3> _OnEnter, _OnExit;
-
-        private Action<TParam1, TParam2, TParam3> _Tick, _FixedTick, _LateTick;
-
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
-        public TParam3 Param3 { get; }
+        public TParam1 Param1 => _Param1;
+        public TParam2 Param2 => _Param2;
+        public TParam3 Param3 => _Param3;
 
         #region IFunctionalState
 
-        public IFunctionalState<TParam1, TParam2, TParam3> EnterWhen(Func<TParam1, TParam2, TParam3, bool> condition)
-        {
-            _Enter = condition;
+        public Func<TParam1, TParam2, TParam3, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<TParam1, TParam2, TParam3, bool> ExitEvent  { get; set; } = TrueCondition;
 
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> ExitWhen(Func<TParam1, TParam2, TParam3, bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> DoOnEnter(Action<TParam1, TParam2, TParam3> callback)
-        {
-            _OnEnter = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> DoOnExit(Action<TParam1, TParam2, TParam3> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> DoTick(Action<TParam1, TParam2, TParam3> callback)
-        {
-            _Tick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> DoFixedTick(Action<TParam1, TParam2, TParam3> callback)
-        {
-            _FixedTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> DoLateTick(Action<TParam1, TParam2, TParam3> callback)
-        {
-            _LateTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<TParam1, TParam2, TParam3> OnEnterEvent   { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3> OnExitEvent    { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3> TickEvent      { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3> FixedTickEvent { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3> LateTickEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter != null ? _Enter.Invoke(Param1, Param2, Param3) : false;
-        public bool Exit  => _Exit != null  ? _Exit .Invoke(Param1, Param2, Param3) : true;
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3) ?? false;
+        public bool Exit  => ExitEvent?.Invoke(Param1, Param2, Param3) ?? true;
 
         public void OnEnter()
         {
-            _OnEnter?.Invoke(Param1, Param2, Param3);
+            OnEnterEvent?.Invoke(Param1, Param2, Param3);
         }
 
         public void OnExit()
         {
-            _OnExit?.Invoke(Param1, Param2, Param3);
+            OnExitEvent?.Invoke(Param1, Param2, Param3);
         }
 
         public void Tick()
         {
-            _Tick?.Invoke(Param1, Param2, Param3);
+            TickEvent?.Invoke(Param1, Param2, Param3);
         }
 
         public void FixedTick()
         {
-            _FixedTick?.Invoke(Param1, Param2, Param3);
+            FixedTickEvent?.Invoke(Param1, Param2, Param3);
         }
 
         public void LateTick()
         {
-            _LateTick?.Invoke(Param1, Param2, Param3);
+            LateTickEvent?.Invoke(Param1, Param2, Param3);
+        }
+
+        #endregion
+
+        #region IStateMachineNode
+
+        private object _Identity;
+
+        public object Identity
+        {
+            get => _Identity;
+
+            private set => _Identity = value;
+        }
+
+        public bool HasChild => false;
+
+        public void SetIdentity(object identity)
+        {
+            Identity = identity;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         #endregion
@@ -484,118 +345,89 @@ namespace StateMachineX
     {
         public FunctionalState(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
-            (_Enter, _Exit) = (FalseCondition, TrueCondition);
-            (_OnEnter, _OnExit) = (Callback, Callback);
-            (_Tick, _FixedTick, _LateTick) = (Callback, Callback, Callback);
-
-            Param1 = param1;
-            Param2 = param2;
-            Param3 = param3;
-            Param4 = param4;
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+            _Param4 = param4;
         }
 
+        private TParam1 _Param1;
+        private TParam2 _Param2;
+        private TParam3 _Param3;
+        private TParam4 _Param4;
 
-        private Func<TParam1, TParam2, TParam3, TParam4, bool> _Enter, _Exit;
+        public TParam1 Param1 => _Param1;
+        public TParam2 Param2 => _Param2;
+        public TParam3 Param3 => _Param3;
+        public TParam4 Param4 => _Param4;
 
-        private Action<TParam1, TParam2, TParam3, TParam4> _OnEnter, _OnExit;
-
-        private Action<TParam1, TParam2, TParam3, TParam4> _Tick, _FixedTick, _LateTick;
-
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
-        public TParam3 Param3 { get; }
-        public TParam4 Param4 { get; }
 
         #region IFunctionalState
 
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> EnterWhen(Func<TParam1, TParam2, TParam3, TParam4, bool> condition)
-        {
-            _Enter = condition;
+        public Func<TParam1, TParam2, TParam3, TParam4, bool> EnterEvent { get; set; } = FalseCondition;
+        public Func<TParam1, TParam2, TParam3, TParam4, bool> ExitEvent  { get; set; } = TrueCondition;
 
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> ExitWhen(Func<TParam1, TParam2, TParam3, TParam4, bool> condition)
-        {
-            _Exit = condition;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> DoOnEnter(Action<TParam1, TParam2, TParam3, TParam4> callback)
-        {
-            _OnEnter = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> DoOnExit(Action<TParam1, TParam2, TParam3, TParam4> callback)
-        {
-            _OnExit = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> DoTick(Action<TParam1, TParam2, TParam3, TParam4> callback)
-        {
-            _Tick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> DoFixedTick(Action<TParam1, TParam2, TParam3, TParam4> callback)
-        {
-            _FixedTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> DoLateTick(Action<TParam1, TParam2, TParam3, TParam4> callback)
-        {
-            _LateTick = callback;
-
-            return this;
-        }
-
-        public IFunctionalState<TParam1, TParam2, TParam3, TParam4> WithId(object identity)
-        {
-            Identity = identity;
-
-            return this;
-        }
+        public Action<TParam1, TParam2, TParam3, TParam4> OnEnterEvent   { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3, TParam4> OnExitEvent    { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3, TParam4> TickEvent      { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3, TParam4> FixedTickEvent { get; set; } = Callback;
+        public Action<TParam1, TParam2, TParam3, TParam4> LateTickEvent  { get; set; } = Callback;
 
         #endregion
 
         #region IState
 
-        public object Identity { get; private set; }
-
-        public bool Enter => _Enter != null ? _Enter.Invoke(Param1, Param2, Param3, Param4) : false;
-        public bool Exit  =>  _Exit != null ? _Exit .Invoke(Param1, Param2, Param3, Param4) : true;
+        public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3, Param4) ?? false;
+        public bool Exit  => ExitEvent?.Invoke(Param1, Param2, Param3, Param4) ?? true;
 
         public void OnEnter()
         {
-            _OnEnter?.Invoke(Param1, Param2, Param3, Param4);
+            OnEnterEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         public void OnExit()
         {
-            _OnExit?.Invoke(Param1, Param2, Param3, Param4);
+            OnExitEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         public void Tick()
         {
-            _Tick?.Invoke(Param1, Param2, Param3, Param4);
+            TickEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         public void FixedTick()
         {
-            _FixedTick?.Invoke(Param1, Param2, Param3, Param4);
+            FixedTickEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
 
         public void LateTick()
         {
-            _LateTick?.Invoke(Param1, Param2, Param3, Param4);
+            LateTickEvent?.Invoke(Param1, Param2, Param3, Param4);
+        }
+
+        #endregion
+
+        #region IStateMachineNode
+
+        private object _Identity;
+
+        public object Identity
+        {
+            get => _Identity;
+
+            private set => _Identity = value;
+        }
+
+        public bool HasChild => false;
+
+        public void SetIdentity(object identity)
+        {
+            Identity = identity;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         #endregion

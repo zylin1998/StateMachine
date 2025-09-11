@@ -15,6 +15,10 @@ namespace StateMachineX
 
         public bool ForceExit { get; set; }
 
+        public object Identity { get; protected set; } = StateMachine.Identity.SingleEntrance;
+
+        public bool HasChild => States.Any();
+
         public void Add(IState state) 
         {
             _States.Add(state);
@@ -40,13 +44,21 @@ namespace StateMachineX
             Set(next);
         }
 
+        public void SetIdentity(object identity) 
+        {
+            Identity = identity; ;
+        }
+
         public bool Transfer() 
         {
-            if (!Current.Exit && !ForceExit) { return CheckPhase(); }
+            if (Current.Exit || ForceExit) 
+            {
+                var temp = States.SkipWhile((s) => Equals(s, Current)).FirstOrDefault(s => s != Current && s.Enter);
 
-            var next = States.FirstOrDefault(s => s != Current && s.Enter) ?? IState.Default;
+                var next = temp ?? IState.Default;
 
-            Set(next);
+                Set(next);
+            }
 
             return CheckPhase() || !Equals(Current, IState.Default);
         }
@@ -72,16 +84,18 @@ namespace StateMachineX
 
             foreach (var state in States)
             {
-                if (state is IStateMachine machine)
-                {
-                    machine.Dispose();
-                }
+                state.Dispose();
             }
         }
 
         private bool CheckPhase() 
         {
-            return Current is IStateMachine machine ? machine.Transfer() : false;
+            if (Current.HasChild && Current is IStateMachine machine) 
+            {
+                return machine.Transfer();
+            }
+
+            return false;
         }
     }
 }

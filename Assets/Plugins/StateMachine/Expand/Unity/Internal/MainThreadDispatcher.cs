@@ -8,8 +8,6 @@ namespace StateMachineX.Internal
 {
     internal class MainThreadDispatcher : MonoBehaviour
     {
-        private static bool initialized;
-
         public static MainThreadDispatcher _Instance;
 
         public static MainThreadDispatcher Instance 
@@ -42,6 +40,9 @@ namespace StateMachineX.Internal
                 _LateUpdate  = new();
             }
         }
+
+        [SerializeField]
+        private HashSet<IStateMachine> _StateMachines;
 
         private MachineCollection _Update;
         private MachineCollection _FixedUpdate;
@@ -110,6 +111,16 @@ namespace StateMachineX.Internal
         public static IDisposable RegisterLateUpdate(IStateMachine machine, bool transfer)
         {
             return Instance._LateUpdate.Register(new LateMachineTicker(machine, transfer));
+        }
+
+        public static bool TryAdd(IStateMachine machine) 
+        {
+            return Instance._StateMachines.Add(machine);
+        }
+
+        public static bool TryRemove(IStateMachine machine) 
+        {
+            return Instance._StateMachines.Remove(machine);
         }
     }
 }

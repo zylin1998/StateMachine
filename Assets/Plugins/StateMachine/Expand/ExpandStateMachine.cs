@@ -12,9 +12,16 @@ namespace StateMachineX
 
         }
 
-        public ExpandStateMachine(IStateMachine core)
+        public ExpandStateMachine(IStateMachine core) : this(core, StateMachine.Identity.ExpandStatemachine)
+        {
+            
+        }
+
+        public ExpandStateMachine(IStateMachine core, object id)
         {
             Core = core;
+
+            Identity = id;
         }
 
         protected IStateMachine Core { get; }
@@ -24,6 +31,10 @@ namespace StateMachineX
         public IEnumerable<IState> States => Core.States;
 
         public bool ForceExit { get; set; }
+
+        public object Identity { get => Core.Identity; protected set => SetIdentity(value); }
+
+        public bool HasChild => true;
 
         public virtual void Add(IState state) 
         {
@@ -38,6 +49,11 @@ namespace StateMachineX
         public void Set(object identity)
         {
             Core.Set(identity);
+        }
+
+        public void SetIdentity(object identity) 
+        {
+            Core.SetIdentity(identity);
         }
 
         public virtual bool Transfer() 
@@ -70,14 +86,6 @@ namespace StateMachineX
         public virtual void Dispose()
         {
             Core.Dispose();
-
-            foreach (var state in States) 
-            {
-                if (state is IStateMachine machine) 
-                {
-                    machine.Dispose();
-                }
-            }
         }
     }
 }

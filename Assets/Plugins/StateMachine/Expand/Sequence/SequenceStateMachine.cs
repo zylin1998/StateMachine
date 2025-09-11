@@ -8,24 +8,29 @@ namespace StateMachineX
 {
     internal class SequenceStateMachine : ExpandStateMachine, ISequenceStateMachine
     {
-        public SequenceStateMachine() : base() 
+        public SequenceStateMachine() : base()
         {
 
         }
 
-        public SequenceStateMachine(IStateMachine core) : base(MachineCheck(core))
+        public SequenceStateMachine(IStateMachine core) : base(MachineCheck(core), StateMachine.Identity.SequenceStatemachine)
+        {
+
+        }
+
+        public SequenceStateMachine(IStateMachine core, object identity) : base(MachineCheck(core), identity)
         {
 
         }
 
         private ISequenceOrder _Order;
-        private IState[]       _OrderedStates;
-        private int            _Flag = -1;
+        private IState[] _OrderedStates;
+        private int _Flag = -1;
 
         public bool Cycle { get; set; }
 
-        public bool Active 
-        { 
+        public bool Active
+        {
             get
             {
                 if (Cycle) { return true; }
@@ -33,7 +38,7 @@ namespace StateMachineX
                 if (_Flag < _OrderedStates.Length - 1) { return true; }
 
                 return !Current.Exit;
-            } 
+            }
         }
 
         public bool IgnoreEnter { get; set; } = true;
@@ -59,19 +64,20 @@ namespace StateMachineX
 
         public override bool Transfer()
         {
-            if (!Current.Exit && !ForceExit) { return CheckPhase(); }
+            if (Current.Exit || ForceExit) 
+            {
+                var next = IState.Default;
 
-            var next = IState.Default;
+                next = IgnoreEnter ? GetNext() : FindCanEnter();
 
-            if (IgnoreEnter) { next = GetNext(); }
+                var transfered = !Equals(next, IState.Default) && !Equals(next, Current);
 
-            else { next = FindCanEnter(); }
+                Set(next);
 
-            var transfered = next != IState.Default && next != Current;
-            
-            Set(next);
+                return transfered;
+            }
 
-            return transfered;
+            return CheckPhase();
         }
 
         public override void Dispose()

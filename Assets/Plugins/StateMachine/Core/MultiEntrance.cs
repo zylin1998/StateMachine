@@ -7,28 +7,30 @@ namespace StateMachineX
 {
     internal class MultiEntrance : IStateMachine
     {
-        private class MultiState : IState
+        internal class MultiState : IState
         {
-            public object Identity { get; } = "MultiEntrance";
+            public object Identity { get; } = StateMachine.Identity.MultiEntrance;
 
             private HashSet<IState> _States = new();
 
             public bool Enter { get; } = true;
             public bool Exit  { get; } = false;
 
+            public bool HasChild { get; }
+
             private bool _HasExit = false;
             private bool _IsPhase = false;
 
-            public void Add(IState state) 
+            public bool Add(IState state) 
             {
-                state.OnEnter();
+                var result = _States.Add(state);
 
-                _States.Add(state);
-            }
+                if (result)
+                {
+                    state.OnEnter();
+                }
 
-            public void Clear() 
-            {
-                _States.Clear();
+                return result;
             }
 
             public bool Transfer() 
@@ -88,7 +90,7 @@ namespace StateMachineX
                         continue;
                     }
 
-                    if (state is IStateMachine machine) 
+                    if (state.HasChild && state is IStateMachine machine) 
                     {
                         _IsPhase = _IsPhase || machine.Transfer();
                     }
@@ -97,17 +99,14 @@ namespace StateMachineX
                 }
             }
 
-            private IEnumerable<IState> IsPhase(IEnumerable<IState> states) 
+            public void Dispose()
             {
-                foreach (var state in _States)
-                {
-                    if (state is IStateMachine machine)
-                    {
-                        _IsPhase = _IsPhase || machine.Transfer();
-                    }
+                _States.Clear();
+            }
 
-                    yield return state;
-                }
+            public void SetIdentity(object identity)
+            {
+                //No Use
             }
         }
 
@@ -119,6 +118,10 @@ namespace StateMachineX
         public IEnumerable<IState> States => _States;
 
         public bool ForceExit { get; set; }
+
+        public object Identity { get; protected set; } = "Multi Entrance";
+
+        public bool HasChild => States.Any();
 
         public void Add(IState state)
         {
@@ -135,6 +138,11 @@ namespace StateMachineX
             var state = _States.Find(s => Equals(s, identity));
 
             Set(state);
+        }
+
+        public void SetIdentity(object identity) 
+        {
+            Identity = identity;
         }
 
         public bool Transfer()
@@ -163,14 +171,11 @@ namespace StateMachineX
 
         public void Dispose()
         {
-            _State.Clear();
+            _State.Dispose();
 
             foreach (var state in States)
             {
-                if (state is IStateMachine machine)
-                {
-                    machine.Dispose();
-                }
+                state.Dispose();
             }
         }
     }

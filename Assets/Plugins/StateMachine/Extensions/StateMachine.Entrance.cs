@@ -56,5 +56,26 @@ namespace StateMachineX
 
             return self;
         }
+
+        public static IStateMachine WithId(this IStateMachine self, object Identity) 
+        {
+            self.SetIdentity(Identity);
+
+            return self;
+        }
+
+        public static IMachineNode WithId(this IMachineNode self, object Identity) 
+        {
+            self.SetIdentity(Identity);
+
+            return self;
+        }
+
+        public static IState WithId(this IState self, object Identity)
+        {
+            self.SetIdentity(Identity);
+
+            return self;
+        }
     }
 }
