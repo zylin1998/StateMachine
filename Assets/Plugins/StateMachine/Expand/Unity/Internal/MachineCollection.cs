@@ -7,83 +7,129 @@ namespace StateMachineX.Internal
 {
     internal class MachineCollection
     {
+        internal enum UpdateType 
+        {
+            Transfer    = 0,
+            Update      = 1,
+            FixedUpdate = 2,
+            LateUpdate  = 3,
+        }
+
+        public MachineCollection(UpdateType updateType) 
+        {
+            if (updateType == UpdateType.Transfer) 
+            {
+                IsTicked = Transfer;
+            }
+
+            if (updateType == UpdateType.Update) 
+            {
+                IsTicked = Tick;
+            }
+
+            else if (updateType == UpdateType.FixedUpdate)
+            {
+                IsTicked = FixedTick;
+            }
+
+            else if (updateType == UpdateType.LateUpdate)
+            {
+                IsTicked = LateTick;
+            }
+        }
+
         private object _CollectionLock = new object();
 
-        private List<IMachineTicker>  _Tickers = new();
-        private Queue<IMachineTicker> _Await   = new();
+        private List<IMachineRegistration>  _Registrations = new();
+        private Queue<IMachineRegistration> _Await   = new();
 
-        public int ThreadCount      => _Tickers.Count;
-        public int ValidThreadCount => _Tickers.Count(t => t.IsValid);
+        private Func<IMachineRegistration, bool> IsTicked;
 
-        public IDisposable Register(IMachineTicker ticker) 
+        public int ThreadCount      => _Registrations.Count;
+        public int ValidThreadCount => _Registrations.Count(t => t.IsValid);
+
+        public void Register(IMachineRegistration registration) 
         {
             lock (_CollectionLock) 
             {
-                _Await.Enqueue(ticker);
+                _Await.Enqueue(registration);
             }
-
-            return new Disposable(this, ticker);
         }
 
-        public void Tick() 
+        public bool Tick() 
         {
-            _Tickers = CheckValid().ToList();
+            _Registrations = CheckValid().ToList();
+
+            return _Registrations.Any();
         }
 
-        private IEnumerable<IMachineTicker> CheckValid() 
+        private IEnumerable<IMachineRegistration> CheckValid() 
         {
-            foreach (var ticker in _Tickers) 
+            foreach (var registration in _Registrations) 
             {
-                if (ticker.IsValid) 
+                if (IsTicked(registration)) 
                 {
-                    ticker.Tick();
-
-                    yield return ticker;
+                    yield return registration;
                 }
             }
 
             for (; _Await.Any();) 
             {
-                var ticker = _Await.Dequeue();
+                var registration = _Await.Dequeue();
 
-                if (ticker.IsValid) 
+                if (IsTicked(registration)) 
                 {
-                    ticker.Tick();
-
-                    yield return ticker;
+                    yield return registration;
                 }
             }
         }
 
-        private class Disposable : IDisposable 
+        private bool Transfer(IMachineRegistration registration) 
         {
-            MachineCollection _Source;
-            IMachineTicker    _Ticker;
+            var valid = registration.IsValid && registration.Transfer;
 
-            private bool _IsDisposed = false;
-
-            public Disposable(MachineCollection source, IMachineTicker ticker)
+            if (!valid)
             {
-                _Source = source;
-                _Ticker = ticker;
+                registration.Dispose();
             }
 
-            public void Dispose() 
+            return valid;
+        }
+
+        private bool Tick(IMachineRegistration registration) 
+        {
+            var valid = registration.IsUpdate;
+
+            if (valid) 
             {
-                lock (_Source._CollectionLock) 
-                {
-                    if (_IsDisposed) { return; }
-
-                    _IsDisposed = true;
-
-                    _Ticker.Dispose();
-
-                    if (_Ticker.Machine is IDisposable disposable) 
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                registration.Machine?.Tick();
             }
+
+            return valid;
+        }
+
+        private bool FixedTick(IMachineRegistration registration)
+        {
+            var valid = registration.IsFixedUpdate;
+
+            if (valid)
+            {
+                registration.Machine?.FixedTick();
+            }
+
+            return valid;
+        }
+
+        private bool LateTick(IMachineRegistration registration)
+        {
+            var valid = registration.IsLateUpdate;
+
+            if (valid)
+            {
+                registration.Machine?.LateTick();
+            }
+
+            return valid;
         }
     }
 }

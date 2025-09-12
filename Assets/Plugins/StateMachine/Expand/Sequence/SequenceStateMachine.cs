@@ -50,11 +50,6 @@ namespace StateMachineX
             _OrderedStates = Ordered().ToArray();
         }
 
-        public void Reset()
-        {
-            _Flag = -1;
-        }
-
         public override void Add(IState state)
         {
             base.Add(state);
@@ -64,6 +59,8 @@ namespace StateMachineX
 
         public override bool Transfer()
         {
+            var notDefault = !Equals(Current, IState.Default);
+
             if (Current.Exit || ForceExit) 
             {
                 var next = IState.Default;
@@ -74,10 +71,17 @@ namespace StateMachineX
 
                 Set(next);
 
-                return transfered;
+                return transfered || notDefault;
             }
 
-            return CheckPhase();
+            return CheckPhase() || notDefault;
+        }
+
+        public override void Reset()
+        {
+            _Flag = -1;
+
+            base.Reset();
         }
 
         public override void Dispose()

@@ -39,7 +39,7 @@ namespace StateMachineX
 
         public void OnEnter()
         {
-            Dispose();
+            Reset();
 
             OnEnterEvent?.Invoke();
         }
@@ -47,6 +47,19 @@ namespace StateMachineX
         public void OnExit()
         {
             OnExitEvent?.Invoke();
+        }
+
+        #endregion
+
+        #region IMachineNode
+
+        public override void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = default;
+
+            OnEnterEvent = Callback;
+            OnExitEvent  = Callback;
         }
 
         #endregion
@@ -83,7 +96,7 @@ namespace StateMachineX
         public Func<T, bool> ExitEvent  { get; set; }
 
         public Action<T> OnEnterEvent { get; set; } = Callback;
-        public Action<T> OnExitEvent { get; set; } = Callback;
+        public Action<T> OnExitEvent  { get; set; } = Callback;
 
         #endregion
 
@@ -94,7 +107,7 @@ namespace StateMachineX
 
         public void OnEnter()
         {
-            Dispose();
+            Reset();
 
             OnEnterEvent?.Invoke(Param1);
         }
@@ -102,6 +115,19 @@ namespace StateMachineX
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1);
+        }
+
+        #endregion
+
+        #region IMachineNode
+
+        public override void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = default;
+
+            OnEnterEvent = Callback;
+            OnExitEvent  = Callback;
         }
 
         #endregion
@@ -153,7 +179,7 @@ namespace StateMachineX
 
         public void OnEnter()
         {
-            Dispose();
+            Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2);
         }
@@ -161,6 +187,19 @@ namespace StateMachineX
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2);
+        }
+
+        #endregion
+
+        #region IMachineNode
+
+        public override void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = default;
+
+            OnEnterEvent = Callback;
+            OnExitEvent  = Callback;
         }
 
         #endregion
@@ -216,7 +255,7 @@ namespace StateMachineX
 
         public void OnEnter()
         {
-            Dispose();
+            Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2, Param3);
         }
@@ -224,6 +263,19 @@ namespace StateMachineX
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3);
+        }
+
+        #endregion
+
+        #region IMachineNode
+
+        public override void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = default;
+
+            OnEnterEvent = Callback;
+            OnExitEvent  = Callback;
         }
 
         #endregion
@@ -283,7 +335,7 @@ namespace StateMachineX
 
         public void OnEnter()
         {
-            Dispose();
+            Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2, Param3, Param4);
         }
@@ -291,6 +343,19 @@ namespace StateMachineX
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3, Param4);
+        }
+
+        #endregion
+
+        #region IMachineNode
+
+        public override void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = default;
+
+            OnEnterEvent = Callback;
+            OnExitEvent  = Callback;
         }
 
         #endregion

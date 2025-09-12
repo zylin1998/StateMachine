@@ -78,6 +78,16 @@ namespace StateMachineX
             Current.LateTick();
         }
 
+        public void Reset() 
+        {
+            Set(IState.Default);
+
+            foreach (var state in States)
+            {
+                state.Reset();
+            }
+        }
+
         public void Dispose() 
         {
             Set(IState.Default);
@@ -86,6 +96,8 @@ namespace StateMachineX
             {
                 state.Dispose();
             }
+
+            _States.Clear();
         }
 
         private bool CheckPhase() 

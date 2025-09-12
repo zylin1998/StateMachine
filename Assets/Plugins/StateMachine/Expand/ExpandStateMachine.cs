@@ -83,6 +83,11 @@ namespace StateMachineX
             Core.LateTick();
         }
 
+        public virtual void Reset() 
+        {
+            Core.Reset();
+        }
+
         public virtual void Dispose()
         {
             Core.Dispose();

@@ -115,6 +115,8 @@ namespace StateMachineX.SampleGame
 
         public void Enable()
         {
+            Machine.Reset();
+
             _Register = Machine.FixedUpdate();
         }
 
@@ -123,7 +125,7 @@ namespace StateMachineX.SampleGame
             _Register.Dispose();
 
             Player.Disable();
-
+            
             foreach (var enemy in OnScene)
             {
                 enemy.Disable();

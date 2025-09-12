@@ -7,7 +7,7 @@ namespace StateMachineX
 {
     internal class MultiEntrance : IStateMachine
     {
-        internal class MultiState : IState
+        internal class MultiState : IState, IEnumerable<IState>
         {
             public object Identity { get; } = StateMachine.Identity.MultiEntrance;
 
@@ -16,7 +16,7 @@ namespace StateMachineX
             public bool Enter { get; } = true;
             public bool Exit  { get; } = false;
 
-            public bool HasChild { get; }
+            public bool HasChild { get; } = true;
 
             private bool _HasExit = false;
             private bool _IsPhase = false;
@@ -77,26 +77,9 @@ namespace StateMachineX
                 //no use
             }
 
-            private IEnumerable<IState> Check() 
+            public void Reset() 
             {
-                foreach (var state in _States) 
-                {
-                    if (state.Exit)
-                    {
-                        state.OnExit();
-
-                        _HasExit = true;
-
-                        continue;
-                    }
-
-                    if (state.HasChild && state is IStateMachine machine) 
-                    {
-                        _IsPhase = _IsPhase || machine.Transfer();
-                    }
-
-                    yield return state;
-                }
+                _States.Clear();
             }
 
             public void Dispose()
@@ -107,6 +90,38 @@ namespace StateMachineX
             public void SetIdentity(object identity)
             {
                 //No Use
+            }
+
+            public IEnumerator<IState> GetEnumerator()
+            {
+                return _States.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            private IEnumerable<IState> Check()
+            {
+                foreach (var state in _States)
+                {
+                    if (state.Exit)
+                    {
+                        state.OnExit();
+
+                        _HasExit = true;
+
+                        continue;
+                    }
+
+                    if (state.HasChild && state is IStateMachine machine)
+                    {
+                        _IsPhase = _IsPhase || machine.Transfer();
+                    }
+
+                    yield return state;
+                }
             }
         }
 
@@ -169,6 +184,16 @@ namespace StateMachineX
             Current.LateTick();
         }
 
+        public void Reset() 
+        {
+            _State.Reset();
+
+            foreach (var state in States)
+            {
+                state.Reset();
+            }
+        }
+
         public void Dispose()
         {
             _State.Dispose();
@@ -177,6 +202,8 @@ namespace StateMachineX
             {
                 state.Dispose();
             }
+
+            _States.Clear();
         }
     }
 }

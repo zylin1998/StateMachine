@@ -15,9 +15,9 @@ namespace StateMachineX
         /// <param name="self"></param>
         /// <param name="transfer">是否轉換狀態</param>
         /// <returns></returns>
-        public static IDisposable Update(this IStateMachine self, bool transfer = true)
+        public static IMachineRegistration Update(this IStateMachine self)
         {
-            return MainThreadDispatcher.RegisterUpdate(self, transfer);
+            return MainThreadDispatcher.RegisterUpdate(self);
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace StateMachineX
         /// <param name="self"></param>
         /// <param name="transfer">是否轉換狀態</param>
         /// <returns></returns>
-        public static IDisposable FixedUpdate(this IStateMachine self, bool transfer = true)
+        public static IMachineRegistration FixedUpdate(this IStateMachine self)
         {
-            return MainThreadDispatcher.RegisterFixedUpdate(self, transfer);
+            return MainThreadDispatcher.RegisterFixedUpdate(self);
         }
 
         /// <summary>
@@ -37,9 +37,24 @@ namespace StateMachineX
         /// <param name="self"></param>
         /// <param name="transfer">是否轉換狀態</param>
         /// <returns></returns>
-        public static IDisposable LateUpdate(this IStateMachine self, bool transfer = true)
+        public static IMachineRegistration LateUpdate(this IStateMachine self)
         {
-            return MainThreadDispatcher.RegisterLateUpdate(self, transfer);
+            return MainThreadDispatcher.RegisterLateUpdate(self);
+        }
+
+        public static IMachineRegistration Update(this IMachineRegistration self) 
+        {
+            return MainThreadDispatcher.RegisterUpdate(self);
+        }
+
+        public static IMachineRegistration FixedUpdate(this IMachineRegistration self)
+        {
+            return MainThreadDispatcher.RegisterFixedUpdate(self);
+        }
+
+        public static IMachineRegistration LateUpdate(this IMachineRegistration self)
+        {
+            return MainThreadDispatcher.RegisterLateUpdate(self);
         }
 
         /// <summary>

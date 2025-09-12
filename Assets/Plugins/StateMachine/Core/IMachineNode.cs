@@ -12,7 +12,9 @@ namespace StateMachineX
         /// 狀態Id。
         /// </summary>
         public object Identity { get; }
-
+        /// <summary>
+        /// 是否包含子節點
+        /// </summary>
         public bool HasChild { get; }
 
         /// <summary>
@@ -27,8 +29,15 @@ namespace StateMachineX
         /// 狀態更新(Unity LateUpdate)。
         /// </summary>
         public void LateTick();
-
+        /// <summary>
+        /// 設置Id
+        /// </summary>
+        /// <param name="identity"></param>
         public void SetIdentity(object identity);
+        /// <summary>
+        /// 重置節點
+        /// </summary>
+        public void Reset();
 
         protected static object DefaultId { get; } = new DefaultIdentity();
 

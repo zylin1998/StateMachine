@@ -72,6 +72,11 @@ namespace StateMachineX
 
             }
 
+            public void Reset() 
+            {
+
+            }
+
             public void Dispose() 
             {
 

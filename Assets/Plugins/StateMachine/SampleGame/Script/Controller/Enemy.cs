@@ -17,8 +17,7 @@ namespace StateMachineX.SampleGame
 
         public IStateMachine Machine { get; private set; }
 
-        private IDisposable _Update;
-        private IDisposable _FixedUpdate;
+        private IDisposable _Registration;
 
         private void Awake()
         {
@@ -58,16 +57,18 @@ namespace StateMachineX.SampleGame
 
         public void Enable()
         {
-            _Update      = Machine.Update();
-            _FixedUpdate = Machine.FixedUpdate(false);
+            Machine.Reset();
+
+            _Registration = Machine
+                .Update()
+                .FixedUpdate();
 
             gameObject.SetActive(true);
         }
 
         public void Disable()
         {
-            _Update     .Dispose();
-            _FixedUpdate.Dispose();
+            _Registration.Dispose();
 
             gameObject.SetActive(false);
         }

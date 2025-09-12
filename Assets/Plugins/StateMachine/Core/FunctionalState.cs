@@ -68,9 +68,21 @@ namespace StateMachineX
             Identity = identity;
         }
 
-        public void Dispose()
+        public void Reset() 
         {
 
+        }
+
+        public void Dispose()
+        {
+            EnterEvent = FalseCondition;
+            ExitEvent  = TrueCondition;
+
+            OnEnterEvent   = Callback;
+            OnExitEvent    = Callback;
+            TickEvent      = Callback;
+            FixedTickEvent = Callback;
+            LateTickEvent  = Callback;
         }
 
         #endregion
@@ -148,9 +160,21 @@ namespace StateMachineX
             Identity = identity;
         }
 
+        public void Reset()
+        {
+
+        }
+
         public void Dispose()
         {
-            
+            EnterEvent = FalseCondition;
+            ExitEvent = TrueCondition;
+
+            OnEnterEvent   = Callback;
+            OnExitEvent    = Callback;
+            TickEvent      = Callback;
+            FixedTickEvent = Callback;
+            LateTickEvent  = Callback;
         }
 
         #endregion
@@ -237,9 +261,21 @@ namespace StateMachineX
             Identity = identity;
         }
 
+        public void Reset()
+        {
+
+        }
+
         public void Dispose()
         {
-            
+            EnterEvent = FalseCondition;
+            ExitEvent  = TrueCondition;
+
+            OnEnterEvent   = Callback;
+            OnExitEvent    = Callback;
+            TickEvent      = Callback;
+            FixedTickEvent = Callback;
+            LateTickEvent  = Callback;
         }
 
         #endregion
@@ -329,9 +365,21 @@ namespace StateMachineX
             Identity = identity;
         }
 
+        public void Reset()
+        {
+
+        }
+
         public void Dispose()
         {
-            
+            EnterEvent = FalseCondition;
+            ExitEvent  = TrueCondition;
+
+            OnEnterEvent   = Callback;
+            OnExitEvent    = Callback;
+            TickEvent      = Callback;
+            FixedTickEvent = Callback;
+            LateTickEvent  = Callback;
         }
 
         #endregion
@@ -425,9 +473,21 @@ namespace StateMachineX
             Identity = identity;
         }
 
+        public void Reset()
+        {
+
+        }
+
         public void Dispose()
         {
-            
+            EnterEvent = FalseCondition;
+            ExitEvent  = TrueCondition;
+
+            OnEnterEvent   = Callback;
+            OnExitEvent    = Callback;
+            TickEvent      = Callback;
+            FixedTickEvent = Callback;
+            LateTickEvent  = Callback;
         }
 
         #endregion
