@@ -93,12 +93,19 @@ namespace StateMachineX
 
         protected IEnumerable<IState> Ordered() 
         {
-            var dic    = States.ToDictionary(s => s.Identity);
-            var orders = _Order != null ? _Order.Orders : States.Select(s => s.Identity);
-
-            foreach (var order in orders) 
+            if (_Order == default) 
             {
-                if (dic.TryGetValue(order, out var state)) 
+                foreach (var state in States) 
+                {
+                    yield return state;
+                }
+            }
+
+            var dic = States.ToDictionary(s => s.Identity);
+
+            foreach (var id in _Order.Orders) 
+            {
+                if (dic.TryGetValue(id, out var state)) 
                 {
                     yield return state;
                 }

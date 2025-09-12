@@ -27,10 +27,5 @@ namespace StateMachineX
         /// </summary>
         /// <param name="order">Id 序列介面</param>
         public void OrderBy(ISequenceOrder order);
-
-        /// <summary>
-        /// 重設狀態機
-        /// </summary>
-        public void Reset();
     }
 }

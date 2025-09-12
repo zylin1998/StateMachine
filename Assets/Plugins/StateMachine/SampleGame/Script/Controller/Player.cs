@@ -63,7 +63,8 @@ namespace StateMachineX.SampleGame
 
             _Registration = Machine
                 .Update()
-                .FixedUpdate();
+                .FixedUpdate()
+                .AddTo(gameObject);
         }
 
         public void Disable()

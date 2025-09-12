@@ -10,10 +10,12 @@ namespace StateMachineX
         public IStateMachine Machine  { get; }
         public bool          Transfer { get; }
         public bool          IsValid  { get; }
-        
+
         public bool IsUpdate      { get; set; }
         public bool IsFixedUpdate { get; set; }
         public bool IsLateUpdate  { get; set; }
+        
+        public IDisposableCatcher DisposableCatcher { get; set; }
     }
 
     internal class MachineRegistration : IMachineRegistration
@@ -33,11 +35,15 @@ namespace StateMachineX
         public bool IsFixedUpdate { get; set; }
         public bool IsLateUpdate  { get; set; }
 
+        public IDisposableCatcher DisposableCatcher { get; set; }
+        
         public void Dispose() 
         {
             IsUpdate      = false;
             IsFixedUpdate = false;
             IsLateUpdate  = false;
+
+            DisposableCatcher.Remove(this);
         }
 
         private bool CheckValid() 
@@ -48,6 +54,11 @@ namespace StateMachineX
             }
 
             return IsUpdate || IsFixedUpdate || IsLateUpdate;
+        }
+
+        void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

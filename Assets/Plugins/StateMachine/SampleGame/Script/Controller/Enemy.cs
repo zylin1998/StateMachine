@@ -61,7 +61,8 @@ namespace StateMachineX.SampleGame
 
             _Registration = Machine
                 .Update()
-                .FixedUpdate();
+                .FixedUpdate()
+                .AddTo(gameObject);
 
             gameObject.SetActive(true);
         }

@@ -6,18 +6,39 @@ using UnityEngine;
 
 namespace StateMachineX
 {
-    internal class DisposableCatcher : MonoBehaviour
+    public interface IDisposableCatcher 
     {
-        public IDisposable Disposable { get; private set; }
+        public void Add(IMachineRegistration registration);
 
-        public void Set(IDisposable disposable) 
+        public void Remove(IMachineRegistration registration);
+    }
+
+    internal class DisposableCatcher : MonoBehaviour, IDisposableCatcher
+    {
+        private HashSet<IMachineRegistration> _Registrations = new HashSet<IMachineRegistration>();
+
+        public void Add(IMachineRegistration registration)
         {
-            Disposable = disposable;
+            if (_Registrations.Add(registration))
+            {
+                registration.DisposableCatcher = this;
+            }
+        }
+
+        public void Remove(IMachineRegistration registration) 
+        {
+            if (_Registrations.Remove(registration)) 
+            {
+                registration.DisposableCatcher = default;
+            }
         }
 
         private void OnDestroy()
         {
-            Disposable?.Dispose();
+            foreach (var registration in _Registrations) 
+            {
+                registration.Dispose();
+            }
         }
     }
 }

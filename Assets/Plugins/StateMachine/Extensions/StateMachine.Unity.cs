@@ -63,7 +63,7 @@ namespace StateMachineX
         /// <param name="self"></param>
         /// <param name="component"></param>
         /// <returns></returns>
-        public static IDisposable AddTo(this IDisposable self, Component component)
+        public static IMachineRegistration AddTo(this IMachineRegistration self, Component component)
         {
             return self.AddTo(component.gameObject);
         }
@@ -74,11 +74,11 @@ namespace StateMachineX
         /// <param name="self"></param>
         /// <param name="gameObject"></param>
         /// <returns></returns>
-        public static IDisposable AddTo(this IDisposable self, GameObject gameObject) 
+        public static IMachineRegistration AddTo(this IMachineRegistration self, GameObject gameObject) 
         {
             var catcher = gameObject.GetComponent<DisposableCatcher>() ?? gameObject.AddComponent<DisposableCatcher>();
 
-            catcher.Set(self);
+            catcher.Add(self);
 
             return self;
         }

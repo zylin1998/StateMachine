@@ -25,7 +25,7 @@ namespace StateMachineX.RuntimeTest
 
         public IStateMachine Machine { get; private set; }  
         
-        public IDisposable Register { get; private set; }
+        public IMachineRegistration Register { get; private set; }
 
         private void Awake()
         {
