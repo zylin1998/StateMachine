@@ -65,8 +65,15 @@ namespace StateMachineX.Internal
 
         private IEnumerable<IMachineRegistration> CheckValid() 
         {
+            var hashset = new HashSet<IMachineRegistration>();
+
             foreach (var registration in _Registrations) 
             {
+                if (!hashset.Add(registration)) 
+                {
+                    continue;
+                }
+
                 if (IsTicked(registration)) 
                 {
                     yield return registration;
@@ -76,6 +83,11 @@ namespace StateMachineX.Internal
             for (; _Await.Any();) 
             {
                 var registration = _Await.Dequeue();
+
+                if (!hashset.Add(registration))
+                {
+                    continue;
+                }
 
                 if (IsTicked(registration)) 
                 {

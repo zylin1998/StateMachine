@@ -176,6 +176,11 @@ namespace StateMachineX.Internal
 
         public static IMachineRegistration RegisterUpdate(IMachineRegistration registration) 
         {
+            if (registration.IsUpdate) 
+            {
+                return registration;
+            }
+
             registration.IsUpdate = true;
 
             Instance._UpdateCollection.Register(registration);
@@ -195,6 +200,11 @@ namespace StateMachineX.Internal
 
         public static IMachineRegistration RegisterFixedUpdate(IMachineRegistration registration)
         {
+            if (registration.IsFixedUpdate)
+            {
+                return registration;
+            }
+
             registration.IsFixedUpdate = true;
 
             Instance._FixedUpdateCollection.Register(registration);
@@ -214,6 +224,11 @@ namespace StateMachineX.Internal
 
         public static IMachineRegistration RegisterLateUpdate(IMachineRegistration registration)
         {
+            if (registration.IsLateUpdate)
+            {
+                return registration;
+            }
+
             registration.IsLateUpdate = true;
 
             Instance._LateUpdateCollection.Register(registration);
