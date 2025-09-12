@@ -55,10 +55,5 @@ namespace StateMachineX
 
             return IsUpdate || IsFixedUpdate || IsLateUpdate;
         }
-
-        void IDisposable.Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

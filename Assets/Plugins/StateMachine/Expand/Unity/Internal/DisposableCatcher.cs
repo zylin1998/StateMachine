@@ -37,6 +37,8 @@ namespace StateMachineX
         {
             foreach (var registration in _Registrations) 
             {
+                registration.DisposableCatcher = default;
+
                 registration.Dispose();
             }
         }

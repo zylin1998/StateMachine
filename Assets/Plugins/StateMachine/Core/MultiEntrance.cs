@@ -7,6 +7,8 @@ namespace StateMachineX
 {
     internal class MultiEntrance : IStateMachine
     {
+        #region Nest Type
+
         internal class MultiState : IState, IEnumerable<IState>
         {
             public object Identity { get; } = StateMachine.Identity.MultiEntrance;
@@ -124,6 +126,8 @@ namespace StateMachineX
                 }
             }
         }
+
+        #endregion
 
         private List<IState> _States = new();
         private MultiState   _State  = new();
