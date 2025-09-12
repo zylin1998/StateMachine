@@ -86,7 +86,7 @@ namespace StateMachineX
 
         public override void Dispose()
         {
-            Reset();
+            _Flag = -1;
 
             base.Dispose();
         }

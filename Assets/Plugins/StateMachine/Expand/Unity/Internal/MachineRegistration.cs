@@ -43,7 +43,7 @@ namespace StateMachineX
             IsFixedUpdate = false;
             IsLateUpdate  = false;
 
-            DisposableCatcher.Remove(this);
+            DisposableCatcher?.Remove(this);
         }
 
         private bool CheckValid() 
