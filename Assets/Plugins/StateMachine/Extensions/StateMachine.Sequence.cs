@@ -13,7 +13,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static ISequenceStateMachine Sequence(this IStateMachine self)
         {
-            return new SequenceStateMachine(self);
+            return NodePool.GetSequenceStateMachine(self);
         }
 
         /// <summary>

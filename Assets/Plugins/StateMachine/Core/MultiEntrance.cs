@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace StateMachineX
 {
@@ -18,10 +19,7 @@ namespace StateMachineX
             public bool Enter { get; } = true;
             public bool Exit  { get; } = false;
 
-            public bool HasChild { get; } = true;
-
-            private bool _HasExit = false;
-            private bool _IsPhase = false;
+            public bool HasChild => _States.Any();
 
             public bool Add(IState state) 
             {
@@ -37,12 +35,9 @@ namespace StateMachineX
 
             public bool Transfer() 
             {
-                _HasExit = false;
-                _IsPhase = false;
-
                 _States = Check().ToHashSet();
-
-                return _HasExit || _IsPhase;
+                
+                return _States.Count > 0;
             }
 
             public void Tick()
@@ -84,6 +79,11 @@ namespace StateMachineX
                 _States.Clear();
             }
 
+            public void Dispose(bool disposeChild) 
+            {
+                Dispose();
+            }
+
             public void Dispose()
             {
                 _States.Clear();
@@ -112,14 +112,12 @@ namespace StateMachineX
                     {
                         state.OnExit();
 
-                        _HasExit = true;
-
                         continue;
                     }
 
                     if (state.HasChild && state is IStateMachine machine)
                     {
-                        _IsPhase = _IsPhase || machine.Transfer();
+                        machine.Transfer();
                     }
 
                     yield return state;
@@ -170,7 +168,7 @@ namespace StateMachineX
             
             enter.ForEach(s => Set(s));
 
-            return _State.Transfer() || enter.Count > 0;
+            return _State.Transfer();
         }
 
         public void Tick()
@@ -198,16 +196,28 @@ namespace StateMachineX
             }
         }
 
-        public void Dispose()
+        public void Dispose(bool disposeChild)
         {
-            _State.Dispose();
+            Set(IState.Default);
 
-            foreach (var state in States)
+            if (disposeChild)
             {
-                state.Dispose();
+                foreach (var state in States)
+                {
+                    state.Dispose();
+                }
             }
 
             _States.Clear();
+
+            SetIdentity(StateMachine.Identity.SingleEntrance);
+
+            NodePool.Despawn(this);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

@@ -77,6 +77,11 @@ namespace StateMachineX
 
             }
 
+            public void Dispose(bool disposeChild)
+            {
+
+            }
+
             public void Dispose() 
             {
 

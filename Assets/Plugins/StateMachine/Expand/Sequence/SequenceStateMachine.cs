@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace StateMachineX
 {
@@ -50,6 +51,13 @@ namespace StateMachineX
             _OrderedStates = Ordered().ToArray();
         }
 
+        public override void SetCore(IStateMachine machine)
+        {
+            MachineCheck(machine);
+
+            base.SetCore(machine);
+        }
+
         public override void Add(IState state)
         {
             base.Add(state);
@@ -59,8 +67,6 @@ namespace StateMachineX
 
         public override bool Transfer()
         {
-            var notDefault = !Equals(Current, IState.Default);
-
             if (Current.Exit || ForceExit) 
             {
                 var next = IState.Default;
@@ -71,10 +77,10 @@ namespace StateMachineX
 
                 Set(next);
 
-                return transfered || notDefault;
+                return transfered || !Equals(Current, IState.Default);
             }
 
-            return CheckPhase() || notDefault;
+            return CheckPhase() || !Equals(Current, IState.Default);
         }
 
         public override void Reset()
@@ -84,11 +90,20 @@ namespace StateMachineX
             base.Reset();
         }
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             _Flag = -1;
 
-            base.Dispose();
+            OrderBy(default);
+
+            SetIdentity(StateMachine.Identity.SequenceStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         protected IEnumerable<IState> Ordered() 
@@ -103,7 +118,7 @@ namespace StateMachineX
 
             var dic = States.ToDictionary(s => s.Identity);
 
-            foreach (var id in _Order.Orders) 
+            foreach (var id in _Order?.Orders ?? new object[0]) 
             {
                 if (dic.TryGetValue(id, out var state)) 
                 {
@@ -123,8 +138,10 @@ namespace StateMachineX
             {
                 Debug.LogWarning("Sequence StateMachine does not support MultiEntrance, will force to turn into SingleEntrance");
 
-                return StateMachine.SingleEntrance()
+                machine = StateMachine.SingleEntrance()
                     .WithStates(multi.States);
+
+                NodePool.Despawn(multi, false);
             }
 
             return machine;

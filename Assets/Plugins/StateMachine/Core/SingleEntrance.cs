@@ -88,16 +88,28 @@ namespace StateMachineX
             }
         }
 
-        public void Dispose() 
+        public void Dispose(bool disposeChild)
         {
             Set(IState.Default);
 
-            foreach (var state in States)
+            if (disposeChild)
             {
-                state.Dispose();
+                foreach (var state in States)
+                {
+                    state.Dispose();
+                }
             }
 
             _States.Clear();
+
+            SetIdentity(StateMachine.Identity.SingleEntrance);
+
+            NodePool.Despawn(this);
+        }
+
+        public void Dispose() 
+        {
+            Dispose(true);
         }
 
         private bool CheckPhase() 

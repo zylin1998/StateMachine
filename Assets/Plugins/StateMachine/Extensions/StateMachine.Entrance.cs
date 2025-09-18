@@ -13,7 +13,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IStateMachine SingleEntrance()
         {
-            return new SingleEntrance();
+            return NodePool.GetSingleEntrance();
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IStateMachine MultiEntrance()
         {
-            return new MultiEntrance();
+            return NodePool.GetMultiEntrance();
         }
 
         /// <summary>
@@ -76,6 +76,16 @@ namespace StateMachineX
             self.SetIdentity(Identity);
 
             return self;
+        }
+
+        public static void Recycle<T>(this T node) where T : IMachineNode 
+        {
+            NodePool.Despawn(node);
+        }
+
+        public static void Recycle<T>(this T node, bool disposeChild) where T : IMachineNode
+        {
+            NodePool.Despawn(node, disposeChild);
         }
     }
 }

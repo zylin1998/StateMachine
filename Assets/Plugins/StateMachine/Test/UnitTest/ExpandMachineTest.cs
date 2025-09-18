@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using NUnit.Framework;
 
 namespace StateMachineX.UnitTest
@@ -12,6 +13,8 @@ namespace StateMachineX.UnitTest
         {
             var count = 0;
             var index = 0;
+
+            var machineId = "Machine";
             
             var state1 = StateMachine.FunctionalState()
                 .ExitWhen(() => index >= 10)
@@ -26,26 +29,46 @@ namespace StateMachineX.UnitTest
             var machine = StateMachine.SingleEntrance()
                 .WithStates(state1, state2)
                 .Sequence()
-                .OrderBy(1, 2);
+                .OrderBy(1, 2)
+                .WithId(machineId);
+
+            Assert.AreEqual(machineId, machine.Identity);
+            Assert.AreEqual(IState.Default, machine.Current);
+            Assert.AreEqual(true, machine.HasChild);
+            Assert.AreEqual(2, machine.States.Count());
+            Assert.IsTrue(machine.States.Contains(state1));
+            Assert.IsTrue(machine.States.Contains(state2));
             
-            for (; index <= 20; index++) 
+            for (; index <= 30; index++) 
             {
-                var transfer = machine.Transfer();
+                var transfered = machine.Transfer();
 
                 machine.Tick();
-                
-                Assert.AreEqual(index == 0 || index == 10, transfer);
+
+                //Debug.Log(string.Format("{0} {1} {2} {3}", machine.Current.Identity, transfered, index, count));
+
+                Assert.AreEqual(index < 20, transfered);
 
                 if      (index <  10) { Assert.AreEqual(index, count);      }
                 else if (index <  20) { Assert.AreEqual(index * 10, count); }
                 else if (index >= 20) { Assert.AreEqual(190, count);        }
             }
+
+            machine.Dispose();
+
+            Assert.AreNotEqual(machineId, machine.Identity);
+            Assert.AreEqual(IState.Default, machine.Current);
+            Assert.AreEqual(false, machine.HasChild);
+            Assert.AreEqual(0, machine.States.Count());
+            Assert.IsFalse(machine.States.Contains(state1));
+            Assert.IsFalse(machine.States.Contains(state2));
         }
 
         [Test]
         public void PhaseStateMachineTest() 
         {
             var count = 0;
+            var machineId = "Machine";
 
             var state1 = StateMachine.FunctionalState()
                 .ExitWhen (() => count == 10)
@@ -87,17 +110,18 @@ namespace StateMachineX.UnitTest
                 .WithId("Phase2");
 
             var mainMachine = StateMachine.SingleEntrance()
-                .WithStates(machine1, machine2);
+                .WithStates(machine1, machine2)
+                .WithId(machineId);
 
-            var shouldTransfer = new int[] { 0, 10, 15, 20 };
-
-            for (var index = 0; index <= 30; index++) 
+            for (var index = 0; index <= 40; index++) 
             {
-                var transfer = mainMachine.Transfer();
+                var transfered = mainMachine.Transfer();
 
                 mainMachine.Tick();
 
-                Assert.AreEqual(shouldTransfer.Any(i => Equals(i, index)), transfer);
+                //Debug.Log(string.Format("{0} {1} {2} {3}", mainMachine.Current.Identity, transfered, index, count));
+
+                Assert.AreEqual(index < 30, transfered);
 
                 if (index.IsClamp( 0, 14)) { Assert.AreEqual(index + 1     , count); }
                 if (index.IsClamp(15, 29)) { Assert.AreEqual(index + 1 + 10, count); }

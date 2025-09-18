@@ -17,14 +17,14 @@ namespace StateMachineX.PlayTest
                 .EnterWhen(() => count == 0)
                 .ExitWhen (() => count == 10)
                 .DoTick(() => count++)
-                .WithId("Sttate1");
+                .WithId("State1");
 
             var state2 = StateMachine.FunctionalState()
                 .EnterWhen(() => count == 10)
                 .ExitWhen (() => count == 30)
                 .DoOnEnter(() => count = 20)
                 .DoTick(() => count++)
-                .WithId("Sttate2");
+                .WithId("State2");
 
             var machine = StateMachine.SingleEntrance()
                 .WithStates(state1, state2);
@@ -51,7 +51,7 @@ namespace StateMachineX.PlayTest
             var state1 = StateMachine.FunctionalState()
                 .EnterWhen(() => count == 0)
                 .ExitWhen(() => count == 10)
-                .DoFixedTick(() => count++)
+                .DoFixedTick(() => { /*Debug.Log("FixedTick");*/ count++; })
                 .WithId("Sttate1");
 
             var state2 = StateMachine.FunctionalState()
@@ -65,6 +65,8 @@ namespace StateMachineX.PlayTest
                 .WithStates(state1, state2);
 
             var register = machine.FixedUpdate();
+
+            yield return null;
 
             for (var index = 0; index <= 30; index++)
             {
@@ -100,6 +102,8 @@ namespace StateMachineX.PlayTest
                 .WithStates(state1, state2);
 
             var register = machine.LateUpdate();
+
+            yield return new WaitForEndOfFrame();
 
             for (var index = 0; index <= 30; index++)
             {

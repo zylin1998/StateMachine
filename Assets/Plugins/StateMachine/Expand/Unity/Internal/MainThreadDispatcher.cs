@@ -64,13 +64,15 @@ namespace StateMachineX.Internal
 
         private IEnumerator TransferCoroutine() 
         {
-            for (; _TransferCollection.Tick();)
+            for (var ticked = true; ticked;)
             {
+                yield return null;
+                
+                ticked = _TransferCollection.Tick();
+                
                 _Registrations = _Registrations
                     .Where(r => r.IsValid)
                     .ToHashSet();
-
-                yield return null;
             }
             
             _Tansfer = default;
@@ -78,9 +80,11 @@ namespace StateMachineX.Internal
 
         private IEnumerator UpdateCoroutine() 
         {
-            for(; _UpdateCollection.Tick();) 
+            for (var ticked = true; ticked;) 
             {
                 yield return null;
+                
+                ticked = _UpdateCollection.Tick();
             }
 
             _Update = default;
@@ -88,9 +92,13 @@ namespace StateMachineX.Internal
 
         private IEnumerator FixedUpdateCoroutine()
         {
-            for (; _FixedUpdateCollection.Tick();)
+            yield return null;
+
+            for (var ticked = true; ticked;)
             {
                 yield return new WaitForFixedUpdate();
+                
+                ticked = _FixedUpdateCollection.Tick();
             }
 
             _FixedUpdate = default;
@@ -98,9 +106,13 @@ namespace StateMachineX.Internal
 
         private IEnumerator LateUpdateCoroutine()
         {
-            for (; _LateUpdateCollection.Tick();)
+            yield return new WaitForEndOfFrame();
+
+            for (var ticked = true; ticked;)
             {
                 yield return new WaitForEndOfFrame();
+                
+                ticked = _LateUpdateCollection.Tick();
             }
 
             _LateUpdate = null;
@@ -185,14 +197,14 @@ namespace StateMachineX.Internal
 
             Instance._UpdateCollection.Register(registration);
 
-            if (Instance._Update == default) 
-            {
-                Instance._Update = Instance.StartCoroutine(Instance.UpdateCoroutine());
-            }
-
             if (Instance._Tansfer == default) 
             {
                 Instance._Tansfer = Instance.StartCoroutine(Instance.TransferCoroutine());
+            }
+
+            if (Instance._Update == default) 
+            {
+                Instance._Update = Instance.StartCoroutine(Instance.UpdateCoroutine());
             }
 
             return registration;
@@ -209,14 +221,14 @@ namespace StateMachineX.Internal
 
             Instance._FixedUpdateCollection.Register(registration);
 
-            if (Instance._FixedUpdate == default)
-            {
-                Instance._FixedUpdate = Instance.StartCoroutine(Instance.FixedUpdateCoroutine());
-            }
-
             if (Instance._Tansfer == default)
             {
                 Instance._Tansfer = Instance.StartCoroutine(Instance.TransferCoroutine());
+            }
+
+            if (Instance._FixedUpdate == default)
+            {
+                Instance._FixedUpdate = Instance.StartCoroutine(Instance.FixedUpdateCoroutine());
             }
 
             return registration;
@@ -233,14 +245,14 @@ namespace StateMachineX.Internal
 
             Instance._LateUpdateCollection.Register(registration);
 
-            if (Instance._LateUpdate == default)
-            {
-                Instance._LateUpdate = Instance.StartCoroutine(Instance.LateUpdateCoroutine());
-            }
-
             if (Instance._Tansfer == default)
             {
                 Instance._Tansfer = Instance.StartCoroutine(Instance.TransferCoroutine());
+            }
+
+            if (Instance._LateUpdate == default)
+            {
+                Instance._LateUpdate = Instance.StartCoroutine(Instance.LateUpdateCoroutine());
             }
 
             return registration;

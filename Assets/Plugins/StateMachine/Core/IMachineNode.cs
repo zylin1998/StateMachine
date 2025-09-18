@@ -38,6 +38,11 @@ namespace StateMachineX
         /// 重置節點
         /// </summary>
         public void Reset();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposeChild"></param>
+        public void Dispose(bool disposeChild);
 
         protected static object DefaultId { get; } = new DefaultIdentity();
 
@@ -48,6 +53,12 @@ namespace StateMachineX
                 return "DefaultState";
             }
         }
+    }
 
+    public interface IWrappableMachine
+    {
+        public IStateMachine Core { get; }
+
+        public void SetCore(IStateMachine machine);
     }
 }

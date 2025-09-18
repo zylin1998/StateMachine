@@ -12,7 +12,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IFunctionalState FunctionalState()
         {
-            return new FunctionalState();
+            return NodePool.GetFunctionalState();
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IFunctionalState<T> FunctionalState<T>(T param) 
         {
-            return new FunctionalState<T>(param);
+            return NodePool.GetFunctionalState(param);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IFunctionalState<T1, T2> FunctionalState<T1, T2>(T1 param1, T2 param2)
         {
-            return new FunctionalState<T1, T2>(param1, param2);
+            return NodePool.GetFunctionalState(param1, param2);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IFunctionalState<T1, T2, T3> FunctionalState<T1, T2, T3>(T1 param1, T2 param2, T3 param3)
         {
-            return new FunctionalState<T1, T2, T3>(param1, param2, param3);
+            return NodePool.GetFunctionalState(param1, param2, param3);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IFunctionalState<T1, T2, T3, T4> FunctionalState<T1, T2, T3, T4>(T1 param1, T2 param2, T3 param3, T4 param4)
         {
-            return new FunctionalState<T1, T2, T3, T4>(param1, param2, param3, param4);
+            return NodePool.GetFunctionalState(param1, param2, param3, param4);
         }
 
         public static IFunctionalState EnterWhen(this IFunctionalState self, Func<bool> condition) 

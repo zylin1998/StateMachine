@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "StateMachineX"
+        "StateMachineX",
+        "StateMachineX.TestFramework"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -73,6 +73,11 @@ namespace StateMachineX
 
         }
 
+        public void Dispose(bool disposeChild) 
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             EnterEvent = FalseCondition;
@@ -94,6 +99,11 @@ namespace StateMachineX
 
     internal class FunctionalState<TParam1> : IFunctionalState<TParam1>
     {
+        public FunctionalState()
+        {
+            
+        }
+
         public FunctionalState(TParam1 param1)
         {
             _Param1 = param1;
@@ -113,6 +123,11 @@ namespace StateMachineX
         public Action<TParam1> TickEvent      { get; set; } = Callback;
         public Action<TParam1> FixedTickEvent { get; set; } = Callback;
         public Action<TParam1> LateTickEvent  { get; set; } = Callback;
+
+        public void SetParameters(TParam1 param1)
+        {
+            _Param1 = param1;
+        }
 
         #endregion
 
@@ -165,6 +180,11 @@ namespace StateMachineX
 
         }
 
+        public void Dispose(bool disposeChild)
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             EnterEvent = FalseCondition;
@@ -175,6 +195,8 @@ namespace StateMachineX
             TickEvent      = Callback;
             FixedTickEvent = Callback;
             LateTickEvent  = Callback;
+
+            _Param1 = default;
         }
 
         #endregion
@@ -186,6 +208,11 @@ namespace StateMachineX
 
     internal class FunctionalState<TParam1, TParam2> : IFunctionalState<TParam1, TParam2>
     {
+        public FunctionalState()
+        {
+
+        }
+
         public FunctionalState(TParam1 param1, TParam2 param2)
         {
             _Param1 = param1;
@@ -208,6 +235,12 @@ namespace StateMachineX
         public Action<TParam1, TParam2> TickEvent      { get; set; } = Callback;
         public Action<TParam1, TParam2> FixedTickEvent { get; set; } = Callback;
         public Action<TParam1, TParam2> LateTickEvent  { get; set; } = Callback;
+
+        public void SetParameters(TParam1 param1, TParam2 param2)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+        }
 
         #endregion
 
@@ -266,6 +299,11 @@ namespace StateMachineX
 
         }
 
+        public void Dispose(bool disposeChild)
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             EnterEvent = FalseCondition;
@@ -276,6 +314,9 @@ namespace StateMachineX
             TickEvent      = Callback;
             FixedTickEvent = Callback;
             LateTickEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
         }
 
         #endregion
@@ -287,6 +328,11 @@ namespace StateMachineX
 
     internal class FunctionalState<TParam1, TParam2, TParam3> : IFunctionalState<TParam1, TParam2, TParam3>
     {
+        public FunctionalState()
+        {
+
+        }
+
         public FunctionalState(TParam1 param1, TParam2 param2, TParam3 param3)
         {
             _Param1 = param1;
@@ -312,6 +358,13 @@ namespace StateMachineX
         public Action<TParam1, TParam2, TParam3> TickEvent      { get; set; } = Callback;
         public Action<TParam1, TParam2, TParam3> FixedTickEvent { get; set; } = Callback;
         public Action<TParam1, TParam2, TParam3> LateTickEvent  { get; set; } = Callback;
+
+        public void SetParameters(TParam1 param1, TParam2 param2, TParam3 param3)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+        }
 
         #endregion
 
@@ -370,6 +423,11 @@ namespace StateMachineX
 
         }
 
+        public void Dispose(bool disposeChild)
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             EnterEvent = FalseCondition;
@@ -380,6 +438,10 @@ namespace StateMachineX
             TickEvent      = Callback;
             FixedTickEvent = Callback;
             LateTickEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
+            _Param3 = default;
         }
 
         #endregion
@@ -391,6 +453,11 @@ namespace StateMachineX
 
     internal class FunctionalState<TParam1, TParam2, TParam3, TParam4> : IFunctionalState<TParam1, TParam2, TParam3, TParam4>
     {
+        public FunctionalState()
+        {
+
+        }
+
         public FunctionalState(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             _Param1 = param1;
@@ -420,6 +487,14 @@ namespace StateMachineX
         public Action<TParam1, TParam2, TParam3, TParam4> TickEvent      { get; set; } = Callback;
         public Action<TParam1, TParam2, TParam3, TParam4> FixedTickEvent { get; set; } = Callback;
         public Action<TParam1, TParam2, TParam3, TParam4> LateTickEvent  { get; set; } = Callback;
+
+        public void SetParameters(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4) 
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+            _Param4 = param4;
+        }
 
         #endregion
 
@@ -478,6 +553,11 @@ namespace StateMachineX
 
         }
 
+        public void Dispose(bool disposeChild)
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             EnterEvent = FalseCondition;
@@ -488,6 +568,11 @@ namespace StateMachineX
             TickEvent      = Callback;
             FixedTickEvent = Callback;
             LateTickEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
+            _Param3 = default;
+            _Param4 = default;
         }
 
         #endregion

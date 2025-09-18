@@ -53,13 +53,22 @@ namespace StateMachineX
 
         #region IMachineNode
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             EnterEvent = FalseCondition;
             ExitEvent  = default;
 
             OnEnterEvent = Callback;
             OnExitEvent  = Callback;
+
+            SetIdentity(StateMachine.Identity.PhaseStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion
@@ -98,6 +107,11 @@ namespace StateMachineX
         public Action<T> OnEnterEvent { get; set; } = Callback;
         public Action<T> OnExitEvent  { get; set; } = Callback;
 
+        public void SetParameters(T param1) 
+        {
+            _Param1 = param1;
+        }
+
         #endregion
 
         #region IState
@@ -121,13 +135,24 @@ namespace StateMachineX
 
         #region IMachineNode
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             EnterEvent = FalseCondition;
             ExitEvent  = default;
 
             OnEnterEvent = Callback;
             OnExitEvent  = Callback;
+
+            _Param1 = default;
+
+            SetIdentity(StateMachine.Identity.PhaseStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion
@@ -170,6 +195,12 @@ namespace StateMachineX
         public Action<T1, T2> OnEnterEvent { get; set; } = Callback;
         public Action<T1, T2> OnExitEvent  { get; set; } = Callback;
 
+        public void SetParameters(T1 param1, T2 param2)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+        }
+
         #endregion
 
         #region IState
@@ -193,13 +224,25 @@ namespace StateMachineX
 
         #region IMachineNode
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             EnterEvent = FalseCondition;
-            ExitEvent  = default;
+            ExitEvent = default;
 
             OnEnterEvent = Callback;
             OnExitEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
+
+            SetIdentity(StateMachine.Identity.PhaseStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion
@@ -246,6 +289,13 @@ namespace StateMachineX
         public Action<T1, T2, T3> OnEnterEvent { get; set; } = Callback;
         public Action<T1, T2, T3> OnExitEvent  { get; set; } = Callback;
 
+        public void SetParameters(T1 param1, T2 param2, T3 param3)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+        }
+
         #endregion
 
         #region IState
@@ -269,13 +319,26 @@ namespace StateMachineX
 
         #region IMachineNode
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             EnterEvent = FalseCondition;
             ExitEvent  = default;
 
             OnEnterEvent = Callback;
             OnExitEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
+            _Param3 = default;
+
+            SetIdentity(StateMachine.Identity.PhaseStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion
@@ -326,6 +389,14 @@ namespace StateMachineX
         public Action<T1, T2, T3, T4> OnEnterEvent { get; set; } = Callback;
         public Action<T1, T2, T3, T4> OnExitEvent { get; set; } = Callback;
 
+        public void SetParameters(T1 param1, T2 param2, T3 param3, T4 param4)
+        {
+            _Param1 = param1;
+            _Param2 = param2;
+            _Param3 = param3;
+            _Param4 = param4;
+        }
+
         #endregion
 
         #region IState
@@ -349,13 +420,27 @@ namespace StateMachineX
 
         #region IMachineNode
 
-        public override void Dispose()
+        public override void Dispose(bool disposeChild)
         {
+            base.Dispose(disposeChild);
+
             EnterEvent = FalseCondition;
             ExitEvent  = default;
 
             OnEnterEvent = Callback;
             OnExitEvent  = Callback;
+
+            _Param1 = default;
+            _Param2 = default;
+            _Param3 = default;
+            _Param4 = default;
+
+            SetIdentity(StateMachine.Identity.PhaseStatemachine);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion

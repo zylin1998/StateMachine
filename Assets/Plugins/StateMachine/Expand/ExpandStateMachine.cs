@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StateMachineX
 {
-    public class ExpandStateMachine : IStateMachine
+    public class ExpandStateMachine : IStateMachine, IWrappableMachine
     {
         public ExpandStateMachine() : this(new SingleEntrance()) 
         {
@@ -24,7 +24,7 @@ namespace StateMachineX
             Identity = id;
         }
 
-        protected IStateMachine Core { get; }
+        public IStateMachine Core { get; private set; }
 
         public IState Current => Core.Current;
 
@@ -34,7 +34,12 @@ namespace StateMachineX
 
         public object Identity { get => Core.Identity; protected set => SetIdentity(value); }
 
-        public bool HasChild => true;
+        public virtual bool HasChild => Core.HasChild;
+
+        public virtual void SetCore(IStateMachine machine) 
+        {
+            Core = machine;
+        }
 
         public virtual void Add(IState state) 
         {
@@ -88,9 +93,17 @@ namespace StateMachineX
             Core.Reset();
         }
 
+        public virtual void Dispose(bool disposeChild) 
+        {
+            Core.Dispose(disposeChild);
+
+            SetIdentity(StateMachine.Identity.ExpandStatemachine);
+        }
+
         public virtual void Dispose()
         {
-            Core.Dispose();
+            Dispose(true);
+            
         }
     }
 }

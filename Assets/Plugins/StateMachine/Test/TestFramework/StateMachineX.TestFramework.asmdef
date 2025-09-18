@@ -1,14 +1,12 @@
 {
-    "name": "StateMachine.UnitTest",
-    "rootNamespace": "StateMachine.UnitTest",
+    "name": "StateMachineX.TestFramework",
+    "rootNamespace": "StateMachineX.TestFramework",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "StateMachineX"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
