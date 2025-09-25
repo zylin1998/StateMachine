@@ -32,7 +32,7 @@ namespace StateMachineX
                 _MachineType == MachineType.SingleEntrance ? StateMachine.SingleEntrance() : StateMachine.MultiEntrance();
 
             machine.WithStates(_States.Select(s => s.GetState()));
-
+            
             if (_Sequence) 
             {
                 var sequence = machine.Sequence().OrderBy(_Orders);

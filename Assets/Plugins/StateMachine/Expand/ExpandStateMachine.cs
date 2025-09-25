@@ -24,15 +24,15 @@ namespace StateMachineX
             Identity = id;
         }
 
+        public bool ForceExit { get; set; }
+
         public IStateMachine Core { get; private set; }
+
+        public object Identity { get => Core.Identity; private set => SetIdentity(value); }
 
         public IState Current => Core.Current;
 
         public IEnumerable<IState> States => Core.States;
-
-        public bool ForceExit { get; set; }
-
-        public object Identity { get => Core.Identity; protected set => SetIdentity(value); }
 
         public virtual bool HasChild => Core.HasChild;
 
@@ -96,6 +96,8 @@ namespace StateMachineX
         public virtual void Dispose(bool disposeChild) 
         {
             Core.Dispose(disposeChild);
+            
+            Core.Recycle();
 
             SetIdentity(StateMachine.Identity.ExpandStatemachine);
         }
@@ -103,7 +105,6 @@ namespace StateMachineX
         public virtual void Dispose()
         {
             Dispose(true);
-            
         }
     }
 }

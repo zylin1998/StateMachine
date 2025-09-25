@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace StateMachineX
 {
@@ -130,15 +129,15 @@ namespace StateMachineX
         private List<IState> _States = new();
         private MultiState   _State  = new();
 
-        public IState Current => _State;
-
-        public IEnumerable<IState> States => _States;
-
         public bool ForceExit { get; set; }
 
         public object Identity { get; protected set; } = "Multi Entrance";
 
         public bool HasChild => States.Any();
+
+        public IState Current => _State;
+
+        public IEnumerable<IState> States => _States;
 
         public void Add(IState state)
         {
@@ -199,20 +198,20 @@ namespace StateMachineX
         public void Dispose(bool disposeChild)
         {
             Set(IState.Default);
-
+            
             if (disposeChild)
             {
                 foreach (var state in States)
                 {
                     state.Dispose();
+
+                    state.Recycle();
                 }
             }
 
             _States.Clear();
 
             SetIdentity(StateMachine.Identity.SingleEntrance);
-
-            NodePool.Despawn(this);
         }
 
         public void Dispose()

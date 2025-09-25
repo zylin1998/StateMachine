@@ -30,7 +30,7 @@ namespace StateMachineX.UnitTest
                 .ExitWhen (() => count >= 10)
                 .DoTick(() => count += 1)
                 .WithId(2);
-
+            
             var machine = StateMachine.SingleEntrance()
                 .WithStates(state1, state2)
                 .WithId(machineId);

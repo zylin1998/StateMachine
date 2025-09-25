@@ -92,6 +92,7 @@ namespace StateMachineX.Internal
 
         private IEnumerator FixedUpdateCoroutine()
         {
+            //Wait for first transfer
             yield return null;
 
             for (var ticked = true; ticked;)
@@ -106,6 +107,7 @@ namespace StateMachineX.Internal
 
         private IEnumerator LateUpdateCoroutine()
         {
+            //Wait for first transfer
             yield return new WaitForEndOfFrame();
 
             for (var ticked = true; ticked;)

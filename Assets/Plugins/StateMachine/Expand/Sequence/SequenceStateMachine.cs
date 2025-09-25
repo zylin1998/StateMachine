@@ -1,9 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace StateMachineX
 {
@@ -136,12 +134,12 @@ namespace StateMachineX
         {
             if (machine is MultiEntrance multi) 
             {
-                Debug.LogWarning("Sequence StateMachine does not support MultiEntrance, will force to turn into SingleEntrance");
+                DebugHelper.LogWarning("Sequence StateMachine does not support MultiEntrance, will force to turn into SingleEntrance");
 
                 machine = StateMachine.SingleEntrance()
                     .WithStates(multi.States);
 
-                NodePool.Despawn(multi, false);
+                multi.Recycle(false);
             }
 
             return machine;

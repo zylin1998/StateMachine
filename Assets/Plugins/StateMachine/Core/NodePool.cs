@@ -3,21 +3,85 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace StateMachineX
 {
     public static class NodePool
     {
-        public static Dictionary<Type, Queue<IMachineNode>> Pools { get; } = new();
+        #region Nest Type
 
-        internal static Queue<IMachineNode> GetPool<T>() 
+        internal class Factory
+        {
+            public Factory(Type targetType)
+            {
+                TargetType = targetType;
+            }
+
+            private int _CreatedCount;
+
+            public Type TargetType { get; }
+
+            public int CreateCount => _CreatedCount;
+
+            public object Create() 
+            {
+                _CreatedCount++;
+
+                return Activator.CreateInstance(TargetType);
+            }
+        }
+
+        public class Pool 
+        {
+            public Pool(Type targetType) 
+            {
+                var baseType = typeof(IMachineNode);
+
+                if (!baseType.IsAssignableFrom(targetType))
+                {
+                    DebugHelper.Log(string.Format("Target type ({0}) must have inherit interface of type ({1})", targetType.Name, baseType.Name));
+                }
+
+                Factory = new Factory(targetType);
+
+                Queue = new Queue<IMachineNode>();
+            }
+
+            internal Factory Factory { get; }
+
+            internal Queue<IMachineNode> Queue { get; }
+
+            public int CreateCount => Factory.CreateCount;
+
+            public int InPoolCount => Queue.Count;
+
+            public IMachineNode Spawn() 
+            {
+                if (!Queue.TryDequeue(out var node))
+                {
+                    node = Factory.Create() as IMachineNode;
+                }
+
+                return node;
+            }
+
+            public void Despawn(IMachineNode node) 
+            {
+                Queue.Enqueue(node);
+            }
+        }
+
+        #endregion
+
+        public static Dictionary<Type, Pool> Pools { get; } = new();
+
+        internal static Pool GetPool<T>() 
         {
             var type = typeof(T);
 
             if (!Pools.TryGetValue(type, out var pool)) 
             {
-                pool = new Queue<IMachineNode>();
+                pool = new Pool(type);
 
                 Pools.Add(type, pool);
             }
@@ -29,22 +93,14 @@ namespace StateMachineX
         {
             var pool = GetPool<T>();
 
-            if (!pool.TryDequeue(out var result))
-            {
-                result = Activator.CreateInstance<T>();
-            }
-
-            return (T)result;
+            return (T)pool.Spawn();
         }
 
         public static T Spawn<T>(IStateMachine stateMachine) where T : IMachineNode, IWrappableMachine
         {
             var pool = GetPool<T>();
 
-            if (!pool.TryDequeue(out var result))
-            {
-                result = Activator.CreateInstance<T>();
-            }
+            var result = pool.Spawn();
             
             ((IWrappableMachine)result).SetCore(stateMachine);
 
@@ -62,7 +118,7 @@ namespace StateMachineX
 
             node.Dispose(disposeChild);
 
-            pool.Enqueue(node);
+            pool.Despawn(node);
         }
 
         public static IFunctionalState GetFunctionalState() 

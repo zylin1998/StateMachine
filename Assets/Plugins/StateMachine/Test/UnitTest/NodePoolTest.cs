@@ -45,7 +45,11 @@ namespace StateMachineX.UnitTest
         [Test]
         public void StateMachineSpawnTest() 
         {
+            var single = NodePool.GetSingleEntrance();
+            var multi  = NodePool.GetMultiEntrance();
 
+            Assert.IsNotNull(single);
+            Assert.IsNotNull(multi);
         }
 
         [Test]

@@ -9,13 +9,13 @@ namespace StateMachineX
     {
         protected List<IState> _States = new();
 
-        public IState Current { get; private set; } = IState.Default;
+        public object Identity { get; private set; } = StateMachine.Identity.SingleEntrance;
 
-        public IEnumerable<IState> States => _States;
+        public IState Current { get; private set; } = IState.Default;
 
         public bool ForceExit { get; set; }
 
-        public object Identity { get; protected set; } = StateMachine.Identity.SingleEntrance;
+        public IEnumerable<IState> States => _States;
 
         public bool HasChild => States.Any();
 
@@ -91,20 +91,20 @@ namespace StateMachineX
         public void Dispose(bool disposeChild)
         {
             Set(IState.Default);
-
+            
             if (disposeChild)
             {
                 foreach (var state in States)
                 {
                     state.Dispose();
+
+                    state.Recycle();
                 }
             }
 
             _States.Clear();
 
             SetIdentity(StateMachine.Identity.SingleEntrance);
-
-            NodePool.Despawn(this);
         }
 
         public void Dispose() 
