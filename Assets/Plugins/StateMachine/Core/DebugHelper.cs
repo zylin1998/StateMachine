@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace StateMachineX
 {
-    internal static class DebugHelper
+    public static class DebugHelper
     {
         public static void Log(object message) 
         {

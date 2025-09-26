@@ -1,8 +1,7 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace StateMachineX.UnitTest
 {
@@ -50,7 +49,7 @@ namespace StateMachineX.UnitTest
                 machine.FixedTick();
                 machine.LateTick();
 
-                //Debug.Log(string.Format("{0} {1} {2} {3}", machine.Current.Identity, transfered, i, count));
+                //DebugHelper.Log(string.Format("{0} {1} {2} {3}", machine.Current.Identity, transfered, i, count));
 
                 Assert.AreEqual(transfered, i < 10);
                 Assert.AreEqual(count     , i < 10 ? i + 1 : 10);
@@ -116,8 +115,8 @@ namespace StateMachineX.UnitTest
                 machine.FixedTick();
                 machine.LateTick();
 
-                //Debug.Log(string.Format("{0} {1} {2}", transfered, i, count));
-                
+                //DebugHelper.Log(string.Format("{0} {1} {2}", transfered, i, count));
+
                 Assert.AreEqual(transfered, i < 9);
                 Assert.AreEqual(fixedCount, i < 6 ? i + 1 : 6);
                 Assert.AreEqual(lateCount , i < 6 ? i + 1 : 6);

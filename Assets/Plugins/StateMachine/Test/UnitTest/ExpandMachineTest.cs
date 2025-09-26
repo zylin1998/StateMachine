@@ -45,7 +45,7 @@ namespace StateMachineX.UnitTest
 
                 machine.Tick();
 
-                //Debug.Log(string.Format("{0} {1} {2} {3}", machine.Current.Identity, transfered, index, count));
+                //DebugHelper.Log(string.Format("{0} {1} {2} {3}", machine.Current.Identity, transfered, index, count));
 
                 Assert.AreEqual(index < 20, transfered);
 
@@ -119,7 +119,7 @@ namespace StateMachineX.UnitTest
 
                 mainMachine.Tick();
 
-                //Debug.Log(string.Format("{0} {1} {2} {3}", mainMachine.Current.Identity, transfered, index, count));
+                //DebugHelper.Log(string.Format("{0} {1} {2} {3}", mainMachine.Current.Identity, transfered, index, count));
 
                 Assert.AreEqual(index < 30, transfered);
 
@@ -132,7 +132,7 @@ namespace StateMachineX.UnitTest
                 string format = "Transfer: {0, 5}, Index: {1, 2}, Machine: {2}, State: {3}, Count: {4, 2}";
                 object args   = new[] { transfer, index, machineId, stateId, count };
 
-                Debug.Log(string.Format(format, args));*/
+                DebugHelper.Log(string.Format(format, args));*/
             }
         }
     }

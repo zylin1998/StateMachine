@@ -122,7 +122,7 @@ namespace StateMachineX.PlayTest
             var format = "Index: {0}, State: {1}, Count: {2}";
             var args = new[] { index, id, count };
 
-            Debug.Log(string.Format(format, args));
+            DebugHelper.Log(string.Format(format, args));
         }
     }
 
