@@ -19,6 +19,8 @@ namespace StateMachineX
 
         public bool HasChild => States.Any();
 
+        public INodeWatcher Watcher { get; set; }
+
         public void Add(IState state) 
         {
             _States.Add(state);

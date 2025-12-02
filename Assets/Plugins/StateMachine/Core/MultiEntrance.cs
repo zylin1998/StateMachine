@@ -18,6 +18,8 @@ namespace StateMachineX
             public bool Enter { get; } = true;
             public bool Exit  { get; } = false;
 
+            public INodeWatcher Watcher { get; set; }
+
             public bool HasChild => _States.Any();
 
             public bool Add(IState state) 
@@ -138,6 +140,8 @@ namespace StateMachineX
         public IState Current => _State;
 
         public IEnumerable<IState> States => _States;
+
+        public INodeWatcher Watcher { get; set; }
 
         public void Add(IState state)
         {

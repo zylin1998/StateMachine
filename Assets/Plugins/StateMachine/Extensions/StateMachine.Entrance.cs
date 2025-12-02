@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace StateMachineX
 {
@@ -76,6 +77,33 @@ namespace StateMachineX
             self.SetIdentity(Identity);
 
             return self;
+        }
+
+
+        public static TNode WithWatcher<TNode>(this TNode node) where TNode : IMachineNode
+        {
+#if UNITY_EDITOR
+            node.Watcher = new GameObject(node.Identity?.ToString())
+                .AddComponent<MonoNodeWatcher>()
+                .ByNode(node);
+#else
+            state.Watcher = new StateWatcher().ByState(state);
+#endif
+
+            if (node.HasChild && node is IStateMachine machine) 
+            {
+                foreach (var state in machine.States) 
+                {
+                    var watcher = state.WithWatcher().Watcher;
+                    
+                    if (node.Watcher is MonoBehaviour parent && watcher is MonoBehaviour child) 
+                    {
+                        child.transform.SetParent(parent.transform);
+                    }
+                }
+            }
+
+            return node;
         }
 
         public static void Recycle<T>(this T node) where T : IMachineNode 

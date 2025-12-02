@@ -17,6 +17,8 @@ namespace StateMachineX
         /// </summary>
         public bool HasChild { get; }
 
+        public INodeWatcher Watcher { get; set; }
+
         /// <summary>
         /// 狀態更新(Unity Update)。
         /// </summary>

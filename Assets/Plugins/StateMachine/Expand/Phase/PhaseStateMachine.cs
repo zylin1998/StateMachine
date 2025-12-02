@@ -36,17 +36,21 @@ namespace StateMachineX
 
         public bool Enter => EnterEvent?.Invoke() ?? false;
         public bool Exit  => ExitEvent?.Invoke() ?? Current.Exit;
-
+        
         public void OnEnter()
         {
             Reset();
 
             OnEnterEvent?.Invoke();
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke();
+
+            Watcher?.StopWatch();
         }
 
         #endregion
@@ -119,16 +123,21 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke(Param1) ?? false;
         public bool Exit  => ExitEvent?.Invoke(Param1) ?? Current.Exit;
 
+        
         public void OnEnter()
         {
             Reset();
 
             OnEnterEvent?.Invoke(Param1);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1);
+
+            Watcher?.StopWatch();
         }
 
         #endregion
@@ -213,11 +222,15 @@ namespace StateMachineX
             Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2);
+
+            Watcher?.StopWatch();
         }
 
         #endregion
@@ -308,11 +321,15 @@ namespace StateMachineX
             Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2, Param3);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3);
+
+            Watcher?.StopWatch();
         }
 
         #endregion
@@ -409,11 +426,15 @@ namespace StateMachineX
             Reset();
 
             OnEnterEvent?.Invoke(Param1, Param2, Param3, Param4);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3, Param4);
+
+            Watcher?.StopWatch();
         }
 
         #endregion

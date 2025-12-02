@@ -36,6 +36,8 @@ namespace StateMachineX
 
         public virtual bool HasChild => Core.HasChild;
 
+        public INodeWatcher Watcher { get => Core.Watcher; set => Core.Watcher = value; }
+
         public virtual void SetCore(IStateMachine machine) 
         {
             Core = machine;

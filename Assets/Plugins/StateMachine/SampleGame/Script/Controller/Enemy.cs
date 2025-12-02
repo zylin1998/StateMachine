@@ -24,35 +24,49 @@ namespace StateMachineX.SampleGame
             var idle = StateMachine.FunctionalState()
                 .EnterWhen(IsIdle)
                 .ExitWhen(NotIdle)
-                .DoOnEnter(() => _Character.Move(Vector2.zero));
+                .DoOnEnter(() => _Character.Move(Vector2.zero))
+                .WithId("Idle");
 
             var move = StateMachine.FunctionalState()
                 .EnterWhen(IsMove)
                 .ExitWhen(NotMove)
-                .DoFixedTick(Move);
+                .DoFixedTick(Move)
+                .WithId("Move");
 
             var spin = StateMachine.FunctionalState()
                 .EnterWhen(IsSpin)
                 .ExitWhen(NotSpin)
-                .DoFixedTick(Spin);
+                .DoFixedTick(Spin)
+                .WithId("Spin");
 
             var attack = StateMachine.FunctionalState()
                 .EnterWhen(IsAttack)
                 .ExitWhen(NotAttack)
-                .DoFixedTick(Attack);
+                .DoFixedTick(Attack)
+                .WithId("Attack");
 
             var dead = StateMachine.FunctionalState()
                 .EnterWhen(IsDead)
                 .ExitWhen(NotDead)
-                .DoOnEnter(Dead);
+                .DoOnEnter(Dead)
+                .WithId("Dead");
 
             var hurt = StateMachine.FunctionalState()
                 .EnterWhen(IsHurt)
                 .ExitWhen(NotHurt)
-                .DoFixedTick(Hurt);
+                .DoFixedTick(Hurt)
+                .WithId("Hurt");
 
             Machine = StateMachine.MultiEntrance()
-                .WithStates(idle, move, spin, attack, dead, hurt);
+                .WithStates(idle, move, spin, attack, dead, hurt)
+                .WithId("StateMachine")
+                .WithWatcher();
+
+
+            if (Machine.Watcher is MonoBehaviour mono)
+            {
+                mono.transform.SetParent(transform);
+            }
         }
 
         public void Enable()

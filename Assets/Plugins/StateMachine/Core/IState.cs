@@ -15,6 +15,10 @@ namespace StateMachineX
         /// 狀態離開點判定。
         /// </summary>
         public bool Exit  { get; }
+        /// <summary>
+        /// 狀態觀察
+        /// </summary>
+        public INodeWatcher Watcher { get; set; }
 
         /// <summary>
         /// 狀態進入點執行項目。
@@ -41,6 +45,8 @@ namespace StateMachineX
             public bool Exit  => true;
 
             public bool HasChild => false;
+
+            public INodeWatcher Watcher { get; set; }
 
             public void OnEnter()
             {

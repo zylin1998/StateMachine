@@ -21,15 +21,20 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke() ?? false;
         public bool Exit  => ExitEvent?.Invoke() ?? true;
 
+        public INodeWatcher Watcher { get; set; }
 
         public void OnEnter()
         {
             OnEnterEvent?.Invoke();
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke();
+
+            Watcher?.StartWatch();
         }
 
         public void Tick()
@@ -136,14 +141,20 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke(Param1) ?? false;
         public bool Exit  => ExitEvent?.Invoke(Param1)  ?? true;
 
+        public INodeWatcher Watcher { get; set; }
+
         public void OnEnter()
         {
             OnEnterEvent?.Invoke(Param1);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1);
+
+            Watcher?.StopWatch();
         }
 
         public void Tick()
@@ -248,14 +259,20 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke(Param1, Param2) ?? false;
         public bool Exit => ExitEvent?.Invoke(Param1, Param2) ?? true;
 
+        public INodeWatcher Watcher { get; set; }
+
         public void OnEnter()
         {
             OnEnterEvent?.Invoke(Param1, Param2);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2);
+
+            Watcher?.StopWatch();
         }
 
         public void Tick()
@@ -372,14 +389,20 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3) ?? false;
         public bool Exit  => ExitEvent?.Invoke(Param1, Param2, Param3) ?? true;
 
+        public INodeWatcher Watcher { get; set; }
+
         public void OnEnter()
         {
             OnEnterEvent?.Invoke(Param1, Param2, Param3);
+
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3);
+
+            Watcher?.StopWatch();
         }
 
         public void Tick()
@@ -502,14 +525,20 @@ namespace StateMachineX
         public bool Enter => EnterEvent?.Invoke(Param1, Param2, Param3, Param4) ?? false;
         public bool Exit  => ExitEvent?.Invoke(Param1, Param2, Param3, Param4) ?? true;
 
+        public INodeWatcher Watcher { get; set; }
+
         public void OnEnter()
         {
             OnEnterEvent?.Invoke(Param1, Param2, Param3, Param4);
+            
+            Watcher?.StartWatch();
         }
 
         public void OnExit()
         {
             OnExitEvent?.Invoke(Param1, Param2, Param3, Param4);
+
+            Watcher?.StopWatch();
         }
 
         public void Tick()

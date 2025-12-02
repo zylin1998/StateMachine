@@ -10,9 +10,11 @@ namespace StateMachineX
     public class StateMachineAsset : ScriptableObject, IStateMachineAsset
     {
         [SerializeField]
-        protected string      _Id;
+        protected string _Id;
         [SerializeField]
         internal  MachineType _MachineType;
+        [SerializeField]
+        protected bool _CreateWatcher;
         [SerializeField]
         protected List<StateAssetBase> _States;
         [SerializeField]
@@ -43,6 +45,11 @@ namespace StateMachineX
                 return sequence;
             }
 
+            if (_CreateWatcher) 
+            {
+                var machineWatcher = machine.WithWatcher();
+            }
+
             return machine;
         }
     }
@@ -53,6 +60,8 @@ namespace StateMachineX
         protected string      _Id;
         [SerializeField]
         internal  MachineType _MachineType;
+        [SerializeField]
+        protected bool _CreateWatcher;
         [SerializeField]
         protected List<StateAssetBase<T>> _States;
         [SerializeField]
@@ -83,6 +92,11 @@ namespace StateMachineX
                 return sequence;
             }
 
+            if (_CreateWatcher)
+            {
+                var machineWatcher = machine.WithWatcher();
+            }
+
             return machine;
         }
     }
@@ -93,6 +107,8 @@ namespace StateMachineX
         protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
+        [SerializeField]
+        protected bool _CreateWatcher;
         [SerializeField]
         protected List<StateAssetBase<T1, T2>> _States;
         [SerializeField]
@@ -123,6 +139,11 @@ namespace StateMachineX
                 return sequence;
             }
 
+            if (_CreateWatcher)
+            {
+                var machineWatcher = machine.WithWatcher();
+            }
+
             return machine;
         }
     }
@@ -133,6 +154,8 @@ namespace StateMachineX
         protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
+        [SerializeField]
+        protected bool _CreateWatcher;
         [SerializeField]
         protected List<StateAssetBase<T1, T2, T3>> _States;
         [SerializeField]
@@ -163,6 +186,11 @@ namespace StateMachineX
                 return sequence;
             }
 
+            if (_CreateWatcher)
+            {
+                var machineWatcher = machine.WithWatcher();
+            }
+
             return machine;
         }
     }
@@ -173,6 +201,8 @@ namespace StateMachineX
         protected string _Id;
         [SerializeField]
         internal MachineType _MachineType;
+        [SerializeField]
+        protected bool _CreateWatcher;
         [SerializeField]
         protected List<StateAssetBase<T1, T2, T3, T4>> _States;
         [SerializeField]
@@ -201,6 +231,11 @@ namespace StateMachineX
                 sequence.IgnoreEnter = _IgnoreEnter;
 
                 return sequence;
+            }
+
+            if (_CreateWatcher)
+            {
+                var machineWatcher = machine.WithWatcher();
             }
 
             return machine;
