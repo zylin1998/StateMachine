@@ -23,6 +23,8 @@ namespace StateMachineX
         public MachineRegistration(IStateMachine machine) 
         {
             Machine  = machine;
+
+            Machine.Watcher?.StartWatch();
         }
 
         public IStateMachine Machine  { get; }
@@ -44,6 +46,8 @@ namespace StateMachineX
             IsLateUpdate  = false;
 
             DisposableCatcher?.Remove(this);
+
+            Machine.Watcher?.StopWatch();
         }
 
         private bool CheckValid() 

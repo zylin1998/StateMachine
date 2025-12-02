@@ -19,11 +19,22 @@ namespace StateMachineX.Internal
 
         private static void HandleHierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
         {
-            UnityEngine.Object instance = EditorUtility.InstanceIDToObject(instanceID);
-
-            if (instance is INodeWatcher watcher && watcher.IsCurrent) 
+            if (!Application.isPlaying) 
             {
-                Debug.Log(instance.name);
+                return;
+            }
+
+            var gameObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+
+            if (!gameObject)
+            {
+                return;
+            }
+
+            var watcher = gameObject.GetComponent<INodeWatcher>();
+
+            if (watcher != null && watcher.IsCurrent) 
+            {
                 var color = Color.blue;
 
                 if (watcher.Node is IWrappableMachine wrappable)
@@ -32,6 +43,10 @@ namespace StateMachineX.Internal
 
                     color = Color.magenta;
                 }
+
+                color.a = 0.2f;
+
+                selectionRect.xMax += 60f;
 
                 EditorGUI.DrawRect(selectionRect, color);
             }  

@@ -110,7 +110,13 @@ namespace StateMachineX.SampleGame
             Machine = StateMachine.SingleEntrance()
                 .WithStates(init, ready, loop, endLoop)
                 .Sequence()
-                .OrderBy(1, 2, 3, 4);
+                .OrderBy(1, 2, 3, 4)
+                .WithWatcher();
+
+            if (Machine.Watcher is MonoBehaviour mono) 
+            {
+                mono.transform.SetParent(transform);
+            }
         }
 
         public void Enable()

@@ -34,7 +34,7 @@ namespace StateMachineX
         {
             OnExitEvent?.Invoke();
 
-            Watcher?.StartWatch();
+            Watcher?.StopWatch();
         }
 
         public void Tick()

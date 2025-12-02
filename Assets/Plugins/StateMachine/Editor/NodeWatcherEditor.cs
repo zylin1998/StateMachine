@@ -14,6 +14,7 @@ namespace StateMachineX.Editor
 
             base.OnInspectorGUI();
 
+            SetBoolean("IsCurrent" , watcher.IsCurrent);
             SetFloat("StartFrame"  , watcher.StartFrame);
             SetFloat("CurrentFrame", watcher.StartFrame + watcher.PassFrame);
             SetFloat("PassFrame"   , watcher.PassFrame);
@@ -31,6 +32,17 @@ namespace StateMachineX.Editor
             EditorGUILayout.PrefixLabel(name);
 
             EditorGUILayout.FloatField(value);
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void SetBoolean(string name, bool value)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.PrefixLabel(name);
+
+            EditorGUILayout.Toggle(value);
 
             EditorGUILayout.EndHorizontal();
         }

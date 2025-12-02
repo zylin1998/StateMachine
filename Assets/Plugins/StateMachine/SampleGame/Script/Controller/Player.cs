@@ -61,7 +61,8 @@ namespace StateMachineX.SampleGame
 
             Machine = StateMachine.MultiEntrance()
                 .WithStates(idle, move, spin, attack, dead, hurt)
-                .WithId("StateMachine")
+                .WithId("StateMachine" +
+                "")
                 .WithWatcher();
 
             if (Machine.Watcher is MonoBehaviour mono) 

@@ -43,7 +43,7 @@ namespace StateMachineX
         public void StopWatch()
         {
             _IsCurrent = false;
-            Debug.Log("Stop Watch" + Node.Identity);
+            
             _StartTime  = 0;
             _StartFrame = 0;
         }
