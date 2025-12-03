@@ -57,6 +57,13 @@ namespace StateMachineX
 
         #region IMachineNode
 
+        public override void Reset()
+        {
+            Watcher?.StopWatch();
+
+            base.Reset();
+        }
+
         public override void Dispose(bool disposeChild)
         {
             base.Dispose(disposeChild);
@@ -143,6 +150,13 @@ namespace StateMachineX
         #endregion
 
         #region IMachineNode
+
+        public override void Reset()
+        {
+            Watcher?.StopWatch();
+
+            base.Reset();
+        }
 
         public override void Dispose(bool disposeChild)
         {
@@ -241,6 +255,13 @@ namespace StateMachineX
         #endregion
 
         #region IMachineNode
+
+        public override void Reset()
+        {
+            Watcher?.StopWatch();
+
+            base.Reset();
+        }
 
         public override void Dispose(bool disposeChild)
         {
@@ -345,6 +366,13 @@ namespace StateMachineX
         #endregion
 
         #region IMachineNode
+
+        public override void Reset()
+        {
+            Watcher?.StopWatch();
+
+            base.Reset();
+        }
 
         public override void Dispose(bool disposeChild)
         {
@@ -455,6 +483,13 @@ namespace StateMachineX
         #endregion
 
         #region IMachineNode
+
+        public override void Reset()
+        {
+            Watcher?.StopWatch();
+
+            base.Reset();
+        }
 
         public override void Dispose(bool disposeChild)
         {

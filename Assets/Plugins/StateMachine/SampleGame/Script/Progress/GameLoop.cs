@@ -121,8 +121,6 @@ namespace StateMachineX.SampleGame
 
         public void Enable()
         {
-            Machine.Reset();
-
             _Register = Machine.FixedUpdate();
         }
 
@@ -136,7 +134,7 @@ namespace StateMachineX.SampleGame
             {
                 enemy.Disable();
             }
-
+            
             _OnGameOver.Invoke();
         }
 

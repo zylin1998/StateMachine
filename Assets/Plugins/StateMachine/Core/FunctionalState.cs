@@ -74,7 +74,7 @@ namespace StateMachineX
 
         public void Reset() 
         {
-
+            Watcher?.StopWatch();
         }
 
         public void Dispose(bool disposeChild) 
@@ -192,7 +192,7 @@ namespace StateMachineX
 
         public void Reset()
         {
-
+            Watcher?.StopWatch();
         }
 
         public void Dispose(bool disposeChild)
@@ -322,7 +322,7 @@ namespace StateMachineX
 
         public void Reset()
         {
-
+            Watcher?.StopWatch();
         }
 
         public void Dispose(bool disposeChild)
@@ -457,7 +457,7 @@ namespace StateMachineX
 
         public void Reset()
         {
-
+            Watcher?.StopWatch();
         }
 
         public void Dispose(bool disposeChild)
@@ -598,7 +598,7 @@ namespace StateMachineX
 
         public void Reset()
         {
-
+            Watcher?.StopWatch();
         }
 
         public void Dispose(bool disposeChild)

@@ -81,8 +81,6 @@ namespace StateMachineX.SampleGame
 
         public void Disable()
         {
-            Machine.Reset();
-
             _Registration.Dispose();
 
             gameObject.SetActive(false);

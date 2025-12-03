@@ -44,11 +44,11 @@ namespace StateMachineX
             _StartTime  = 0;
             _StartFrame = 0;
 
-            if (Node.HasChild && Node is IStateMachine machine)
+            if (Node is IStateMachine machine)
             {
                 var current = machine.Current;
 
-                if (current is IEnumerable<IState> states)
+                if (current.HasChild && current is IEnumerable<IState> states)
                 {
                     foreach (var state in states)
                     {
