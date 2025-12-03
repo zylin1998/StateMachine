@@ -247,12 +247,12 @@ namespace StateMachineX.Editor
                 return self;
             }
 
-            if (machine.Core is ISequenceStateMachine core)
+            if (machine?.Core is ISequenceStateMachine core)
             {
                 return core;
             }
 
-            if (machine.Core is IWrappableMachine wrappable) 
+            if (machine?.Core is IWrappableMachine wrappable) 
             {
                 return GetSequenceMachine(wrappable);
             }

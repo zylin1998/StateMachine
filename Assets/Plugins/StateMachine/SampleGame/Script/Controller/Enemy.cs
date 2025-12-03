@@ -71,8 +71,6 @@ namespace StateMachineX.SampleGame
 
         public void Enable()
         {
-            Machine.Reset();
-
             _Registration = Machine
                 .Update()
                 .FixedUpdate()
@@ -83,6 +81,8 @@ namespace StateMachineX.SampleGame
 
         public void Disable()
         {
+            Machine.Reset();
+
             _Registration.Dispose();
 
             gameObject.SetActive(false);

@@ -92,14 +92,11 @@ namespace StateMachineX
         {
             base.Dispose(disposeChild);
 
-            if (disposeChild)
-            {
-                OrderBy(default);
-
-                SetIdentity(StateMachine.Identity.SequenceStatemachine);
-            }
-
             _Flag = -1;
+
+            OrderBy(default);
+
+            SetIdentity(StateMachine.Identity.SequenceStatemachine);
         }
 
         public override void Dispose()
