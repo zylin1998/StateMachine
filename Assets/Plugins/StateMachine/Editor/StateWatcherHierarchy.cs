@@ -39,9 +39,12 @@ namespace StateMachineX.Internal
 
                 if (watcher.Node is IWrappableMachine wrappable)
                 {
-                    DebugHelper.Log("Is Wrappable StateMachine");
-
                     color = Color.magenta;
+                }
+
+                else if (watcher.Node is IStateMachine machine)
+                {
+                    color = Color.green;
                 }
 
                 color.a = 0.2f;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace StateMachineX
 {
-    public class StateWatcher : INodeWatcher
+    public class NodeWatcher : INodeWatcher
     {
         private IMachineNode _Node;
 

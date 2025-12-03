@@ -16,11 +16,6 @@ namespace StateMachineX
         /// </summary>
         public bool Exit  { get; }
         /// <summary>
-        /// 狀態觀察
-        /// </summary>
-        public INodeWatcher Watcher { get; set; }
-
-        /// <summary>
         /// 狀態進入點執行項目。
         /// </summary>
         public void OnEnter();
@@ -95,5 +90,31 @@ namespace StateMachineX
         }
 
         #endregion
+    }
+
+    public interface IState<T1> : IState
+    {
+        T1 Param1 { get; }
+    }
+
+    public interface IState<T1, T2> : IState
+    {
+        T1 Param1 { get; }
+        T2 Param2 { get; }
+    }
+
+    public interface IState<T1, T2, T3> : IState
+    {
+        T1 Param1 { get; }
+        T2 Param2 { get; }
+        T3 Param3 { get; }
+    }
+
+    public interface IState<T1, T2, T3, T4> : IState
+    {
+        T1 Param1 { get; }
+        T2 Param2 { get; }
+        T3 Param3 { get; }
+        T4 Param4 { get; }
     }
 }

@@ -17,10 +17,8 @@ namespace StateMachineX
         public Action LateTickEvent  { get; set; }
     }
 
-    public interface IFunctionalState<TParam1> : IState
+    public interface IFunctionalState<TParam1> : IState<TParam1>
     {
-        public TParam1 Param1 { get; }
-
         public Func<TParam1, bool> EnterEvent     { get; set; }
         public Func<TParam1, bool> ExitEvent      { get; set; }
 
@@ -33,13 +31,10 @@ namespace StateMachineX
         public void SetParameters(TParam1 param1);
     }
 
-    public interface IFunctionalState<TParam1, TParam2> : IState
+    public interface IFunctionalState<TParam1, TParam2> : IState<TParam1, TParam2>
     {
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
-
         public Func<TParam1, TParam2, bool> EnterEvent { get; set; }
-        public Func<TParam1, TParam2, bool> ExitEvent { get; set; }
+        public Func<TParam1, TParam2, bool> ExitEvent  { get; set; }
 
         public Action<TParam1, TParam2> OnEnterEvent   { get; set; }
         public Action<TParam1, TParam2> OnExitEvent    { get; set; }
@@ -50,15 +45,10 @@ namespace StateMachineX
         public void SetParameters(TParam1 param1, TParam2 param2);
     }
 
-    public interface IFunctionalState<TParam1, TParam2, TParam3> : IState
+    public interface IFunctionalState<TParam1, TParam2, TParam3> : IState<TParam1, TParam2, TParam3>
     {
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
-        public TParam3 Param3 { get; }
-
-
         public Func<TParam1, TParam2, TParam3, bool> EnterEvent { get; set; }
-        public Func<TParam1, TParam2, TParam3, bool> ExitEvent { get; set; }
+        public Func<TParam1, TParam2, TParam3, bool> ExitEvent  { get; set; }
 
         public Action<TParam1, TParam2, TParam3> OnEnterEvent   { get; set; }
         public Action<TParam1, TParam2, TParam3> OnExitEvent    { get; set; }
@@ -69,13 +59,8 @@ namespace StateMachineX
         public void SetParameters(TParam1 param1, TParam2 param2, TParam3 param3);
     }
 
-    public interface IFunctionalState<TParam1, TParam2, TParam3, TParam4> : IState
+    public interface IFunctionalState<TParam1, TParam2, TParam3, TParam4> : IState<TParam1, TParam2, TParam3, TParam4>
     {
-        public TParam1 Param1 { get; }
-        public TParam2 Param2 { get; }
-        public TParam3 Param3 { get; }
-        public TParam4 Param4 { get; }
-
         public Func<TParam1, TParam2, TParam3, TParam4, bool> EnterEvent { get; set; }
         public Func<TParam1, TParam2, TParam3, TParam4, bool> ExitEvent { get; set; }
 

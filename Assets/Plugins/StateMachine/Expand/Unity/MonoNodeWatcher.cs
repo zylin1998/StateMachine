@@ -21,7 +21,7 @@ namespace StateMachineX
         public bool IsCurrent => _IsCurrent;
 
         public float StartTime  => _StartTime;
-        public float PassTime   => _IsCurrent ? Time.realtimeSinceStartup - StartTime : 0f;
+        public float PassTime   => _IsCurrent ? Time.time - StartTime : 0f;
         public float StartFrame => _StartFrame;
         public float PassFrame  => _IsCurrent ? Time.frameCount - StartFrame : 0f;
 
@@ -36,7 +36,7 @@ namespace StateMachineX
         {
             _IsCurrent = true;
 
-            _StartTime  = Time.realtimeSinceStartup;
+            _StartTime  = Time.time;
             _StartFrame = Time.frameCount;
         }
 
