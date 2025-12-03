@@ -164,6 +164,11 @@ namespace StateMachineX
             Dispose(true);
         }
 
+        public override object[] GetParameters()
+        {
+            return new object[1] { Param1 };
+        }
+
         #endregion
 
         private static bool FalseCondition(T param1) => false;
@@ -256,6 +261,11 @@ namespace StateMachineX
         public override void Dispose()
         {
             Dispose(true);
+        }
+
+        public override object[] GetParameters()
+        {
+            return new object[2] { Param1, Param2 };
         }
 
         #endregion
@@ -356,6 +366,11 @@ namespace StateMachineX
         public override void Dispose()
         {
             Dispose(true);
+        }
+
+        public override object[] GetParameters()
+        {
+            return new object[3] { Param1, Param2, Param3 };
         }
 
         #endregion
@@ -462,6 +477,11 @@ namespace StateMachineX
         public override void Dispose()
         {
             Dispose(true);
+        }
+
+        public override object[] GetParameters()
+        {
+            return new object[4] { Param1, Param2, Param3, Param4 };
         }
 
         #endregion

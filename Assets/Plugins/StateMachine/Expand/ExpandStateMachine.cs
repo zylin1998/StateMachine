@@ -108,5 +108,10 @@ namespace StateMachineX
         {
             Dispose(true);
         }
+
+        public virtual object[] GetParameters() 
+        {
+            return Core.GetParameters();
+        }
     }
 }

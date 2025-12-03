@@ -48,6 +48,8 @@ namespace StateMachineX
             DisposableCatcher?.Remove(this);
 
             Machine.Watcher?.StopWatch();
+
+            Machine.Dispose(false);
         }
 
         private bool CheckValid() 

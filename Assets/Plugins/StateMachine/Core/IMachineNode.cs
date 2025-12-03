@@ -45,6 +45,7 @@ namespace StateMachineX
         /// </summary>
         /// <param name="disposeChild"></param>
         public void Dispose(bool disposeChild);
+        public object[] GetParameters();
 
         protected static object DefaultId { get; } = new DefaultIdentity();
 

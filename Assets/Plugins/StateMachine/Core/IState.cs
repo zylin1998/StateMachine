@@ -87,6 +87,11 @@ namespace StateMachineX
             {
 
             }
+
+            public object[] GetParameters() 
+            {
+                return new object[0];
+            }
         }
 
         #endregion

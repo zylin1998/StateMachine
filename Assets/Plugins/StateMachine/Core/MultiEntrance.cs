@@ -95,6 +95,11 @@ namespace StateMachineX
                 //No Use
             }
 
+            public object[] GetParameters() 
+            {
+                return new object[0];
+            }
+
             public IEnumerator<IState> GetEnumerator()
             {
                 return _States.GetEnumerator();
@@ -221,6 +226,11 @@ namespace StateMachineX
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        public object[] GetParameters() 
+        {
+            return new object[0];
         }
     }
 }

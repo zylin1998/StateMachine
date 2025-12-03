@@ -94,6 +94,11 @@ namespace StateMachineX
             LateTickEvent  = Callback;
         }
 
+        public object[] GetParameters() 
+        {
+            return new object[0];
+        }
+
         #endregion
 
         private static void Callback() { }
@@ -207,6 +212,11 @@ namespace StateMachineX
             LateTickEvent  = Callback;
 
             _Param1 = default;
+        }
+
+        public object[] GetParameters()
+        {
+            return new object[1] { Param1 };
         }
 
         #endregion
@@ -333,6 +343,11 @@ namespace StateMachineX
 
             _Param1 = default;
             _Param2 = default;
+        }
+
+        public object[] GetParameters()
+        {
+            return new object[2] { Param1, Param2 };
         }
 
         #endregion
@@ -464,6 +479,11 @@ namespace StateMachineX
             _Param1 = default;
             _Param2 = default;
             _Param3 = default;
+        }
+
+        public object[] GetParameters()
+        {
+            return new object[3] { Param1, Param2, Param3 };
         }
 
         #endregion
@@ -601,6 +621,11 @@ namespace StateMachineX
             _Param2 = default;
             _Param3 = default;
             _Param4 = default;
+        }
+
+        public object[] GetParameters()
+        {
+            return new object[4] { Param1, Param2, Param3, Param4 };
         }
 
         #endregion

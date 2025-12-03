@@ -12,8 +12,16 @@ namespace StateMachineX.Internal
     [InitializeOnLoad]
     public static class StateWatcherHierarchy
     {
+        public static Color StateColor   { get; set; }
+        public static Color MachineColor { get; set; }
+        public static Color WrappedColor { get; set; }
+
         static StateWatcherHierarchy()
         {
+            StateColor   = Color.blue;
+            MachineColor = Color.green;
+            WrappedColor = Color.magenta;
+
             EditorApplication.hierarchyWindowItemOnGUI += HandleHierarchyWindowItemOnGUI;
         }
 
@@ -35,16 +43,16 @@ namespace StateMachineX.Internal
 
             if (watcher != null && watcher.IsCurrent) 
             {
-                var color = Color.blue;
+                var color = StateColor;
 
                 if (watcher.Node is IWrappableMachine wrappable)
                 {
-                    color = Color.magenta;
+                    color = WrappedColor;
                 }
 
                 else if (watcher.Node is IStateMachine machine)
                 {
-                    color = Color.green;
+                    color = MachineColor;
                 }
 
                 color.a = 0.2f;

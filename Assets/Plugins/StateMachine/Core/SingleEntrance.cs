@@ -114,6 +114,11 @@ namespace StateMachineX
             Dispose(true);
         }
 
+        public object[] GetParameters() 
+        {
+            return new object[0];
+        }
+
         private bool CheckPhase() 
         {
             if (Current.HasChild && Current is IStateMachine machine) 
