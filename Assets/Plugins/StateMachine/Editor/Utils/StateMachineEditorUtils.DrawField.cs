@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace StateMachineX.Editor
 {
-    internal static partial class StateMachineEditorUtils
+    public static partial class StateMachineEditorUtils
     {
         internal static int AsField(this int self, object message)
         {

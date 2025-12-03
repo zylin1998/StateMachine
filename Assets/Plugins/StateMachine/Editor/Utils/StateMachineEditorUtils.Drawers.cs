@@ -7,26 +7,28 @@ using UnityEngine;
 
 namespace StateMachineX.Editor
 {
-    internal static partial class StateMachineEditorUtils
+    public static partial class StateMachineEditorUtils
     {
         #region Nest Type
 
+        public delegate void OnDraw<T>(T obj);
+
         internal struct CallbackDrawer<T> : INodeParameterDrawer
         {
-            public CallbackDrawer(Action<T> callback) 
+            public CallbackDrawer(OnDraw<T> onDraw) 
             {
-                _Callback = callback;
+                _OnDraw = onDraw;
             }
 
             public Type DrawType => typeof(T);
 
-            private Action<T> _Callback;
+            private OnDraw<T> _OnDraw;
 
             public void Draw(object obj) 
             {
                 if (obj is T target) 
                 {
-                    _Callback?.Invoke(target);
+                    _OnDraw?.Invoke(target);
                 }
             }
         }
@@ -98,7 +100,7 @@ namespace StateMachineX.Editor
             return BasicDrawers.TryAdd(drawer.DrawType, drawer);
         }
 
-        internal static bool AddBasic<T>(Action<T> onDraw)
+        internal static bool AddBasic<T>(OnDraw<T> onDraw)
         {
             var drawer = new CallbackDrawer<T>(onDraw);
 
@@ -115,7 +117,7 @@ namespace StateMachineX.Editor
             return OverrideDrawers.TryAdd(drawer.DrawType, drawer);
         }
 
-        public static bool AddOverride<T>(Action<T> onDraw)
+        public static bool AddOverride<T>(OnDraw<T> onDraw)
         {
             var drawer = new CallbackDrawer<T>(onDraw);
 
