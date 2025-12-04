@@ -15,6 +15,8 @@ namespace StateMachineX
         public float StartFrame { get; }
         public float PassFrame  { get; }
 
+        public INodeWatcher ByNode(IMachineNode node);
+
         public void StartWatch();
 
         public void StopWatch();

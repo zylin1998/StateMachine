@@ -43,24 +43,6 @@ namespace StateMachineX
 
             _StartTime  = 0;
             _StartFrame = 0;
-
-            if (Node is IStateMachine machine)
-            {
-                var current = machine.Current;
-
-                if (current.HasChild && current is IEnumerable<IState> states)
-                {
-                    foreach (var state in states)
-                    {
-                        state.Watcher.StopWatch();
-                    }
-                }
-
-                else
-                {
-                    current?.Watcher?.StopWatch();
-                }
-            }
         }
     }
 }

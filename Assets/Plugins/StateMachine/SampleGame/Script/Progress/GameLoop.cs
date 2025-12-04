@@ -88,29 +88,33 @@ namespace StateMachineX.SampleGame
 
             var init = StateMachine.FunctionalState()
                 .DoOnEnter(Initialize)
-                .WithId(1);
+                .WithId("Init");
 
             var ready = StateMachine.FunctionalState()
                 .ExitWhen(IsReady)
                 .DoOnEnter(ReloadTimer)
                 .DoOnExit(CloseTimer)
                 .DoFixedTick(UpdateTimer)
-                .WithId(2);
+                .WithId("Ready");
 
             var loop = StateMachine.FunctionalState()
                 .ExitWhen(() => GameOver)
                 .DoOnEnter(EnterLoop)
                 .DoFixedTick(SpawnEnemy)
-                .WithId(3);
+                .WithId("Loop");
 
             var endLoop = StateMachine.FunctionalState()
                 .DoOnEnter(Disable)
-                .WithId(4);
+                .WithId("EndLoop");
+
+            var noUse = StateMachine.FunctionalState(this, _UI, _DataBase)
+                .WithId("NoUse");
 
             Machine = StateMachine.SingleEntrance()
-                .WithStates(init, ready, loop, endLoop)
+                .WithStates(init, ready, loop, endLoop, noUse)
                 .Sequence()
-                .OrderBy(1, 2, 3, 4)
+                .OrderBy("Init", "Ready", "Loop", "EndLoop")
+                .WithId("GameLoop")
                 .WithWatcher();
 
             if (Machine.Watcher is MonoBehaviour mono) 

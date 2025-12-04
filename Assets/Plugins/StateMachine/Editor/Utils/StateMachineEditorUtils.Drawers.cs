@@ -63,9 +63,20 @@ namespace StateMachineX.Editor
 
         public static bool DrawOverride(this object obj) 
         {
-            if (OverrideDrawers.TryGetValue(obj.GetType(), out var drawer)) 
+            var type = obj.GetType();
+
+            if (OverrideDrawers.TryGetValue(type, out var drawer)) 
             {
                 drawer.Draw(obj);
+
+                return true;
+            }
+
+            var assigned = OverrideDrawers.Keys.FirstOrDefault(t => t.IsAssignableFrom(type));
+
+            if (OverrideDrawers.TryGetValue(assigned, out var assignedDrawer))
+            {
+                assignedDrawer.Draw(obj);
 
                 return true;
             }
@@ -75,9 +86,20 @@ namespace StateMachineX.Editor
 
         public static bool DrawBasic(this object obj)
         {
-            if (BasicDrawers.TryGetValue(obj.GetType(), out var drawer))
+            var type = obj.GetType();
+
+            if (BasicDrawers.TryGetValue(type, out var drawer))
             {
                 drawer.Draw(obj);
+
+                return true;
+            }
+
+            var assigned = BasicDrawers.Keys.FirstOrDefault(t => t.IsAssignableFrom(type));
+
+            if (BasicDrawers.TryGetValue(assigned, out var assignedDrawer))
+            {
+                assignedDrawer.Draw(obj);
 
                 return true;
             }

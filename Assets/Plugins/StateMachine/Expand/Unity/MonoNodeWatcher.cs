@@ -29,6 +29,8 @@ namespace StateMachineX
         {
             _Node = node;
 
+            name = Node?.Identity?.ToString() ?? name;
+
             return this;
         }
 

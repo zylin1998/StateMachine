@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 namespace StateMachineX
 {
@@ -10,30 +12,20 @@ namespace StateMachineX
     {
         #region Nest Type
 
-        internal class Factory
+        #region Factories
+
+        internal abstract class Factory
         {
-            public Factory(Type targetType)
-            {
-                TargetType = targetType;
-            }
-
-            private int _CreatedCount;
-
-            public Type TargetType { get; }
+            protected int _CreatedCount;
 
             public int CreateCount => _CreatedCount;
 
-            public object Create() 
-            {
-                _CreatedCount++;
-
-                return Activator.CreateInstance(TargetType);
-            }
+            public abstract object Create();
         }
 
-        public class Pool 
+        internal class NodeFactory : Factory
         {
-            public Pool(Type targetType) 
+            public NodeFactory(Type targetType)
             {
                 var baseType = typeof(IMachineNode);
 
@@ -42,9 +34,49 @@ namespace StateMachineX
                     DebugHelper.Log(string.Format("Target type ({0}) must have inherit interface of type ({1})", targetType.Name, baseType.Name));
                 }
 
-                Factory = new Factory(targetType);
+                TargetType = targetType;
+            }
+
+            public Type TargetType { get; }
+
+            public override object Create()
+            {
+                _CreatedCount++;
+
+                return Activator.CreateInstance(TargetType);
+            }
+        }
+
+        internal class WatcherFactory : Factory
+        {
+            public override object Create()
+            {
+                _CreatedCount++;
+
+                var watcher = default(INodeWatcher);
+#if UNITY_EDITOR
+                watcher = new GameObject("NodeWatcher").AddComponent<MonoNodeWatcher>();
+#else
+                watcher = new StateWatcher();
+#endif
+
+                return watcher;
+            }
+        }
+
+        #endregion
+
+        #region Pools
+
+        public class Pool 
+        {
+            public Pool(Type targetType) 
+            {
+                Factory = new NodeFactory(targetType);
 
                 Queue = new Queue<IMachineNode>();
+
+                TargetType = targetType;
             }
 
             internal Factory Factory { get; }
@@ -54,6 +86,8 @@ namespace StateMachineX
             public int CreateCount => Factory.CreateCount;
 
             public int InPoolCount => Queue.Count;
+
+            public Type TargetType { get; }
 
             public IMachineNode Spawn() 
             {
@@ -71,9 +105,57 @@ namespace StateMachineX
             }
         }
 
+        public class WatcherPool
+        {
+            public WatcherPool()
+            {
+                Factory = new WatcherFactory();
+
+                Queue = new Queue<INodeWatcher>();
+            }
+
+            internal Factory Factory { get; }
+
+            internal Queue<INodeWatcher> Queue { get; }
+
+            public int CreateCount => Factory.CreateCount;
+
+            public int InPoolCount => Queue.Count;
+
+            public INodeWatcher Spawn()
+            {
+                if (!Queue.TryDequeue(out var watcher))
+                {
+                    watcher = Factory.Create() as INodeWatcher;
+                }
+
+                return watcher;
+            }
+
+            public void Despawn(INodeWatcher watcher)
+            {
+                Queue.Enqueue(watcher);
+
+#if UNITY_EDITOR
+                if (watcher is MonoBehaviour mono) 
+                {
+                    mono.name = "NodeWatcher";
+
+                    mono.transform.SetParent(StateMachine.GetInternalRoot());
+
+                    mono.gameObject.SetActive(false);
+                }
+#endif
+            }
+        }
+
+        #endregion
+
         #endregion
 
         public static Dictionary<Type, Pool> Pools { get; } = new();
+
+        public static WatcherPool Watchers { get; } = new();
 
         internal static Pool GetPool<T>() 
         {
@@ -87,6 +169,18 @@ namespace StateMachineX
             }
 
             return pool;
+        }
+
+        public static INodeWatcher SpawnWatcher<TNode>(this TNode node) where TNode : IMachineNode 
+        {
+            if (node.Watcher != null) 
+            {
+                return node.Watcher.ByNode(node);
+            }
+
+            node.Watcher = Watchers.Spawn().ByNode(node);
+
+            return node.Watcher;
         }
 
         public static T Spawn<T>() where T : IMachineNode
@@ -107,6 +201,11 @@ namespace StateMachineX
             return (T)result;
         }
 
+        public static void Despawn(INodeWatcher nodeWatcher) 
+        {
+            Watchers.Despawn(nodeWatcher);
+        }
+
         public static void Despawn<T>(T node) where T : IMachineNode
         {
             Despawn(node, true);
@@ -119,6 +218,10 @@ namespace StateMachineX
             node.Dispose(disposeChild);
 
             pool.Despawn(node);
+
+            Despawn(node.Watcher);
+
+            node.Watcher = default;
         }
 
         public static IFunctionalState GetFunctionalState() 

@@ -15,12 +15,14 @@ namespace StateMachineX.Internal
         public static Color StateColor   { get; set; }
         public static Color MachineColor { get; set; }
         public static Color WrappedColor { get; set; }
+        public static float RectAlpha    { get; set; }
 
         static StateWatcherHierarchy()
         {
             StateColor   = Color.blue;
             MachineColor = Color.green;
             WrappedColor = Color.magenta;
+            RectAlpha    = 0.2f;
 
             EditorApplication.hierarchyWindowItemOnGUI += HandleHierarchyWindowItemOnGUI;
         }
@@ -55,7 +57,7 @@ namespace StateMachineX.Internal
                     color = MachineColor;
                 }
 
-                color.a = 0.2f;
+                color.a = RectAlpha;
 
                 selectionRect.xMax += 60f;
 

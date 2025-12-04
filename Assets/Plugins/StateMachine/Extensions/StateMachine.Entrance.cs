@@ -82,13 +82,12 @@ namespace StateMachineX
 
         public static TNode WithWatcher<TNode>(this TNode node) where TNode : IMachineNode
         {
-#if UNITY_EDITOR
-            node.Watcher = new GameObject(node.Identity?.ToString())
-                .AddComponent<MonoNodeWatcher>()
-                .ByNode(node);
-#else
-            state.Watcher = new StateWatcher().ByState(state);
-#endif
+            if (node.Watcher != null) 
+            {
+                return node;
+            }
+
+            node.SpawnWatcher();
 
             if (node.HasChild && node is IStateMachine machine) 
             {

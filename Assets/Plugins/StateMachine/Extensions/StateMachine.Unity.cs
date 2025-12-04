@@ -9,6 +9,11 @@ namespace StateMachineX
 {
     public static partial class StateMachine
     {
+        public static Transform GetInternalRoot() 
+        {
+            return MainThreadDispatcher.Instance.transform;
+        }
+
         /// <summary>
         /// 讓狀態機以 Unity Update 的方式更新
         /// </summary>

@@ -6,11 +6,13 @@ using UnityEngine;
 
 namespace StateMachineX.Internal
 {
-    internal class MainThreadDispatcher : MonoBehaviour
+    public sealed class MainThreadDispatcher : MonoBehaviour
     {
-        public static MainThreadDispatcher _Instance;
+        #region Instance
 
-        public static MainThreadDispatcher Instance 
+        internal static MainThreadDispatcher _Instance;
+
+        internal static MainThreadDispatcher Instance 
         {
             get 
             {
@@ -19,6 +21,10 @@ namespace StateMachineX.Internal
                 return _Instance;
             }
         }
+
+        #endregion
+
+        #region Unity Behaviour
 
         private void Awake()
         {
@@ -50,6 +56,8 @@ namespace StateMachineX.Internal
             }
         }
 
+        #endregion
+
         private HashSet<IMachineRegistration> _Registrations = new();
 
         private MachineCollection _TransferCollection;
@@ -61,6 +69,8 @@ namespace StateMachineX.Internal
         private Coroutine _Update;
         private Coroutine _FixedUpdate;
         private Coroutine _LateUpdate;
+
+        public IEnumerable<IMachineRegistration> Registrations => _Registrations;
 
         private IEnumerator TransferCoroutine() 
         {

@@ -10,13 +10,15 @@ namespace StateMachineX.Editor
     [CustomEditor(typeof(MonoNodeWatcher))]
     public class NodeWatcherEditor : UnityEditor.Editor
     {
-        private BoolRef frameFold        = new BoolRef(false);
-        private BoolRef timeFold         = new BoolRef(false);
-        private BoolRef parameterFold    = new BoolRef(false);
-        private BoolRef machineFold      = new BoolRef(false);
-        private BoolRef activeStatesFold = new BoolRef(false);
-        private BoolRef allStatesFold    = new BoolRef(false);
-        private BoolRef sequenceFold     = new BoolRef(false);
+        public static bool DefaultFoldState { get; set; } = true;
+
+        private BoolRef frameFold        = new BoolRef(DefaultFoldState);
+        private BoolRef timeFold         = new BoolRef(DefaultFoldState);
+        private BoolRef parameterFold    = new BoolRef(DefaultFoldState);
+        private BoolRef machineFold      = new BoolRef(DefaultFoldState);
+        private BoolRef activeStatesFold = new BoolRef(DefaultFoldState);
+        private BoolRef allStatesFold    = new BoolRef(DefaultFoldState);
+        private BoolRef sequenceFold     = new BoolRef(DefaultFoldState);
 
         private Dictionary<int, BoolRef> parameterFolds = new Dictionary<int, BoolRef>();
 
@@ -232,7 +234,7 @@ namespace StateMachineX.Editor
         {
             if (!parameterFolds.TryGetValue(hash, out var reference)) 
             {
-                reference = new BoolRef();
+                reference = new BoolRef(DefaultFoldState);
 
                 parameterFolds.TryAdd(hash, reference);
             }
