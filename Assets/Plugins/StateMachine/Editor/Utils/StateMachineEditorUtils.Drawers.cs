@@ -74,7 +74,7 @@ namespace StateMachineX.Editor
 
             var assigned = OverrideDrawers.Keys.FirstOrDefault(t => t.IsAssignableFrom(type));
 
-            if (OverrideDrawers.TryGetValue(assigned, out var assignedDrawer))
+            if (assigned != null && OverrideDrawers.TryGetValue(assigned, out var assignedDrawer))
             {
                 assignedDrawer.Draw(obj);
 
@@ -97,7 +97,7 @@ namespace StateMachineX.Editor
 
             var assigned = BasicDrawers.Keys.FirstOrDefault(t => t.IsAssignableFrom(type));
 
-            if (BasicDrawers.TryGetValue(assigned, out var assignedDrawer))
+            if (assigned != null && BasicDrawers.TryGetValue(assigned, out var assignedDrawer))
             {
                 assignedDrawer.Draw(obj);
 
