@@ -64,11 +64,6 @@ namespace StateMachineX.SampleGame
                 .WithId("StateMachine")
                 .WithId("Player")
                 .WithWatcher();
-
-            if (Machine.Watcher is MonoBehaviour mono) 
-            {
-                mono.transform.SetParent(transform);
-            }
         }
 
         public void Enable()
@@ -76,7 +71,7 @@ namespace StateMachineX.SampleGame
             _Registration = Machine
                 .Update()
                 .FixedUpdate()
-                .AddTo(gameObject);
+                .AddTo(this);
         }
 
         public void Disable()

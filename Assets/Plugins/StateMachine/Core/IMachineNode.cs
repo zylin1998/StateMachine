@@ -16,7 +16,9 @@ namespace StateMachineX
         /// 是否包含子節點
         /// </summary>
         public bool HasChild { get; }
-
+        /// <summary>
+        /// 節點觀察器
+        /// </summary>
         public INodeWatcher Watcher { get; set; }
 
         /// <summary>
@@ -41,10 +43,14 @@ namespace StateMachineX
         /// </summary>
         public void Reset();
         /// <summary>
-        /// 
+        /// 釋放節點
         /// </summary>
         /// <param name="disposeChild"></param>
         public void Dispose(bool disposeChild);
+        /// <summary>
+        /// 取得所有傑點鐘的參數
+        /// </summary>
+        /// <returns></returns>
         public object[] GetParameters();
 
         protected static object DefaultId { get; } = new DefaultIdentity();

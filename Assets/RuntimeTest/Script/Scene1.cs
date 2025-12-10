@@ -18,10 +18,12 @@ namespace StateMachineX.RuntimeTest
             var state = StateMachine.FunctionalState()
                 .EnterWhen(() => gameObject.activeSelf)
                 .DoOnEnter(() => Debug.Log("State1 Entered"))
-                .DoTick(() => Debug.Log("State1 Ticked"));
+                .DoTick(() => Debug.Log("State1 Ticked"))
+                .ExitWhen(() => !enabled);
 
             Machine = StateMachine.SingleEntrance()
-                .WithStates(state);
+                .WithStates(state)
+                .WithWatcher();
 
             Machine.Update().AddTo(this);
 

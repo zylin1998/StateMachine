@@ -134,6 +134,11 @@ namespace StateMachineX
 
             public void Despawn(INodeWatcher watcher)
             {
+                if (watcher == null) 
+                {
+                    return;
+                }
+
                 Queue.Enqueue(watcher);
 
 #if UNITY_EDITOR
@@ -162,6 +167,18 @@ namespace StateMachineX
             var type = typeof(T);
 
             if (!Pools.TryGetValue(type, out var pool)) 
+            {
+                pool = new Pool(type);
+
+                Pools.Add(type, pool);
+            }
+
+            return pool;
+        }
+
+        internal static Pool GetPool(Type type)
+        {
+            if (!Pools.TryGetValue(type, out var pool))
             {
                 pool = new Pool(type);
 
@@ -213,13 +230,13 @@ namespace StateMachineX
 
         public static void Despawn<T>(T node, bool disposeChild) where T : IMachineNode 
         {
-            var pool = GetPool<T>();
+            var pool = GetPool(node.GetType());
 
             node.Dispose(disposeChild);
 
             pool.Despawn(node);
 
-            Despawn(node.Watcher);
+            Despawn(node?.Watcher);
 
             node.Watcher = default;
         }

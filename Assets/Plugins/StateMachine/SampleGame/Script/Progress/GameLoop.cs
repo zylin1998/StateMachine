@@ -116,16 +116,13 @@ namespace StateMachineX.SampleGame
                 .OrderBy("Init", "Ready", "Loop", "EndLoop")
                 .WithId("GameLoop")
                 .WithWatcher();
-
-            if (Machine.Watcher is MonoBehaviour mono) 
-            {
-                mono.transform.SetParent(transform);
-            }
         }
 
         public void Enable()
         {
-            _Register = Machine.FixedUpdate();
+            _Register = Machine
+                .FixedUpdate()
+                .AddTo(this);
         }
 
         public void Disable()

@@ -58,6 +58,12 @@ namespace StateMachineX
             return self;
         }
 
+        /// <summary>
+        /// 設定狀態機的Identity
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="Identity"></param>
+        /// <returns></returns>
         public static IStateMachine WithId(this IStateMachine self, object Identity) 
         {
             self.SetIdentity(Identity);
@@ -65,6 +71,12 @@ namespace StateMachineX
             return self;
         }
 
+        /// <summary>
+        /// 設定節點的Identity
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="Identity"></param>
+        /// <returns></returns>
         public static IMachineNode WithId(this IMachineNode self, object Identity) 
         {
             self.SetIdentity(Identity);
@@ -72,6 +84,12 @@ namespace StateMachineX
             return self;
         }
 
+        /// <summary>
+        /// 設定狀態的Identity
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="Identity"></param>
+        /// <returns></returns>
         public static IState WithId(this IState self, object Identity)
         {
             self.SetIdentity(Identity);
@@ -79,7 +97,12 @@ namespace StateMachineX
             return self;
         }
 
-
+        /// <summary>
+        /// 設置節點的狀態觀察器
+        /// </summary>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public static TNode WithWatcher<TNode>(this TNode node) where TNode : IMachineNode
         {
             if (node.Watcher != null) 
@@ -105,11 +128,22 @@ namespace StateMachineX
             return node;
         }
 
+        /// <summary>
+        /// 節點回收
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="node"></param>
         public static void Recycle<T>(this T node) where T : IMachineNode 
         {
             NodePool.Despawn(node);
         }
 
+        /// <summary>
+        /// 節點回收
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="node"></param>
+        /// <param name="disposeChild">是否釋放子節點</param>
         public static void Recycle<T>(this T node, bool disposeChild) where T : IMachineNode
         {
             NodePool.Despawn(node, disposeChild);

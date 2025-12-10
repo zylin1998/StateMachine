@@ -42,6 +42,12 @@ namespace StateMachineX
             return self;
         }
 
+        /// <summary>
+        /// 設定序列狀態機的Identity
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="identity"></param>
+        /// <returns></returns>
         public static ISequenceStateMachine WithId(this ISequenceStateMachine self, object identity) 
         {
             self.SetIdentity(identity);

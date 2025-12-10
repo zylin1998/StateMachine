@@ -17,6 +17,10 @@ namespace StateMachineX
     {
         private HashSet<IMachineRegistration> _Registrations = new HashSet<IMachineRegistration>();
 
+        private bool _QueryLock = false;
+
+        private Queue<IMachineRegistration> _AwaitRemove = new Queue<IMachineRegistration>();
+
         public void Add(IMachineRegistration registration)
         {
             if (_Registrations.Add(registration))
@@ -27,19 +31,35 @@ namespace StateMachineX
 
         public void Remove(IMachineRegistration registration) 
         {
-            if (_Registrations.Remove(registration)) 
+            if (_QueryLock)
             {
-                registration.DisposableCatcher = default;
+                _AwaitRemove.Enqueue(registration);
+            }
+            else 
+            {
+                if (_Registrations.Remove(registration))
+                {
+                    registration.DisposableCatcher = default;
+                }
             }
         }
 
         private void OnDestroy()
         {
-            foreach (var registration in _Registrations) 
+            _QueryLock = true;
+            
+            foreach (var registration in _Registrations)
             {
-                registration.DisposableCatcher = default;
-
                 registration.Dispose();
+
+                registration.Machine.Recycle();
+            }
+
+            _QueryLock = false;
+
+            for (; _AwaitRemove.Any();) 
+            {
+                Remove(_AwaitRemove.Dequeue());
             }
         }
     }

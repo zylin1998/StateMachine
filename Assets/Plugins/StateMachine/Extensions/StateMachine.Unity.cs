@@ -9,6 +9,10 @@ namespace StateMachineX
 {
     public static partial class StateMachine
     {
+        /// <summary>
+        /// 取得Unity中狀態機任務派發的基底物件
+        /// </summary>
+        /// <returns></returns>
         public static Transform GetInternalRoot() 
         {
             return MainThreadDispatcher.Instance.transform;
@@ -47,16 +51,31 @@ namespace StateMachineX
             return MainThreadDispatcher.RegisterLateUpdate(self);
         }
 
+        /// <summary>
+        /// 讓狀態機以 Unity Update 的方式更新
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static IMachineRegistration Update(this IMachineRegistration self) 
         {
             return MainThreadDispatcher.RegisterUpdate(self);
         }
 
+        /// <summary>
+        /// 讓狀態機以 Unity FixedUpdate 的方式更新
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static IMachineRegistration FixedUpdate(this IMachineRegistration self)
         {
             return MainThreadDispatcher.RegisterFixedUpdate(self);
         }
 
+        /// <summary>
+        /// 讓狀態機以 Unity FixedUpdate 的方式更新
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static IMachineRegistration LateUpdate(this IMachineRegistration self)
         {
             return MainThreadDispatcher.RegisterLateUpdate(self);
@@ -84,7 +103,12 @@ namespace StateMachineX
             var catcher = gameObject.GetComponent<DisposableCatcher>() ?? gameObject.AddComponent<DisposableCatcher>();
 
             catcher.Add(self);
-
+#if UNITY_EDITOR
+            if (self.Machine.Watcher is MonoNodeWatcher mono) 
+            {
+                mono.transform.SetParent(catcher.transform);
+            }
+#endif
             return self;
         }
     }
