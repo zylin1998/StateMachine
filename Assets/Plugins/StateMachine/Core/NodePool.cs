@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace StateMachineX
@@ -57,7 +56,7 @@ namespace StateMachineX
 #if UNITY_EDITOR
                 watcher = new GameObject("NodeWatcher").AddComponent<MonoNodeWatcher>();
 #else
-                watcher = new StateWatcher();
+                watcher = new NodeWatcher();
 #endif
 
                 return watcher;

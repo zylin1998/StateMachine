@@ -8,6 +8,13 @@ namespace StateMachineX.SampleGame
 {
     public class GameLoop : MonoBehaviour
     {
+        [Header("解析度")]
+        [SerializeField]
+        private int _Width;
+        [SerializeField]
+        private int _Height;
+        [SerializeField]
+        private FullScreenMode _FullScreenMode;
         [Header("資料庫")]
         [SerializeField]
         private DataBase        _DataBase;
@@ -74,13 +81,15 @@ namespace StateMachineX.SampleGame
 
         private void Awake()
         {
+            Screen.SetResolution(_Width, _Height, _FullScreenMode);
+
             //Physics2D.IgnoreLayerCollision(6, 7);
             Physics2D.IgnoreLayerCollision(7, 8);
 
             _Setting = _DataBase.GameSetting;
-
+            
             Player = Instantiate(_DataBase.Player, _Enviroment);
-
+            
             _Attacking.Set(_DataBase.Attack);
             _Attacking.Binder += TakeDamage;
 

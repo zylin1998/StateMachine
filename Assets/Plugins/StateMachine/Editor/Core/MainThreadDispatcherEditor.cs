@@ -144,7 +144,7 @@ namespace StateMachineX.Editor
                 {
                     for (int index = 0; index < generics.Length; index++) 
                     {
-                        generics[index].Name.AsLabel("Parameter Type " + index);
+                        generics[index].Name.AsLabel("Parameter Type " + (index + 1));
                     }
                 }
                 nodePool.CreateCount.AsLabel("CreateCount");
