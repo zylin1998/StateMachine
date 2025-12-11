@@ -10,6 +10,8 @@ namespace StateMachineX.Internal
     {
         #region Instance
 
+        private static bool _IsQuitting = false;
+
         internal static MainThreadDispatcher _Instance;
 
         internal static MainThreadDispatcher Instance 
@@ -150,7 +152,7 @@ namespace StateMachineX.Internal
 
         public static void Initialize() 
         {
-            if (_Instance) { return; }
+            if (_Instance || _IsQuitting) { return; }
 
             var dispatcher = default(MainThreadDispatcher);
             
@@ -168,6 +170,8 @@ namespace StateMachineX.Internal
             {
                 dispatcher.Awake();
             }
+
+            Application.quitting += QuittingLock;
         }
 
         public static int UpdateThreadCount      => Instance._UpdateCollection.ThreadCount;
@@ -177,6 +181,11 @@ namespace StateMachineX.Internal
         public static int UpdateValidThreadCount      => Instance._UpdateCollection.ValidThreadCount;
         public static int FixedUpdateValidThreadCount => Instance._FixedUpdateCollection.ValidThreadCount;
         public static int LateUpdateValidThreadCount  => Instance._LateUpdateCollection.ValidThreadCount;
+
+        private static void QuittingLock() 
+        {
+            _IsQuitting = true;
+        }
 
         internal static IMachineRegistration GetRegistration(IStateMachine machine) 
         {

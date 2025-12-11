@@ -46,6 +46,11 @@ namespace StateMachineX
 
         private void OnDestroy()
         {
+            if (!StateMachine.GetInternalRoot()) 
+            {
+                return;
+            }
+
             _QueryLock = true;
             
             foreach (var registration in _Registrations)

@@ -15,7 +15,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static Transform GetInternalRoot() 
         {
-            return MainThreadDispatcher.Instance.transform;
+            return MainThreadDispatcher.Instance?.transform;
         }
 
         /// <summary>

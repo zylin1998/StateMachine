@@ -45,10 +45,10 @@ namespace StateMachineX
         /// <summary>
         /// 釋放節點
         /// </summary>
-        /// <param name="disposeChild"></param>
+        /// <param name="disposeChild">是否釋放子節點</param>
         public void Dispose(bool disposeChild);
         /// <summary>
-        /// 取得所有傑點鐘的參數
+        /// 取得所有節點中的參數
         /// </summary>
         /// <returns></returns>
         public object[] GetParameters();

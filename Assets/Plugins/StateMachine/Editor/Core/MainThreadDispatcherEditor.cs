@@ -138,6 +138,15 @@ namespace StateMachineX.Editor
 
             if (foldOut)
             {
+                var generics = nodePool.TargetType.GetGenericArguments();
+
+                if (generics.Any()) 
+                {
+                    for (int index = 0; index < generics.Length; index++) 
+                    {
+                        generics[index].Name.AsLabel("Parameter Type " + index);
+                    }
+                }
                 nodePool.CreateCount.AsLabel("CreateCount");
                 nodePool.InPoolCount.AsLabel("InPoolCount");
             }
