@@ -14,7 +14,7 @@ namespace StateMachineX
             Debug.Log(message);
         }
 
-        public static void LogFormat(string format, params object[] args)
+        public static void Log(string format, params object[] args)
         {
             Debug.LogFormat(format, args);
         }
@@ -24,7 +24,7 @@ namespace StateMachineX
             Debug.LogError(message);
         }
 
-        public static void LogErrorFormat(string format, params object[] args)
+        public static void LogError(string format, params object[] args)
         {
             Debug.LogFormat(format, args);
         }
@@ -34,7 +34,7 @@ namespace StateMachineX
             Debug.LogWarning(message);
         }
 
-        public static void LogWarningFormat(string format, params object[] args)
+        public static void LogWarning(string format, params object[] args)
         {
             Debug.LogFormat(format, args);
         }

@@ -14,7 +14,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IStateMachine SingleEntrance()
         {
-            return NodePool.GetSingleEntrance();
+            return PoolUtils.GetSingleEntrance();
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IStateMachine MultiEntrance()
         {
-            return NodePool.GetMultiEntrance();
+            return PoolUtils.GetMultiEntrance();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace StateMachineX
         /// <param name="node"></param>
         public static void Recycle<T>(this T node) where T : IMachineNode 
         {
-            NodePool.Despawn(node);
+            PoolUtils.Despawn(node);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace StateMachineX
         /// <param name="disposeChild">是否釋放子節點</param>
         public static void Recycle<T>(this T node, bool disposeChild) where T : IMachineNode
         {
-            NodePool.Despawn(node, disposeChild);
+            PoolUtils.Despawn(node, disposeChild);
         }
     }
 }

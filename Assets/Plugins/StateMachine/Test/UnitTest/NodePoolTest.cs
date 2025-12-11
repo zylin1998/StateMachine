@@ -18,11 +18,11 @@ namespace StateMachineX.UnitTest
             var param3 = new Parameter();
             var param4 = new Parameter();
 
-            var state0 = NodePool.GetFunctionalState().FillUp();
-            var state1 = NodePool.GetFunctionalState(param1).FillUp();
-            var state2 = NodePool.GetFunctionalState(param1, param2).FillUp();
-            var state3 = NodePool.GetFunctionalState(param1, param2, param3).FillUp();
-            var state4 = NodePool.GetFunctionalState(param1, param2, param3, param4).FillUp();
+            var state0 = PoolUtils.GetFunctionalState().FillUp();
+            var state1 = PoolUtils.GetFunctionalState(param1).FillUp();
+            var state2 = PoolUtils.GetFunctionalState(param1, param2).FillUp();
+            var state3 = PoolUtils.GetFunctionalState(param1, param2, param3).FillUp();
+            var state4 = PoolUtils.GetFunctionalState(param1, param2, param3, param4).FillUp();
 
             Assert.IsNotNull(state0);
             Assert.IsNotNull(state1);
@@ -30,11 +30,11 @@ namespace StateMachineX.UnitTest
             Assert.IsNotNull(state3);
             Assert.IsNotNull(state4);
 
-            NodePool.Despawn(state0);
-            NodePool.Despawn(state1);
-            NodePool.Despawn(state2);
-            NodePool.Despawn(state3);
-            NodePool.Despawn(state4);
+            PoolUtils.Despawn(state0);
+            PoolUtils.Despawn(state1);
+            PoolUtils.Despawn(state2);
+            PoolUtils.Despawn(state3);
+            PoolUtils.Despawn(state4);
 
             TestUtilities.AssertNoParameters(state1);
             TestUtilities.AssertNoParameters(state2);
@@ -45,8 +45,8 @@ namespace StateMachineX.UnitTest
         [Test]
         public void StateMachineSpawnTest() 
         {
-            var single = NodePool.GetSingleEntrance();
-            var multi  = NodePool.GetMultiEntrance();
+            var single = PoolUtils.GetSingleEntrance();
+            var multi  = PoolUtils.GetMultiEntrance();
 
             Assert.IsNotNull(single);
             Assert.IsNotNull(multi);

@@ -15,7 +15,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IPhaseStateMachine Phase(this IStateMachine self)
         {
-            return NodePool.GetPhaseStateMachine(self);
+            return PoolUtils.GetPhaseStateMachine(self);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IPhaseStateMachine<T> Phase<T>(this IStateMachine self, T param1)
         {
-            return NodePool.GetPhaseStateMachine(self, param1);
+            return PoolUtils.GetPhaseStateMachine(self, param1);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IPhaseStateMachine<T1, T2> Phase<T1, T2>(this IStateMachine self, T1 param1, T2 param2)
         {
-            return NodePool.GetPhaseStateMachine(self, param1, param2);
+            return PoolUtils.GetPhaseStateMachine(self, param1, param2);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IPhaseStateMachine<T1, T2, T3> Phase<T1, T2, T3>(this IStateMachine self, T1 param1, T2 param2, T3 param3)
         {
-            return NodePool.GetPhaseStateMachine(self, param1, param2, param3);
+            return PoolUtils.GetPhaseStateMachine(self, param1, param2, param3);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace StateMachineX
         /// <returns></returns>
         public static IPhaseStateMachine<T1, T2, T3, T4> Phase<T1, T2, T3, T4>(this IStateMachine self, T1 param1, T2 param2, T3 param3, T4 param4)
         {
-            return NodePool.GetPhaseStateMachine(self, param1, param2, param3, param4);
+            return PoolUtils.GetPhaseStateMachine(self, param1, param2, param3, param4);
         }
 
         /// <summary>

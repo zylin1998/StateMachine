@@ -63,8 +63,8 @@ namespace StateMachineX.Editor
 
             if (poolInformationFold)
             {
-                var nodePools = NodePool.Pools.Values.OrderBy(p => p.TargetType.Name);
-                var watchers = NodePool.Watchers;
+                var nodePools = PoolUtils.Pools.Values.OrderBy(p => p.TargetType.Name);
+                var watchers = PoolUtils.WatcherPool;
 
                 foreach (var nodePool in nodePools) 
                 {
@@ -109,7 +109,7 @@ namespace StateMachineX.Editor
             }
         }
 
-        private void DisplayWatchers(int indentLevel, NodePool.WatcherPool watchers, string title)
+        private void DisplayWatchers(int indentLevel, WatcherPool watchers, string title)
         {
             var lastLevel = EditorGUI.indentLevel;
 
@@ -126,7 +126,7 @@ namespace StateMachineX.Editor
             }
         }
 
-        private void DisplayNodePools(int indentLevel, NodePool.Pool nodePool)
+        private void DisplayNodePools(int indentLevel, NodePool nodePool)
         {
             var lastLevel = EditorGUI.indentLevel;
 
