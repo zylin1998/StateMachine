@@ -51,7 +51,7 @@ namespace StateMachineX.SampleGame
 
         public void TakeDamage(Action<AttackInfo> takeDamage) 
         {
-            _TakeDamage += takeDamage;
+            _TakeDamage = takeDamage;
         }
 
         public void Update() 
@@ -73,7 +73,7 @@ namespace StateMachineX.SampleGame
             {
                 character.Hurt();
 
-                _TakeDamage.Invoke(new(character.tag, character.Id, _Damage));
+                _TakeDamage.Invoke(new AttackInfo(character.tag, character.Id, _Damage));
             }
 
             _Belong.Recycle(this);

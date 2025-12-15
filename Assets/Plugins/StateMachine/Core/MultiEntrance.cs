@@ -218,6 +218,7 @@ namespace StateMachineX
                 }
             }
 
+            _State.Reset();
             _States.Clear();
 
             SetIdentity(StateMachine.Identity.SingleEntrance);
